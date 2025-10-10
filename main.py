@@ -48,6 +48,10 @@ if __name__ == "__main__":
     with open("urls.txt", "r") as f:
         urls = [line.strip() for line in f if line.strip()]
 
-    # Run all in parallel threads
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        executor.map(visit_and_click, urls)
+    # Repeat the process 5 times
+    for round_num in range(1, 6):
+        print(f"\n🔁 Run {round_num}/5 started...\n")
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            executor.map(visit_and_click, urls)
+        print(f"✅ Run {round_num}/5 completed.\n")
+        time.sleep(1)  # wait before next round
