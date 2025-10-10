@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 # --- Configuration ---
-page_url = "https://your-page-url.com"  # Replace with your HTML page URL
+page_url = "https://dheerendra939.github.io"  # Replace with your HTML page URL
 click_interval = 5  # seconds (replace with desired frequency)
 
 # --- Chrome options for headless GitHub run ---
