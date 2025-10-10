@@ -1,0 +1,35 @@
+name: Auto Dynamic Link Reader
+
+on:
+  workflow_dispatch:   # 👈 allows manual start
+  schedule:
+    - cron: "0 9 * * *" # runs daily at 9 AM UTC
+  push:
+    branches: [ main ]
+
+jobs:
+  scrape-links:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies and browser
+      run: |
+        pip install -r requirements.txt
+        python -m playwright install --with-deps chromium
+
+    - name: Run automated browser script
+      run: python main.py
+
+    - name: Upload scraped pages as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: scraped-html
+        path: scraped_pages/
