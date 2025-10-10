@@ -1,27 +1,35 @@
-name: Auto Web Clicker
+name: Auto Clicker for Dynamic Links
 
 on:
-  workflow_dispatch:  # allows manual run
+  workflow_dispatch:   # allows manual run
   schedule:
-    - cron: "0 * * * *"  # (optional) run every hour
+    - cron: "0 9 * * *" # runs daily at 9 AM UTC (adjust as needed)
+  push:
+    branches: [ main ]
 
 jobs:
-  run:
+  run-clicker:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
-      - name: ⚙️ Install dependencies
+      - name: Install dependencies
         run: |
-          pip install playwright
-          playwright install chromium
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
 
-      - name: 🚀 Run headless clicker
+      - name: Run headless clicker script
         run: python main.py
+
+      - name: Upload clicked pages as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: clicked-pages
+          path: clicked_pages/
