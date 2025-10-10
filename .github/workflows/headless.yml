@@ -1,9 +1,9 @@
 name: Parallel Headless Browser
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:    # run manually
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 */12 * * *"  # every 12 hours
 
 jobs:
   run:
@@ -18,24 +18,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies (Chrome + Selenium)
+      - name: Install Selenium + Chromium
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip
-          
-          # ✅ Install latest Google Chrome
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          
-          # ✅ Install matching ChromeDriver
-          CHROME_VERSION=$(google-chrome --version | cut -d " " -f3 | cut -d "." -f1)
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
-          wget -q "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-          
+          sudo apt-get install -y chromium-browser chromium-chromedriver
           pip install selenium
 
       - name: Run script
+        env:
+          PATH: /usr/lib/chromium-browser/:$PATH
         run: python main.py
