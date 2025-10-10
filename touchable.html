@@ -25,15 +25,20 @@
   <iframe src="index.html" id="touchableFrame"></iframe>
 
   <script>
-    const iframe = document.getElementById('touchableFrame');
+  const iframe = document.getElementById('touchableFrame');
 
-    // Wait until iframe fully loads
-    iframe.onload = () => {
-      // Access iframe content and trigger the touch function
-      if (iframe.contentWindow) {
-        iframe.contentWindow.simulateTouch();
-      }
-    };
-  </script>
+  iframe.onload = () => {
+    if (iframe.contentWindow) {
+      // Run touch every second
+      setInterval(() => {
+        try {
+          iframe.contentWindow.simulateTouch();
+        } catch (e) {
+          console.warn('Touch simulation failed:', e);
+        }
+      }, 1000); // 1000 ms = 1 second
+    }
+  };
+</script>
 </body>
 </html>
