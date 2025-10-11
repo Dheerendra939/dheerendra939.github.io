@@ -1,159 +1,28 @@
- <!DOCTYPE html>
-<html lang="hi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>भारत के 10 सर्वश्रेष्ठ मन्दिर</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .temple-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            max-width: 600px;
-            text-align: center;
-        }
-        img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        h2 {
-            margin-bottom: 10px;
-        }
-        p {
-            text-align: justify;
-        }
-        .buttons {
-            margin-top: 15px;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #333;
-            color: white;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #999;
-            cursor: not-allowed;
-        }
-    </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Temple</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f8f8;
+      margin: 0;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 <body>
-
-<div class="temple-container">
-    <h2 id="temple-name"></h2>
-    <img id="temple-img" src="" alt="मंदिर">
-    <p id="temple-desc"></p>
-    <div class="buttons">
-        <button id="prev">Previous</button>
-        <button id="next">Next</button>
-    </div>
-</div>
-
-<script>
-    const temples = [
-        {
-            name: "काशी विश्वनाथ मंदिर, वाराणसी",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Kashi_Vishwanath_Temple%2C_Varanasi.jpg",
-            desc: "काशी विश्वनाथ मंदिर भगवान शिव को समर्पित है और यह वाराणसी, उत्तर प्रदेश में स्थित है। यह मंदिर हिन्दू धर्म के सबसे पवित्र तीर्थ स्थलों में से एक माना जाता है।"
-        },
-        {
-            name: "तिरुपति बालाजी मंदिर, आंध्र प्रदेश",
-            img: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Tirumala_Temple.jpg",
-            desc: "तिरुपति बालाजी मंदिर भगवान विष्णु को समर्पित है और यह तिरुमला पहाड़ियों पर स्थित है। यह मंदिर भारत के सबसे धनी मंदिरों में से एक है।"
-        },
-        {
-            name: "जगन्नाथ मंदिर, पुरी, ओडिशा",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/47/Jagannath_Temple%2C_Puri.jpg",
-            desc: "जगन्नाथ मंदिर भगवान जगन्नाथ, बलभद्र और सुभद्रा को समर्पित है। यह मंदिर पुरी शहर में स्थित है और यहाँ की रथ यात्रा विश्व प्रसिद्ध है।"
-        },
-        {
-            name: "वैष्णो देवी मंदिर, जम्मू और कश्मीर",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Vaishno_Devi_Temple.jpg",
-            desc: "वैष्णो देवी मंदिर त्रिकुटा पर्वत की गुफा में स्थित है और हिन्दू धर्म के प्रमुख तीर्थ स्थलों में से एक है।"
-        },
-        {
-            name: "सोमनाथ मंदिर, गुजरात",
-            img: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Somnath_Temple.jpg",
-            desc: "सोमनाथ मंदिर भगवान शिव को समर्पित है और यह गुजरात राज्य के सौराष्ट्र क्षेत्र में स्थित है। यह मंदिर भारत के 12 ज्योतिर्लिंगों में से एक है।"
-        },
-        {
-            name: "महाबोधि मंदिर, बिहार",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Mahabodhi_Temple.jpg",
-            desc: "महाबोधि मंदिर बोधगया, बिहार में स्थित है और यह बौद्ध धर्म के अनुयायियों के लिए एक महत्वपूर्ण तीर्थ स्थल है। यहाँ भगवान बुद्ध को ज्ञान की प्राप्ति हुई थी।"
-        },
-        {
-            name: "रामनाथस्वामी मंदिर, रामेश्वरम, तमिलनाडु",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Ramanathaswamy_Temple.jpg",
-            desc: "रामनाथस्वामी मंदिर भगवान शिव को समर्पित है और यह तमिलनाडु राज्य के रामेश्वरम में स्थित है। यह मंदिर भारत के 12 ज्योतिर्लिंगों में से एक है।"
-        },
-        {
-            name: "शिर्डी साईं बाबा मंदिर, महाराष्ट्र",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Shirdi_Sai_Baba_Temple.jpg",
-            desc: "शिर्डी साईं बाबा मंदिर महाराष्ट्र राज्य के शिर्डी शहर में स्थित है। यह मंदिर साईं बाबा को समर्पित है और यहाँ लाखों श्रद्धालु दर्शन के लिए आते हैं।"
-        },
-        {
-            name: "सिद्धिविनायक मंदिर, मुंबई, महाराष्ट्र",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Siddhivinayak_Temple.jpg",
-            desc: "सिद्धिविनायक मंदिर मुंबई, महाराष्ट्र में स्थित है और यह भगवान गणेश को समर्पित है। यह मंदिर भारत के सबसे अमीर मंदिरों में से एक माना जाता है।"
-        },
-        {
-            name: "अक्षरधाम मंदिर, दिल्ली",
-            img: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Akshardham_Temple.jpg",
-            desc: "अक्षरधाम मंदिर दिल्ली में स्थित है और यह भगवान स्वामीनारायण को समर्पित है। यह मंदिर अपनी वास्तुकला और सांस्कृतिक प्रदर्शनों के लिए प्रसिद्ध है।"
-        }
-    ];
-
-    let currentIndex = 0;
-
-    const templeName = document.getElementById("temple-name");
-    const templeImg = document.getElementById("temple-img");
-    const templeDesc = document.getElementById("temple-desc");
-    const prevBtn = document.getElementById("prev");
-    const nextBtn = document.getElementById("next");
-
-    function updateTemple() {
-        const temple = temples[currentIndex];
-        templeName.textContent = temple.name;
-        templeImg.src = temple.img;
-        templeDesc.textContent = temple.desc;
-
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex === temples.length - 1;
-    }
-
-    prevBtn.addEventListener("click", () => {
-        if(currentIndex > 0) {
-            currentIndex--;
-            updateTemple();
-        }
-    });
-
-    nextBtn.addEventListener("click", () => {
-        if(currentIndex < temples.length - 1) {
-            currentIndex++;
-            updateTemple();
-        }
-    });
-
-    // Initialize first temple
-    updateTemple();
-</script>
-    <script>(function(s){s.dataset.zone='10015932',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Kedarnath_Temple_in_winter.jpg" 
+       alt="Kedarnath Temple">
 </body>
-    </html>
+</html>
