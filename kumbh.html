@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>कुम्भ मेला — विस्तृत वर्णन</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #0f172a;
+      --accent: #ffb703;
+      --muted: #94a3b8;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #e6eef8;
+      background: linear-gradient(180deg,#07122b 0%, #042034 60%, #0b1b2b 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      position: relative;
+      min-height:55vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      overflow:hidden;
+    }
+    /* hero image */
+    .hero{
+      width:100%;
+      max-width:1200px;
+      background: linear-gradient(180deg, rgba(3,7,18,0.6), rgba(3,7,18,0.6));
+      border-radius:18px;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:0;
+    }
+    .hero .photo{
+      background: url('kumbh.jpg') center/cover no-repeat;
+      min-height:360px;
+      position:relative;
+    }
+    .hero .overlay{
+      padding:28px 32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:14px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:0.2px;
+      color: #fff;
+      font-family: "Merriweather", serif;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .tagline{
+      color:var(--muted);
+      font-size:0.98rem;
+      margin-top:6px;
+    }
+    .cta-row{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background: linear-gradient(90deg, var(--accent), #ff8a00);
+      border:none;
+      color:#0b1020;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(255,136,0,0.12);
+    }
+    main{
+      max-width:1200px;
+      margin: 28px auto;
+      padding: 0 18px 60px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:20px;
+      align-items:start;
+    }
+    /* cards */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:18px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      margin-bottom:16px;
+    }
+    h2{margin:0 0 8px 0; font-size:1.1rem; color:#fff}
+    p{margin:0; color:var(--muted); line-height:1.55}
+    .grid-2{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+    }
+    .highlight{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:var(--accent);
+      margin-top:6px;
+      flex:0 0 auto;
+    }
+    /* timeline */
+    .timeline{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding:10px 6px;
+      scrollbar-width:none;
+    }
+    .timeline::-webkit-scrollbar{display:none}
+    .t-item{
+      min-width:180px;
+      background:var(--glass);
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .t-item h3{font-size:0.95rem;margin:0 0 6px 0}
+    .t-item small{color:var(--muted)}
+    /* right column */
+    aside{position:sticky; top:20px}
+    .fact{display:flex; gap:12px; align-items:center}
+    .fact .num{
+      width:56px;height:56px;border-radius:10px;background:linear-gradient(180deg,#102a43,#08304a);
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:var(--accent);
+      border:1px solid rgba(255,255,255,0.03)
+    }
+    footer{
+      max-width:1200px;
+      margin:30px auto 60px;
+      padding:0 18px;
+      color:var(--muted);
+      text-align:center;
+      font-size:0.95rem;
+    }
+
+    /* responsive */
+    @media (max-width:920px){
+      .hero{grid-template-columns: 1fr}
+      main{grid-template-columns: 1fr}
+      .hero .photo{min-height:260px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero" role="banner" aria-label="Kumbh Mela hero">
+      <div class="photo" aria-hidden="true"></div>
+      <div class="overlay">
+        <h1>कुम्भ मेला — आध्यात्म, संस्कृति और भीड़ का अनुपम मिलन</h1>
+        <div class="tagline">पौराणिक कथा, पर्वों की भव्यता और लाखों श्रद्धालुओं का संगम।</div>
+        <div class="cta-row">
+          <button class="btn" onclick="scrollToSection('about')">जानिए कुम्भ के बारे में</button>
+          <button class="btn" style="background:transparent;color:var(--accent);border:1px solid rgba(255,255,255,0.06)" onclick="scrollToSection('highlights')">मुख्य आकर्षण</button>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:0.9rem">इमेज: <em>kumbh.jpg</em> (root डायरेक्टरी से)</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="about" id="about">
+      <article class="card">
+        <h2>क्यों और कैसे — संक्षेप में</h2>
+        <p><strong>कुम्भ मेला</strong> धार्मिक स्नान, साधु-संगम और आध्यात्मिक आयोजनों का संयोजन है। परंपरा पौराणिक कथा (समुद्र मंथन और अमृत-विभाजन) से जुड़ी है। आधुनिक काल में यह सामाजिक व सांस्कृतिक मेल भी बन चुका है — जहाँ सेवा, भंडारे, प्रवचन और लोक-शिल्प भी होते हैं।</p>
+      </article>
+
+      <article class="card">
+        <h2>इतिहास (संक्षेप)</h2>
+        <p>कुम्भ का उल्लेख पुरातन ग्रंथों और लोक-परंपराओं में मिलता है। समय के साथ यह एक बड़ा सार्वजनिक आयोजन बन गया — शताब्दियों से साधु-संत और तीर्थयात्री इसे पवित्र समय मानते आए हैं।</p>
+      </article>
+
+      <article class="card" id="whenwhere">
+        <h2>कहाँ और कब होता है?</h2>
+        <div class="grid-2" style="margin-top:8px">
+          <div>
+            <h3 style="margin:0 0 6px 0">मुख्य स्थल</h3>
+            <p>हरिद्वार, प्रयाग (प्रयागराज), उज्जैन और नासिक — ये चार पारंपरिक स्थान हैं जहाँ यह घूर्णन ढंग से मनाया जाता है।</p>
+          </div>
+          <div>
+            <h3 style="margin:0 0 6px 0">तिथियाँ</h3>
+            <p>कुम्भ की तारीखें ग्रह-नक्षत्रों (ज्योतिष) के अनुसार निर्धारित होती हैं। पारंपरिक रूप से पूरा कुम्भ लगभग हर स्थान पर एक बड़े चक्र में आता है; कुछ वर्षों में अर्ध-कुम्भ होता है।</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="highlights">
+        <h2>मुख्य आकर्षण</h2>
+        <div style="margin-top:10px">
+          <div class="highlight"><div class="dot"></div><div><strong>शाही स्नान</strong> — अखाड़ों और संप्रदायों के साथ भव्य स्नान।</div></div>
+          <div style="height:8px"></div>
+          <div class="highlight"><div class="dot"></div><div><strong>साधु-संगम व प्रवचन</strong> — ज्ञान, भक्ति और चर्चाएँ।</div></div>
+          <div style="height:8px"></div>
+          <div class="highlight"><div class="dot"></div><div><strong>भंडारे और सेवा</strong> — बड़े पैमाने पर नि:शुल्क भोजन।</div></div>
+          <div style="height:8px"></div>
+          <div class="highlight"><div class="dot"></div><div><strong>कला व लोकव्यापार</strong> — कुटीर, लोक-हस्तशिल्प और स्ट्रीट फ़ूड।</div></div>
+        </div>
+      </article>
+
+      <article class="card" aria-labelledby="timeline">
+        <h2 id="timeline">कुंभ का अनुभव — एक तात्कालिक टाइमलाइन</h2>
+        <p style="margin-top:8px;color:var(--muted)">नीचे एक सामान्य क्रम दर्शाया गया है — वास्तविक आयोजन स्थान और वर्षों के अनुसार भिन्न हो सकता है।</p>
+        <div class="timeline" aria-hidden="false" tabindex="0">
+          <div class="t-item">
+            <h3>पहला दिन — आगमन</h3>
+            <small>यात्री और साधु आते हैं; तम्बू/आवास व्यवस्थित होते हैं।</small>
+          </div>
+          <div class="t-item">
+            <h3>बीचे के दिन — प्रवचन/कार्यशाला</h3>
+            <small>धार्मिक उपदेश, संस्कृति प्रदर्शन, चिकित्सा शिविर।</small>
+          </div>
+          <div class="t-item">
+            <h3>शाही स्नान का दिन</h3>
+            <small>सुपुर्द स्नान, अखाड़ों की शोभा — अधिकतम भीड़ इस दिन होती है।</small>
+          </div>
+          <div class="t-item">
+            <h3>उत्कर्ष के बाद</h3>
+            <small>जैसे-जैसे मेला समाप्त होता है, सामाजिक कार्य, सफाई और वापसी का चरण।</small>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>यात्रा/दर्शन के टिप्स</h2>
+        <ul style="color:var(--muted);line-height:1.6;padding-left:18px;margin:8px 0 0 0">
+          <li>भीड़-भाड़ के कारण सम्हलकर चलें; बच्चे और बुज़ुर्ग साथ रखें।</li>
+          <li>पानी और हल्का स्नैक साथ रखें; स्थानीय मेडीकल कैंप का स्थान जान लें।</li>
+          <li>स्थानीय नियम और प्रशासन के निर्देश का पालन करें (रजिस्ट्रेशन/पास आदि)।</li>
+          <li>अपनी गुफ्तगी/कीमती सामानों का ध्यान रखें; फोटो खींचते समय अनुमति का सम्मान करें।</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h2>तेज़ तथ्य</h2>
+        <div style="margin-top:10px;display:grid;gap:10px">
+          <div class="fact"><div class="num">4</div><div><strong>मुख्य स्थान</strong><div style="color:var(--muted)">हरिद्वार, प्रयाग, उज्जैन, नासिक</div></div></div>
+          <div class="fact"><div class="num">1+</div><div><strong>लाखों श्रद्धालु</strong><div style="color:var(--muted)">कई दिनों में भीड़ बढ़कर बहुत बड़ी हो जाती है</div></div></div>
+          <div class="fact"><div class="num">अच्छा</div><div><strong>भंडारे व सेवा</strong><div style="color:var(--muted)">समूहमूलक सेवा पर ज़ोर</div></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>इंटरेक्टिव</h2>
+        <p style="color:var(--muted);margin-bottom:12px">किसी हिस्से पर क्लिक करके आगे का कंटेंट पढ़ें:</p>
+        <button class="btn" onclick="scrollToSection('whenwhere')">कब-कहाँ होता है</button>
+      </div>
+
+      <div class="card">
+        <h2>सेवाएँ</h2>
+        <p style="margin-top:6px;color:var(--muted)">आप स्वयं सेवा (volunteer), दान या स्थानीय आयोजन में भाग लेकर अनुभव और साझा कर सकते हैं।</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    © आपका पेज — <strong>कुम्भ मेला</strong> वर्णनात्मक पृष्ठ • चित्र: kumbh.jpg
+  </footer>
+
+  <script>
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // हल्का entrance animation (delay)
+    document.addEventListener('DOMContentLoaded', ()=> {
+      document.querySelectorAll('.card').forEach((c,i)=>{
+        c.style.opacity = 0;
+        c.style.transform = 'translateY(10px)';
+        setTimeout(()=> {
+          c.style.transition = 'all 500ms cubic-bezier(.2,.9,.3,1)';
+          c.style.opacity = 1;
+          c.style.transform = 'none';
+        }, 120 + i*80);
+      });
+    });
+  </script>
+</body>
+</html>
