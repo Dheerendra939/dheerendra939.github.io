@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad then Show Number</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+    }
+    #number {
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hidden number -->
+<div id="number">5</div>
+
+<!-- Monetag Interstitial Ad Script -->
+<script>
+(function(s){
+  s.dataset.zone='10035181';
+  s.src='https://groleegni.net/vignette.min.js';
+  let script = ([document.documentElement, document.body]
+    .filter(Boolean)
+    .pop()
+    .appendChild(document.createElement('script')));
+  script.dataset.zone = s.dataset.zone;
+  script.src = s.src;
+
+  // Listen for ad close event (Monetag triggers visibility back)
+  document.addEventListener("visibilitychange", function() {
+    // When page becomes visible again (ad closed)
+    if (document.visibilityState === "visible") {
+      document.getElementById("number").style.display = "block";
+    }
+  });
+})(document.createElement('script'));
+</script>
+
+</body>
+</html>
