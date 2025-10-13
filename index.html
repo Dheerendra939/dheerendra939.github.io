@@ -4,6 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ad then Show Number</title>
+
+  <!-- Monetag Interstitial Script in HEAD as recommended -->
+  <script>
+  (function(s){
+    s.dataset.zone='10035181';
+    s.src='https://groleegni.net/vignette.min.js';
+    let script = ([document.documentElement, document.body]
+      .filter(Boolean)
+      .pop()
+      .appendChild(document.createElement('script')));
+    script.dataset.zone = s.dataset.zone;
+    script.src = s.src;
+  })(document.createElement('script'));
+  </script>
+
   <style>
     body {
       margin: 0;
@@ -31,25 +46,13 @@
 <!-- Hidden number -->
 <div id="number">5</div>
 
-<!-- Your EXACT Monetag script -->
 <script>
-(function(s){
-  s.dataset.zone='10035181';
-  s.src='https://groleegni.net/vignette.min.js';
-  let script = ([document.documentElement, document.body]
-    .filter(Boolean)
-    .pop()
-    .appendChild(document.createElement('script')));
-  script.dataset.zone = s.dataset.zone;
-  script.src = s.src;
-
-  // When ad closes, page becomes visible again
+  // Show number after ad closes
   document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "visible") {
       document.getElementById("number").style.display = "block";
     }
   });
-})(document.createElement('script'));
 </script>
 
 </body>
