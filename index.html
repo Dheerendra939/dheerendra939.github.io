@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ad then Show Number</title>
 
-  <!-- Monetag Interstitial Script in HEAD as recommended -->
+  <!-- Monetag Interstitial Script in HEAD -->
   <script>(function(s){s.dataset.zone='10035181',s.src='https://groleegni.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
   <style>
@@ -32,15 +32,12 @@
 </head>
 <body>
 
-<!-- Hidden number -->
 <div id="number">5</div>
 
 <script>
-  // Show number after ad closes
-  document.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "visible") {
-      document.getElementById("number").style.display = "block";
-    }
+  // Listen for Monetag interstitial close event
+  window.addEventListener('monetag_vignette_close', function() {
+    document.getElementById("number").style.display = "block";
   });
 </script>
 
