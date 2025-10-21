@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>सुराग 1</title>
+<script src="https://fpyf8.com/88/tag.min.js" data-zone="176859" async data-cfasync="false"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap');
+  :root{ --bg1: #f6f8ff; --bg2: #fff7f3; --card:#ffffff; --accent:#4CAF50; --accent2:#2196F3 }
+  body{font-family: 'Noto Sans Devanagari', sans-serif; min-height:100vh; margin:0; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg,var(--bg1),var(--bg2));}
+  .card{width:90%; max-width:720px; background:var(--card); border-radius:14px; box-shadow: 0 6px 24px rgba(20,20,40,0.08); padding:28px; text-align:center;}
+  h1{margin:0; font-size:22px; color:#222; display:flex; align-items:center; justify-content:center; gap:10px;}
+  #clue{font-size:20px; color:#333; margin:26px 10px; min-height:72px;}
+  .timer{color:#666; margin-bottom:12px;}
+  .nav{display:flex; gap:12px; justify-content:center; margin-top:12px;}
+  button{padding:12px 18px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer; opacity:0.5; transform:translateY(0); transition:all .18s; box-shadow:0 6px 18px rgba(20,20,40,0.06);}
+  button:active{transform:translateY(1px);}
+  .prev{background:var(--accent2);}
+  .next{background:var(--accent);}
+  .hint{font-size:14px;color:#666;margin-top:10px;}
+  @media (max-width:420px){ .card{padding:18px} #clue{font-size:18px} button{padding:10px 14px} }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>🧩 सुराग 1</h1>
+    <p id="clue">लौडिंग...</p>
+    <p class="timer">कृपया <strong><span id="timer">5</span></strong> सेकंड प्रतीक्षा करें — उसके बाद नेविगेशन चालू होगा।</p>
+    <div class="nav">
+      <button id="prev" class="prev" disabled style="visibility:hidden;">◀ पिछला पेज</button>
+      <button id="next" class="next" disabled>अगला पेज ▶</button>
+    </div>
+    <p class="hint">सभी 10 सुराग पढ़ने के बाद उत्तर व्हाट्सएप ग्रुप में भेजें।</p>
+  </div>
+
+<script>
+// 5 सेकंड का टायमर - उसके बाद Prev/Next सक्रिय होंगे
+let seconds = 5;
+const timerEl = document.getElementById('timer');
+const nextBtn = document.getElementById('next');
+const prevBtn = document.getElementById('prev');
+
+const countdown = setInterval(()=>{
+  seconds--;
+  timerEl.textContent = seconds;
+  if(seconds <= 0){
+    clearInterval(countdown);
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = 1;
+    prevBtn.disabled = false;
+    prevBtn.style.opacity = 1;
+  }
+}, 1000);
+
+// नेविगेशन हुक
+nextBtn.addEventListener('click', ()=>{ window.location.href = "page2.html"; });
+prevBtn.addEventListener('click', ()=>{  });
+
+// राउंड और क्लू लोड करें
+Promise.all([
+  fetch('round.txt').then(r=>r.text()),
+  fetch('questions.json').then(r=>r.json())
+]).then(([round, data])=>{
+  round = round.trim();
+  try{
+    const clue = data[round][0];
+    document.getElementById('clue').textContent = clue || 'सुराग उपलब्ध नहीं है।';
+  }catch(e){ document.getElementById('clue').textContent = 'सुराग पढ़ने में समस्या हुई।'; }
+}).catch(err=>{ document.getElementById('clue').textContent = 'सर्वर से क्लू लोड नहीं हो पाया।'; });
+</script>
+
+</body>
+</html>
