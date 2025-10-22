@@ -25,7 +25,7 @@
 <body>
   <div class="card">
     <h1>🧩 सुराग 1</h1>
-    <p id="clue">लौडिंग...</p>
+    <p id="clue">लोड हो रहा है...</p>
     <p class="timer">कृपया <strong><span id="timer">5</span></strong> सेकंड प्रतीक्षा करें — उसके बाद नेविगेशन चालू होगा।</p>
     <div class="nav">
       <button id="prev" class="prev" disabled style="visibility:hidden;">◀ पिछला पेज</button>
@@ -35,7 +35,10 @@
   </div>
 
 <script>
-// 5 सेकंड का टायमर - उसके बाद Prev/Next सक्रिय होंगे
+const clueEl = document.getElementById('clue');
+clueEl.textContent = 'लोड हो रहा है...';
+
+// 5 सेकंड का टायमर
 let seconds = 5;
 const timerEl = document.getElementById('timer');
 const nextBtn = document.getElementById('next');
@@ -55,19 +58,24 @@ const countdown = setInterval(()=>{
 
 // नेविगेशन हुक
 nextBtn.addEventListener('click', ()=>{ window.location.href = "page2.html"; });
-prevBtn.addEventListener('click', ()=>{  });
+prevBtn.addEventListener('click', ()=>{ });
 
-// राउंड और क्लू लोड करें
+// क्लू लोड करना (cache-busting के साथ)
+const cacheBuster = Date.now(); // हर बार नया timestamp
 Promise.all([
-  fetch('round.txt').then(r=>r.text()),
-  fetch('questions.json').then(r=>r.json())
+  fetch(`round.txt?cb=${cacheBuster}`).then(r=>r.text()),
+  fetch(`questions.json?cb=${cacheBuster}`).then(r=>r.json())
 ]).then(([round, data])=>{
   round = round.trim();
   try{
     const clue = data[round][0];
-    document.getElementById('clue').textContent = clue || 'सुराग उपलब्ध नहीं है।';
-  }catch(e){ document.getElementById('clue').textContent = 'सुराग पढ़ने में समस्या हुई।'; }
-}).catch(err=>{ document.getElementById('clue').textContent = 'सर्वर से क्लू लोड नहीं हो पाया।'; });
+    clueEl.textContent = clue || 'सुराग उपलब्ध नहीं है।';
+  }catch(e){
+    clueEl.textContent = 'सुराग पढ़ने में समस्या हुई।';
+  }
+}).catch(err=>{
+  clueEl.textContent = 'सर्वर से क्लू लोड नहीं हो पाया।';
+});
 </script>
 
 </body>
