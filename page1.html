@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>प्रश्न 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap');
+    :root { --bg1: #f6f8ff; --bg2: #fff7f3; --card: #ffffff; --accent: #4CAF50; --accent2: #2196F3; }
+    body { font-family: 'Noto Sans Devanagari', sans-serif; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg1), var(--bg2)); }
+    .card { width: 90%; max-width: 720px; background: var(--card); border-radius: 14px; box-shadow: 0 6px 24px rgba(20,20,40,0.08); padding: 28px; text-align: center; }
+    h1 { margin: 0; font-size: 22px; color: #222; }
+    #clue { font-size: 20px; color: #333; margin: 26px 10px; min-height: 72px; }
+    .nav { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+    button { padding: 12px 18px; border: none; border-radius: 10px; color: #fff; font-weight: 600; cursor: pointer; transition: all 0.18s; box-shadow: 0 6px 18px rgba(20,20,40,0.06); }
+    button:active { transform: translateY(1px); }
+    .prev { background: var(--accent2); }
+    .next { background: var(--accent); }
+    .hint { font-size: 14px; color: #666; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🧩 प्रश्न 1</h1>
+    <p id="clue">लोड हो रहा है...</p>
+    <div class="nav">
+      <button id="prev" class="prev" style="visibility:hidden;">◀ पिछला पेज</button>
+      <button id="next" class="next" >अगला पेज ▶</button>
+    </div>
+    <p class="hint">सभी 5 प्रश्न हल करने के बाद उत्तर व्हाट्सएप ग्रुप पर भेजें।</p>
+  </div>
+  <script>
+    const nextBtn = document.getElementById('next');
+    const prevBtn = document.getElementById('prev');
+    
+    nextBtn.addEventListener("click",()=>window.location.href="page2.html");
+    const ts = '?t=' + new Date().getTime();
+    Promise.all([
+      fetch('round.txt' + ts, { cache: "no-store" }).then(r => r.text()),
+      fetch('questions.json' + ts, { cache: "no-store" }).then(r => r.json())
+    ])
+    .then(([round, data]) => {
+      round = round.trim();
+      try {
+        const clue = data[round][0];
+        document.getElementById('clue').textContent = clue || 'प्रश्न उपलब्ध नहीं है।';
+      } catch (e) {
+        document.getElementById('clue').textContent = 'प्रश्न पढ़ने में समस्या हुई।';
+      }
+    })
+    .catch(() => {
+      document.getElementById('clue').textContent = 'सर्वर से प्रश्न लोड नहीं हो पाया।';
+    });
+  </script>
+</body>
+</html>
