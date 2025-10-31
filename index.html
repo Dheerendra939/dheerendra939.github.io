@@ -1,44 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ad then Show Number</title>
+<!doctype html>
 
-  <!-- Monetag Interstitial Script in HEAD -->
-  <script src="https://fpyf8.com/88/tag.min.js" data-zone="176859" async data-cfasync="false"></script>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QZ Quiz World — Daily Quiz Group</title>
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 120px;
-    }
-    #number {
-      display: none;
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    :root{--bg:#071029;--card:#0f2b48;--accent:#ffd166;--muted:#bcd2ff;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial}
+    body{margin:0;background:linear-gradient(180deg,#061226 0%, #091a2f 100%);color:var(--muted);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .wrap{width:100%;max-width:980px}header{display:flex;gap:16px;align-items:center;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px}
+.logo{width:84px;height:84px;border-radius:14px;background:radial-gradient(circle at 25% 20%, #0f62a7, #07314f);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(4,10,24,0.6)}
+.logo svg{width:58px;height:58px}
+h1{font-size:20px;margin:0;color:#fff}
+p.lead{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+.grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px}
+.meta{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.pill{background:var(--glass);padding:6px 10px;border-radius:999px;font-size:13px}
+
+.big{font-size:16px;color:#fff;margin:8px 0}
+.linkbox{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;display:flex;gap:8px;align-items:center}
+.joinbtn{background:linear-gradient(90deg,#07b1ff,#6a4cff);border:none;color:white;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+.copybtn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 10px;border-radius:8px;cursor:pointer}
+
+ul.features{list-style:none;padding:0;margin:10px 0 0}
+ul.features li{padding:10px 0;border-bottom:1px dashed rgba(255,255,255,0.03);font-size:14px}
+
+.right{position:relative}
+.card.small{padding:12px}
+
+.start{display:flex;flex-direction:column;gap:8px}
+.start .btn{background:#ffd166;border:none;padding:12px;border-radius:10px;font-weight:700;color:#061226;cursor:pointer}
+
+.count{font-size:28px;color:#fff;font-weight:700}
+.muted{color:var(--muted);font-size:13px}
+
+footer{margin-top:16px;color:rgba(255,255,255,0.6);font-size:13px;text-align:center}
+
+@media (max-width:880px){.grid{grid-template-columns:1fr}.right{order:2}}
+
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <!-- brain + QZ icon (SVG) -->
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#0b4a78" />
+          <g transform="translate(10 8)" fill="none" stroke="#ffd166" stroke-width="2">
+            <path d="M12 6c-5 0-8 4-8 8s3 8 8 8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 6c5 0 8 4 8 8s-3 8-8 8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 22v8" stroke-linecap="round"/>
+            <path d="M20 22v8" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h1>QZ Quiz World — Daily Quiz Community</h1>
+        <p class="lead">रोज़ 20 प्रश्न • ₹5 प्रति सही उत्तर • तेज़ी से उत्तर दो और जीत जाओ!</p>
+      </div>
+    </header><div class="grid">
+  <div class="card">
+    <div class="meta">
+      <div class="pill">Community</div>
+      <div class="pill">Free to join</div>
+      <div class="pill">Daily Prizes</div>
+    </div>
 
-<div id="number">5</div>
+    <div class="big">आज का announcement</div>
+    <p class="muted">हमारा पहला Quiz आज शाम 8:00 बजे शुरू होगा। 50+ सदस्य पूरा होने पर ग्रुप एक्टिव हुआ — अब Official quizzes रोज़ होंगे।</p>
 
-<script>
-  // Listen for Monetag interstitial close event
-  window.addEventListener('monetag_vignette_close', function() {
-    document.getElementById("number").style.display = "block";
-  });
-</script>
+    <div style="margin-top:12px" class="linkbox">
+      <div style="flex:1;word-break:break-all;color:#dff0ff;font-weight:600">Join Link — https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t</div>
+      <button class="copybtn" id="copyLink">Copy Link</button>
+    </div>
 
-</body>
+    <ul class="features" style="margin-top:14px">
+      <li>⏰ Daily 20 questions at 8:00 PM</li>
+      <li>⚡ First correct answer wins ₹5 (UPI)</li>
+      <li>🏆 Weekly leaderboard and featured winners</li>
+      <li>📌 Follow rules & keep the group spam-free</li>
+    </ul>
+
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="joinbtn" id="openLink">Join on WhatsApp</button>
+      <button class="copybtn" id="sharePoster">Share Poster</button>
+    </div>
+
+  </div>
+
+  <div class="right">
+    <div class="card small">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="muted">Members</div>
+          <div class="count" id="memberCount">50</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Quiz Time</div>
+          <div class="count">8:00 PM</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="muted">क्या भाग लेना चाहते हैं? इस पोस्ट पर 👍 करें — कम से कम 30 👍 होने पर 8 बजे शुरू होगा।</div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="copybtn" id="likeBtn">👍 Like</button>
+          <div style="padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.02);font-weight:700" id="likeCount">0 Likes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card small" style="margin-top:12px">
+      <div class="muted">Quick Start</div>
+      <div class="start" style="margin-top:8px">
+        <button class="btn" id="startQuizBtn">Start Sample Quiz (Demo)</button>
+        <div class="muted">(Demo mode — real quiz runs inside WhatsApp group at scheduled time)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Made for QZ Quiz World • Use this page to share link, poster, and rules with students.</footer>
+
+  </div>  <script>
+    const link = 'https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t';
+    document.getElementById('copyLink').addEventListener('click', ()=>{
+      navigator.clipboard.writeText(link).then(()=>alert('Link copied to clipboard!'))
+    });
+    document.getElementById('openLink').addEventListener('click', ()=>{
+      window.open(link,'_blank')
+    });
+
+    // Like button behavior
+    let likes = 0; const likeCountEl = document.getElementById('likeCount');
+    document.getElementById('likeBtn').addEventListener('click', ()=>{
+      likes++; likeCountEl.textContent = likes + ' Likes';
+      if(likes>=30){ alert('30 Likes erreicht — Quiz will start at 8:00 PM! (confirm in group)') }
+    });
+
+    // Sample quiz demo
+    document.getElementById('startQuizBtn').addEventListener('click', ()=>{
+      const demoQs = [
+        {q:'भारत का राष्ट्रीय पशु कौन है?', opt:['हाथी','शेर','बाघ','गैंडा'], a:2},
+        {q:'विश्व का सबसे बड़ा महासागर कौन सा है?', opt:['अटलां्टिक','इंडियन','प्रशांत','आर्कटिक'], a:2}
+      ];
+      let idx=0; function show(){
+        const item = demoQs[idx];
+        const ans = prompt((idx+1)+'. '+item.q+'\n\n' + item.opt.map((o,i)=> (i+1)+') '+o).join('\n'));
+        if(ans==null) return; if(parseInt(ans)-1===item.a){ alert('Correct! (Demo)') } else alert('Wrong — Demo answer: '+item.opt[item.a]);
+        idx++; if(idx<demoQs.length) show(); else alert('Demo finished');
+      }
+      show();
+    });
+
+    // Member count simple simulation (you can update dynamically)
+    const memberCount = document.getElementById('memberCount');
+    // If you want, update this value from server or manual edit
+    // memberCount.textContent = 75;
+  </script></body>
 </html>
