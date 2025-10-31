@@ -6,50 +6,58 @@
   <title>प्रश्न 5</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap');
-    :root { --bg1: #f6f8ff; --bg2: #fff7f3; --card: #ffffff; --accent: #4CAF50; --accent2: #2196F3; }
-    body { font-family: 'Noto Sans Devanagari', sans-serif; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg1), var(--bg2)); }
-    .card { width: 90%; max-width: 720px; background: var(--card); border-radius: 14px; box-shadow: 0 6px 24px rgba(20,20,40,0.08); padding: 28px; text-align: center; }
-    h1 { margin: 0; font-size: 22px; color: #222; }
-    #clue { font-size: 20px; color: #333; margin: 26px 10px; min-height: 72px; }
-    .nav { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
-    button { padding: 12px 18px; border: none; border-radius: 10px; color: #fff; font-weight: 600; cursor: pointer; transition: all 0.18s; box-shadow: 0 6px 18px rgba(20,20,40,0.06); }
-    button:active { transform: translateY(1px); }
-    .prev { background: var(--accent2); }
-    .next { background: var(--accent); }
-    .hint { font-size: 14px; color: #666; margin-top: 16px; }
+    :root{--bg1:#f6f8ff;--bg2:#fff7f3;--card:#ffffff;--accent:#4CAF50;--accent2:#2196F3;}
+    body{font-family:'Noto Sans Devanagari',sans-serif;min-height:100vh;margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+    .card{width:90%;max-width:720px;background:var(--card);border-radius:14px;box-shadow:0 6px 24px rgba(20,20,40,0.08);padding:28px;text-align:center;}
+    h1{margin:0;font-size:22px;color:#222;}
+    #title{font-weight:700;font-size:18px;margin:12px 0;}
+    #question,#conclusion{font-size:18px;color:#333;margin:8px 0;}
+    #options{margin-top:18px;white-space:pre-line;line-height:1.8;}
+    .nav{display:flex;gap:12px;justify-content:center;margin-top:18px;}
+    button{padding:12px 18px;border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;transition:all .18s;box-shadow:0 6px 18px rgba(20,20,40,0.06);}
+    button:active{transform:translateY(1px);}
+    .prev{background:var(--accent2);}
+    .next{background:var(--accent);}
+    .hint{font-size:14px;color:#666;margin-top:10px;}
   </style>
 </head>
 <body>
   <div class="card">
     <h1>🧩 प्रश्न 5</h1>
-    <p id="clue">लोड हो रहा है...</p>
+    <div id="title">लोड हो रहा है...</div>
+    <div id="question"></div>
+    <div id="conclusion"></div>
+    <div id="options"></div>
     <div class="nav">
-      <button id="prev" class="prev" >◀ पिछला पेज</button>
-      <button id="next" class="next" >अगला पेज ▶</button>
+      <button id="prev" class="prev">◀ पिछला</button>
+      <button id="next" class="next" style="visibility:hidden;">अगला ▶</button>
     </div>
     <p class="hint">सभी 5 प्रश्न हल करने के बाद उत्तर व्हाट्सएप ग्रुप पर भेजें।</p>
   </div>
+
   <script>
+    if ('caches' in window) caches.keys().then(names => names.forEach(n => caches.delete(n)));
+
+    const pageNumber = 5;
     const nextBtn = document.getElementById('next');
     const prevBtn = document.getElementById('prev');
-    prevBtn.addEventListener("click",()=>window.location.href="page4.html");
-    nextBtn.addEventListener("click",()=>window.location.href="thankyou.html");
-    const ts = '?t=' + new Date().getTime();
+
+    prevBtn.addEventListener('click', () => window.location.href = 'page4.html');
+
+
     Promise.all([
-      fetch('round.txt' + ts, { cache: "no-store" }).then(r => r.text()),
-      fetch('questions.json' + ts, { cache: "no-store" }).then(r => r.json())
-    ])
-    .then(([round, data]) => {
+      fetch('round.txt?nocache=' + Date.now()).then(r => r.text()),
+      fetch('questions.json?nocache=' + Date.now()).then(r => r.json())
+    ]).then(([round, data]) => {
       round = round.trim();
-      try {
-        const clue = data[round][4];
-        document.getElementById('clue').textContent = clue || 'प्रश्न उपलब्ध नहीं है।';
-      } catch (e) {
-        document.getElementById('clue').textContent = 'प्रश्न पढ़ने में समस्या हुई।';
-      }
-    })
-    .catch(() => {
-      document.getElementById('clue').textContent = 'सर्वर से प्रश्न लोड नहीं हो पाया।';
+      const q = data[round][pageNumber - 1];
+      if (!q) throw new Error('Question not found');
+      document.getElementById('title').textContent = q.title;
+      document.getElementById('question').textContent = q.question || '';
+      document.getElementById('conclusion').textContent = q.conclusion ? 'निष्कर्ष: ' + q.conclusion : '';
+      document.getElementById('options').textContent = '🟡 ' + q.options.join('\n🟢 ');
+    }).catch(() => {
+      document.getElementById('title').textContent = 'प्रश्न लोड करने में त्रुटि हुई।';
     });
   </script>
 </body>
