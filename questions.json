@@ -4,52 +4,139 @@
       "title": "Q1 | Reasoning (Syllogism)",
       "question": "सभी फूल पौधे हैं। कुछ पौधे पेड़ हैं।",
       "conclusion": "कुछ फूल पेड़ हो सकते हैं।",
-      "options": [
-        "A) सही",
-        "B) गलत",
-        "C) निश्चित नहीं",
-        "D) इनमें से कोई नहीं"
-      ]
+      "options": ["A) सही", "B) गलत", "C) निश्चित नहीं", "D) इनमें से कोई नहीं"]
     },
     {
       "title": "Q2 | Reasoning (Missing Number)",
       "question": "2, 6, 12, 20, 30, ?",
-      "options": [
-        "A) 36",
-        "B) 42",
-        "C) 44",
-        "D) 46"
-      ]
+      "options": ["A) 36", "B) 42", "C) 44", "D) 46"]
     },
     {
       "title": "Q3 | Math (Simple Interest)",
       "question": "₹1200 पर 2 वर्ष के लिए 5% दर से ब्याज कितना होगा❓",
-      "options": [
-        "A) ₹100",
-        "B) ₹110",
-        "C) ₹120",
-        "D) ₹130"
-      ]
+      "options": ["A) ₹100", "B) ₹110", "C) ₹120", "D) ₹130"]
     },
     {
       "title": "Q4 | Math (Percentage)",
       "question": "80 का 25% क्या होगा❓",
-      "options": [
-        "A) 10",
-        "B) 15",
-        "C) 20",
-        "D) 25"
-      ]
+      "options": ["A) 10", "B) 15", "C) 20", "D) 25"]
     },
     {
       "title": "Q5 | GK (Geography)",
       "question": "भारत का राष्ट्रीय पशु कौन है❓",
-      "options": [
-        "A) हाथी",
-        "B) शेर",
-        "C) बाघ",
-        "D) गैंडा"
-      ]
+      "options": ["A) हाथी", "B) शेर", "C) बाघ", "D) गैंडा"]
+    }
+  ],
+
+  "round2": [
+    {
+      "title": "Q1 | Reasoning (Analogy)",
+      "question": "पानी : प्यास :: भोजन : ?",
+      "options": ["A) स्वाद", "B) भूख", "C) रसोई", "D) थाली"]
+    },
+    {
+      "title": "Q2 | Reasoning (Number Series)",
+      "question": "5, 10, 20, 40, ?",
+      "options": ["A) 60", "B) 70", "C) 80", "D) 100"]
+    },
+    {
+      "title": "Q3 | Math (Ratio)",
+      "question": "यदि A और B की आयु का अनुपात 3:5 है और B की आयु 20 वर्ष है, तो A की आयु क्या होगी❓",
+      "options": ["A) 10", "B) 12", "C) 15", "D) 18"]
+    },
+    {
+      "title": "Q4 | Math (Average)",
+      "question": "5, 10, 15 का औसत क्या है❓",
+      "options": ["A) 8", "B) 10", "C) 12", "D) 15"]
+    },
+    {
+      "title": "Q5 | GK (Geography)",
+      "question": "विश्व का सबसे बड़ा रेगिस्तान कौन सा है❓",
+      "options": ["A) सहारा", "B) गोबी", "C) थार", "D) कालाहारी"]
+    }
+  ],
+
+  "round3": [
+    {
+      "title": "Q1 | Reasoning (Blood Relation)",
+      "question": "एक व्यक्ति की ओर इशारा करते हुए एक महिला ने कहा – यह मेरे पिता के इकलौते पुत्र का बेटा है। महिला उस व्यक्ति से क्या संबंध रखती है❓",
+      "options": ["A) माँ", "B) बहन", "C) चाची", "D) बुआ"]
+    },
+    {
+      "title": "Q2 | Reasoning (Coding-Decoding)",
+      "question": "यदि RAM = 36 और FAN = 21, तो MAN = ?",
+      "options": ["A) 28", "B) 30", "C) 32", "D) 33"]
+    },
+    {
+      "title": "Q3 | Math (Profit & Loss)",
+      "question": "₹200 की वस्तु ₹250 में बेची गई। लाभ प्रतिशत क्या है❓",
+      "options": ["A) 20%", "B) 22%", "C) 25%", "D) 30%"]
+    },
+    {
+      "title": "Q4 | Math (Speed, Distance, Time)",
+      "question": "यदि कोई व्यक्ति 60 km दूरी 2 घंटे में तय करता है, तो उसकी गति क्या होगी❓",
+      "options": ["A) 20 km/h", "B) 25 km/h", "C) 30 km/h", "D) 35 km/h"]
+    },
+    {
+      "title": "Q5 | GK (Geography)",
+      "question": "कौन-सा राज्य 'चाय का बागान' के लिए प्रसिद्ध है❓",
+      "options": ["A) बिहार", "B) असम", "C) केरल", "D) उत्तर प्रदेश"]
+    }
+  ],
+
+  "round4": [
+    {
+      "title": "Q1 | Reasoning (Mirror Image)",
+      "question": "यदि किसी अक्षर का दर्पण प्रतिबिंब दाईं ओर हो, तो 'E' का दर्पण रूप कैसा होगा❓",
+      "options": ["A) उल्टा E", "B) 3 जैसा", "C) F जैसा", "D) सामान्य E"]
+    },
+    {
+      "title": "Q2 | Reasoning (Series Completion)",
+      "question": "A, C, F, J, O, ?",
+      "options": ["A) T", "B) U", "C) V", "D) W"]
+    },
+    {
+      "title": "Q3 | Math (HCF & LCM)",
+      "question": "12 और 18 का HCF क्या है❓",
+      "options": ["A) 2", "B) 3", "C) 4", "D) 6"]
+    },
+    {
+      "title": "Q4 | Math (Simplification)",
+      "question": "√144 + 12 ÷ 3 = ?",
+      "options": ["A) 18", "B) 20", "C) 22", "D) 24"]
+    },
+    {
+      "title": "Q5 | GK (Geography)",
+      "question": "किस नदी को दक्षिण भारत की गंगा कहा जाता है❓",
+      "options": ["A) कृष्णा", "B) कावेरी", "C) गोदावरी", "D) पेरीयार"]
+    }
+  ],
+
+  "round5": [
+    {
+      "title": "Q1 | Reasoning (Direction)",
+      "question": "राम उत्तर की ओर 10 मी. चला, फिर दाएं 5 मी., फिर दक्षिण 10 मी. अब वह आरंभिक बिंदु से कितनी दूरी पर है❓",
+      "options": ["A) 5 मी.", "B) 10 मी.", "C) 15 मी.", "D) 20 मी."]
+    },
+    {
+      "title": "Q2 | Reasoning (Coding)",
+      "question": "यदि CAT = 24 और DOG = 26, तो BAT = ?",
+      "options": ["A) 22", "B) 23", "C) 24", "D) 25"]
+    },
+    {
+      "title": "Q3 | Math (Square)",
+      "question": "15² – 10² = ?",
+      "options": ["A) 100", "B) 125", "C) 150", "D) 175"]
+    },
+    {
+      "title": "Q4 | Math (Equation)",
+      "question": "यदि x + 5 = 12, तो x का मान क्या है❓",
+      "options": ["A) 5", "B) 6", "C) 7", "D) 8"]
+    },
+    {
+      "title": "Q5 | GK (Geography)",
+      "question": "भारत का सबसे ऊँचा पर्वत शिखर कौन-सा है❓",
+      "options": ["A) कंचनजंगा", "B) माउंट एवरेस्ट", "C) नंदा देवी", "D) धौलागिरी"]
     }
   ]
 }
