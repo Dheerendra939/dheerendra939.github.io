@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Q1 | भाग 3</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap');
-    body{font-family:'Noto Sans Devanagari',sans-serif;min-height:100vh;margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f8ff,#fff7f3);}
-    .card{width:90%;max-width:720px;background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(20,20,40,0.08);padding:28px;text-align:center;}
-    h1{font-size:22px;color:#222;margin:0 0 20px;}
-    p{font-size:20px;color:#333;margin:10px 0;}
-    .nav{display:flex;gap:12px;justify-content:center;margin-top:20px;}
-    button{padding:12px 18px;border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;opacity:0.9;}
-    .prev{background:#2196F3;}
-    .next{background:#4CAF50;}
-    .hint{font-size:14px;color:#666;margin-top:20px;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 3</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f9f9f9; color: #222; padding: 30px; }
+.card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+h1 { font-size: 20px; color: #333; }
+.options { margin-top: 20px; line-height: 1.8; }
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Q1 | Reasoning (Syllogism)</h1>
-    <p> निष्कर्ष: कुछ फूल</p>
-    <div class="nav">
-      <button class="prev" onclick="window.location.href='page2.html'">◀ पिछला</button>
-      <button class="next" onclick="window.location.href='page4.html'">अगला ▶</button>
-    </div>
-    <p class="hint">सभी 15 पेज देखने के बाद अपने उत्तर व्हाट्सएप ग्रुप पर भेजें।</p>
-  </div>
-  <script>window.location.reload(true);</script>
+<div class="card">
+<h1>निष्कर्ष: कुछ फूल पेड़ हो सकते हैं।</h1>
+<div class="options"></div>
+</div>
+<script>
+(function() {
+  const url = new URL(window.location.href);
+  // अगर पहले से nocache parameter मौजूद है तो reload नहीं होगा
+  if (url.searchParams.has('nocache')) return;
+  // वरना सिर्फ एक बार reload करेगा ताकि नया JSON लोड हो
+  url.searchParams.set('nocache', Date.now());
+  window.location.replace(url);
+})();
+</script>
 </body>
 </html>
