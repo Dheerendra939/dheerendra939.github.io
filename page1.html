@@ -3,62 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>प्रश्न 1</title>
+  <title>Q1 | भाग 1</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap');
-    :root{--bg1:#f6f8ff;--bg2:#fff7f3;--card:#ffffff;--accent:#4CAF50;--accent2:#2196F3;}
-    body{font-family:'Noto Sans Devanagari',sans-serif;min-height:100vh;margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
-    .card{width:90%;max-width:720px;background:var(--card);border-radius:14px;box-shadow:0 6px 24px rgba(20,20,40,0.08);padding:28px;text-align:center;}
-    h1{margin:0;font-size:22px;color:#222;}
-    #title{font-weight:700;font-size:18px;margin:12px 0;}
-    #question,#conclusion{font-size:18px;color:#333;margin:8px 0;}
-    #options{margin-top:18px;white-space:pre-line;line-height:1.8;}
-    .nav{display:flex;gap:12px;justify-content:center;margin-top:18px;}
-    button{padding:12px 18px;border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;transition:all .18s;box-shadow:0 6px 18px rgba(20,20,40,0.06);}
-    button:active{transform:translateY(1px);}
-    .prev{background:var(--accent2);}
-    .next{background:var(--accent);}
-    .hint{font-size:14px;color:#666;margin-top:10px;}
+    body{font-family:'Noto Sans Devanagari',sans-serif;min-height:100vh;margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f8ff,#fff7f3);}
+    .card{width:90%;max-width:720px;background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(20,20,40,0.08);padding:28px;text-align:center;}
+    h1{font-size:22px;color:#222;margin:0 0 20px;}
+    p{font-size:20px;color:#333;margin:10px 0;}
+    .nav{display:flex;gap:12px;justify-content:center;margin-top:20px;}
+    button{padding:12px 18px;border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;opacity:0.9;}
+    .prev{background:#2196F3;}
+    .next{background:#4CAF50;}
+    .hint{font-size:14px;color:#666;margin-top:20px;}
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>🧩 प्रश्न 1</h1>
-    <div id="title">लोड हो रहा है...</div>
-    <div id="question"></div>
-    <div id="conclusion"></div>
-    <div id="options"></div>
+    <h1>Q1 | Reasoning (Syllogism)</h1>
+    <p>सभी फूल पौधे हैं। </p>
     <div class="nav">
-      <button id="prev" class="prev" style="visibility:hidden;">◀ पिछला</button>
-      <button id="next" class="next">अगला ▶</button>
+      
+      <button class="next" onclick="window.location.href='page2.html'">अगला ▶</button>
     </div>
-    <p class="hint">सभी 5 प्रश्न हल करने के बाद उत्तर व्हाट्सएप ग्रुप पर भेजें।</p>
+    <p class="hint">सभी 15 पेज देखने के बाद अपने उत्तर व्हाट्सएप ग्रुप पर भेजें।</p>
   </div>
-
-  <script>
-    if ('caches' in window) caches.keys().then(names => names.forEach(n => caches.delete(n)));
-
-    const pageNumber = 1;
-    const nextBtn = document.getElementById('next');
-    const prevBtn = document.getElementById('prev');
-
-    nextBtn.addEventListener('click', () => window.location.href = 'page2.html');
-
-
-    Promise.all([
-      fetch('round.txt?nocache=' + Date.now()).then(r => r.text()),
-      fetch('questions.json?nocache=' + Date.now()).then(r => r.json())
-    ]).then(([round, data]) => {
-      round = round.trim();
-      const q = data[round][pageNumber - 1];
-      if (!q) throw new Error('Question not found');
-      document.getElementById('title').textContent = q.title;
-      document.getElementById('question').textContent = q.question || '';
-      document.getElementById('conclusion').textContent = q.conclusion ? 'निष्कर्ष: ' + q.conclusion : '';
-      document.getElementById('options').textContent = '🟡 ' + q.options.join('\n🟢 ');
-    }).catch(() => {
-      document.getElementById('title').textContent = 'प्रश्न लोड करने में त्रुटि हुई।';
-    });
-  </script>
+  <script>window.location.reload(true);</script>
 </body>
 </html>
