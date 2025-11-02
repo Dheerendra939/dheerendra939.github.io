@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>QZ Mock Test (Maths – 20 Questions, 20 Minutes)</title>
+<title>QZ Mock Test </title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{--blue:#0b5ed7;--card:#ffffff;--text:#12263a;--green:#198754;--red:#dc3545;--grey:#6c757d;}
@@ -314,8 +314,8 @@ function startTimer(){
   },1000);
 }
 function updateTimerDisplay(){
-  const mm = String(Math.floor(timerSeconds/60)).padStart(2,'0');
-  const ss = String(timerSeconds%60).padStart(2,'0');
+  const mm = String(Math.floor(timerSeconds/60)).padStart(1,'0');
+  const ss = String(timerSeconds%60).padStart(1,'0');
   document.getElementById('timer').innerText = mm+':'+ss;
   document.getElementById('timer2').innerText = mm+':'+ss;
 }
