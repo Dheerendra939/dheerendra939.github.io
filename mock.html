@@ -8,14 +8,15 @@
 <style>
   :root{--blue:#0b5ed7;--card:#ffffff;--text:#12263a;--green:#198754;--red:#dc3545;--grey:#6c757d;}
   body{font-family:"Noto Sans Devanagari",Arial,sans-serif;background:linear-gradient(180deg,#eef6ff,#ffffff);margin:0;color:var(--text);}
-  .header{background:var(--blue);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+  .header{background:var(--blue);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;}
   .title{font-weight:700;font-size:18px;}
   .timer{background:rgba(255,255,255,0.12);padding:8px 10px;border-radius:6px;font-weight:700;}
-  .container{max-width:1180px;margin:18px auto;display:flex;gap:18px;padding:0 12px;align-items:flex-start;}
+  .container{max-width:1180px;margin:18px auto;display:flex;gap:18px;padding:0 12px;}
   .main{flex:1;background:var(--card);border-radius:10px;padding:16px;box-shadow:0 8px 20px rgba(11,78,215,0.06);}
   .sidebar{width:260px;background:var(--card);border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
-  .questionCanvas{width:100%;height:auto;margin-bottom:14px;border-radius:8px;border:1px solid #e6f0ff;overflow:hidden;background:#fff;}
-  .controls{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center;}
+  #canvasWrap{border-radius:8px;overflow:hidden;background:#f8fbff;border:1px solid #e6f0ff;padding:12px;}
+  canvas{width:100%;height:420px;display:block;background:#ffffff;border-radius:6px;}
+  .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
   .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;}
   .btn.primary{background:var(--blue);color:white;}
   .btn.warn{background:#ff6b6b;color:white;}
@@ -45,18 +46,19 @@
   <div class="main">
     <div id="testArea">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="small">प्रश्न: सभी 20 नीचे दिख रहे हैं</div>
+        <div class="small">प्रश्न <span id="currentNo">1</span>/20</div>
         <div class="small">समय शेष: <strong id="timer2">20:00</strong></div>
       </div>
 
       <div id="canvasWrap" style="margin-top:12px;">
-        <!-- Canvases will be injected here -->
+        <canvas id="qCanvas" width="1000" height="420"></canvas>
       </div>
 
       <div class="controls">
-        <button class="btn primary" id="saveAll">सहेजें (Auto-save होता है)</button>
-        <button class="btn" id="clearAll">सभी उत्तर हटाएं</button>
-        <button class="btn" id="markAllReview">टॉगल मार्क फॉर रिव्यू</button>
+        <button class="btn primary" id="saveNext">सहेजें और अगले</button>
+        <button class="btn" id="clearResp">उत्तर हटाएं</button>
+        <button class="btn" id="markReview">मार्क फॉर रिव्यू</button>
+        <button class="btn" id="prevBtn">पिछला</button>
         <button class="btn warn" id="submitBtn" style="margin-left:auto">सबमिट टेस्ट</button>
       </div>
     </div>
@@ -117,15 +119,21 @@
   });
 })();
 
-/* ========= Quiz core (Canvas rendering for all 20 questions) ========= */
+/* ========= Quiz core (Canvas rendering + logic) ========= */
 const TOTAL = 20;
+let currentIndex = 0;
 let userAnswers = Array(TOTAL).fill(null); // store actual option index relative to QUESTIONS[i].options
 let reviewFlags = Array(TOTAL).fill(false);
 let optionOrder = [];
 let timerSeconds = 20 * 60;
 let timerInterval = null;
 
-/* Helper: text wrap */
+/* Canvas setup */
+const canvas = document.getElementById('qCanvas');
+const ctx = canvas.getContext('2d');
+const padding = 24;
+let optionBoxes = []; // boxes for click detection
+
 function wrapText(context, text, x, y, maxWidth, lineHeight){
   const words = text.split(' ');
   let line = '';
@@ -141,31 +149,10 @@ function wrapText(context, text, x, y, maxWidth, lineHeight){
       line = testLine;
     }
   }
-  context.fillText(line, x, y);
+  if(line) context.fillText(line, x, y);
 }
 
-/* Create canvases for all questions */
-const canvasWrap = document.getElementById('canvasWrap');
-function createAllCanvases(){
-  canvasWrap.innerHTML = '';
-  for(let i=0;i<TOTAL;i++){
-    const cWrap = document.createElement('div');
-    cWrap.style.marginBottom = '12px';
-    const canvas = document.createElement('canvas');
-    canvas.className = 'questionCanvas';
-    canvas.id = 'qCanvas' + i;
-    // set internal resolution for crisp text
-    canvas.width = 1000;
-    canvas.height = 200; // adequate height; grows with text wrapping if needed later
-    cWrap.appendChild(canvas);
-    canvasWrap.appendChild(cWrap);
-  }
-}
-
-/* Draw a specific question on its canvas */
-function drawQuestionCanvas(idx){
-  const canvas = document.getElementById('qCanvas' + idx);
-  const ctx = canvas.getContext('2d');
+function drawQuestionOnCanvas(idx){
   // clear
   ctx.clearRect(0,0,canvas.width,canvas.height);
   // background
@@ -174,98 +161,102 @@ function drawQuestionCanvas(idx){
 
   // header bar
   ctx.fillStyle = "#0b5ed7";
-  ctx.fillRect(0,0,canvas.width,52);
+  ctx.fillRect(0,0,canvas.width,64);
   ctx.fillStyle = "#fff";
   ctx.font = "700 18px 'Noto Sans Devanagari', sans-serif";
-  ctx.fillText("Q" + (idx+1), 18, 34);
+  ctx.fillText("QZ Mock Test — प्रश्न " + (idx+1) + " / " + TOTAL, padding, 40);
 
   // question text
   ctx.fillStyle = "#12263a";
-  ctx.font = "700 16px 'Noto Sans Devanagari', sans-serif";
+  ctx.font = "700 18px 'Noto Sans Devanagari', sans-serif";
   const qText = (idx+1) + ". " + QUESTIONS[idx].question;
-  wrapText(ctx, qText, 18, 74, canvas.width - 36, 20);
+  wrapText(ctx, qText, padding, 96, canvas.width - padding*2, 26);
 
-  // options
-  const startY = 110;
-  const boxH = 30;
+  // options boxes
+  const startY = 160;
+  const boxH = 52;
+  optionBoxes = [];
   const ord = optionOrder[idx];
-  // ensure enough height — if question long, increase canvas height (simple approach)
-  // (not changing canvas.height now to keep simple; text wraps inside area)
   for(let i=0;i<4;i++){
     const optIdx = ord[i];
-    const x = 18;
-    const y = startY + i*(boxH + 10);
-    const w = canvas.width - 36;
+    const x = padding;
+    const y = startY + i*(boxH + 12);
+    const w = canvas.width - padding*2;
     const h = boxH;
-    // highlight if selected
-    if(userAnswers[idx] === optIdx){
+    // background
+    ctx.fillStyle = "#f8fbff";
+    ctx.fillRect(x,y,w,h);
+    ctx.strokeStyle = "#e6f0ff";
+    ctx.strokeRect(x,y,w,h);
+    // text
+    ctx.fillStyle = "#12263a";
+    ctx.font = "700 16px 'Noto Sans Devanagari', sans-serif";
+    const label = String.fromCharCode(65 + i) + ". ";
+    const text = label + QUESTIONS[idx].options[optIdx];
+    wrapText(ctx, text, x + 12, y + 32, w - 24, 20);
+    optionBoxes.push({x,y,w,h,optIdx,localIndex:i});
+  }
+
+  // footer note
+  ctx.fillStyle = "#6c757d";
+  ctx.font = "13px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillText("विकल्प चुनने के बाद 'सहेजें और अगले' का उपयोग करें।", padding, canvas.height - 12);
+}
+
+/* Click handling on canvas */
+canvas.addEventListener('click', function(e){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  for(let i=0;i<optionBoxes.length;i++){
+    const b = optionBoxes[i];
+    if(cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h){
+      userAnswers[currentIndex] = b.optIdx; // store actual option index
+      highlightSelectedOption(b.localIndex);
+      markAttempted(currentIndex);
+      return;
+    }
+  }
+});
+
+function highlightSelectedOption(localIndex){
+  // redraw options with highlight
+  for(let i=0;i<optionBoxes.length;i++){
+    const b = optionBoxes[i];
+    if(i === localIndex){
       ctx.fillStyle = "#d9ecff";
-      ctx.fillRect(x,y,w,h);
+      ctx.fillRect(b.x, b.y, b.w, b.h);
       ctx.strokeStyle = "#8fc3ff";
-      ctx.strokeRect(x,y,w,h);
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
     } else {
       ctx.fillStyle = "#f8fbff";
-      ctx.fillRect(x,y,w,h);
+      ctx.fillRect(b.x, b.y, b.w, b.h);
       ctx.strokeStyle = "#e6f0ff";
-      ctx.strokeRect(x,y,w,h);
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
     }
+    // redraw text
     ctx.fillStyle = "#12263a";
-    ctx.font = "700 14px 'Noto Sans Devanagari', sans-serif";
+    ctx.font = "700 16px 'Noto Sans Devanagari', sans-serif";
     const label = String.fromCharCode(65 + i) + ". ";
-    // draw option text wrapped within the box
-    wrapText(ctx, label + QUESTIONS[idx].options[optIdx], x + 8, y + 20, w - 16, 16);
-  }
-
-  // draw review marker if flagged
-  if(reviewFlags[idx]){
-    ctx.fillStyle = "#6f42c1"; // purple
-    ctx.font = "700 12px 'Noto Sans Devanagari', sans-serif";
-    ctx.fillText("Marked for review", canvas.width - 170, 34);
+    ctx.fillText(label + QUESTIONS[currentIndex].options[b.optIdx], b.x + 12, b.y + 32);
   }
 }
 
-/* Click handling: detect which option box clicked for each canvas */
-function setupCanvasClicks(){
-  for(let i=0;i<TOTAL;i++){
-    const canvas = document.getElementById('qCanvas' + i);
-    canvas.addEventListener('click', function(e){
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const cx = (e.clientX - rect.left) * scaleX;
-      const cy = (e.clientY - rect.top) * scaleY;
-      // options start at y=110, boxH=30, gap=10
-      const startY = 110;
-      const boxH = 30;
-      for(let k=0;k<4;k++){
-        const y = startY + k*(boxH + 10);
-        if(cx >= 18 && cx <= canvas.width - 18 && cy >= y && cy <= y + boxH){
-          // option k clicked for question i
-          const optIdx = optionOrder[i][k];
-          userAnswers[i] = optIdx;
-          // redraw this canvas
-          drawQuestionCanvas(i);
-          markAttempted(i);
-          return;
-        }
-      }
-    });
-  }
-}
-
-/* Grid sidebar */
+/* Grid (sidebar) */
 function initGrid(){
-  const grid = document.getElementById('qGrid');
-  grid.innerHTML = '';
+  const grid = document.getElementById('qGrid'); grid.innerHTML = '';
   for(let i=0;i<TOTAL;i++){
     const d = document.createElement('div');
     d.className = 'qbox';
     d.id = 'box'+i;
     d.innerText = 'Q' + (i+1);
-    d.addEventListener('click', ()=> { scrollToCanvas(i); });
+    d.addEventListener('click', ()=> { goToQuestion(i); });
     grid.appendChild(d);
   }
 }
+
 function updateGridStyles(){
   for(let i=0;i<TOTAL;i++){
     const b = document.getElementById('box'+i);
@@ -277,7 +268,7 @@ function updateGridStyles(){
 }
 function markAttempted(idx){
   const box = document.getElementById('box'+idx);
-  if(userAnswers[idx] !== null) { box.classList.add('attempted'); }
+  if(userAnswers[idx] !== null) box.classList.add('attempted');
 }
 
 /* Option shuffle for each question */
@@ -290,23 +281,20 @@ function shuffleOptionsForAll(){
 }
 
 /* Buttons */
-document.getElementById('saveAll').addEventListener('click', ()=>{
-  // nothing required — selections are already in userAnswers
-  alert('सभी उत्तर सहेज दिए गए हैं (Auto-save)।');
+document.getElementById('saveNext').addEventListener('click', ()=>{
+  if(currentIndex < TOTAL-1){ currentIndex++; renderCurrent(); }
+  else { if(confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit(); }
 });
-document.getElementById('clearAll').addEventListener('click', ()=>{
-  if(!confirm('क्या आप वाकई सभी उत्तर हटाना चाहते हैं?')) return;
-  userAnswers = Array(TOTAL).fill(null);
-  reviewFlags = Array(TOTAL).fill(false);
-  for(let i=0;i<TOTAL;i++) drawQuestionCanvas(i);
-  updateGridStyles();
+document.getElementById('clearResp').addEventListener('click', ()=>{
+  userAnswers[currentIndex] = null; renderCurrent(); updateGridStyles();
 });
-document.getElementById('markAllReview').addEventListener('click', ()=>{
-  // toggle review flag for currently visible? We'll toggle all for demo (user can use sidebar later)
-  const anyFalse = reviewFlags.some(f=>!f);
-  for(let i=0;i<TOTAL;i++) reviewFlags[i] = anyFalse;
-  for(let i=0;i<TOTAL;i++) drawQuestionCanvas(i);
-  updateGridStyles();
+document.getElementById('markReview').addEventListener('click', ()=>{
+  reviewFlags[currentIndex] = !reviewFlags[currentIndex];
+  const box = document.getElementById('box'+currentIndex);
+  if(reviewFlags[currentIndex]) box.classList.add('review'); else box.classList.remove('review');
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(currentIndex > 0){ currentIndex--; renderCurrent(); }
 });
 document.getElementById('submitBtn').addEventListener('click', ()=>{
   if(confirm('क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit();
@@ -376,31 +364,29 @@ function showResult({attempted, correct, wrong, marks, percent}){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* Scroll to canvas */
-function scrollToCanvas(i){
-  const el = document.getElementById('qCanvas' + i);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+/* Navigation helper */
+function goToQuestion(idx){ currentIndex = idx; renderCurrent(); }
+
+function renderCurrent(){
+  document.getElementById('currentNo').innerText = (currentIndex + 1);
+  drawQuestionOnCanvas(currentIndex);
+  updateGridStyles();
+  // highlight existing selection if any
+  const sel = userAnswers[currentIndex];
+  if(sel !== null){
+    const localIndex = optionOrder[currentIndex].indexOf(sel);
+    if(localIndex >= 0) highlightSelectedOption(localIndex);
+  }
 }
 
-/* Initialize everything */
+/* Initialize */
 function initializeTest(){
   if(typeof QUESTIONS === 'undefined' || QUESTIONS.length < TOTAL){ alert('प्रश्न उपलब्ध नहीं हैं (questions.js)।'); return; }
-  // prepare canvases
-  createAllCanvases();
-  // shuffle options
-  shuffleOptionsForAll();
-  // draw all
-  for(let i=0;i<TOTAL;i++) drawQuestionCanvas(i);
-  // setup clicks
-  setupCanvasClicks();
-  // sidebar
   initGrid();
-  updateGridStyles();
-  // start timer
+  shuffleOptionsForAll();
+  renderCurrent();
   startTimer();
 }
-
-/* Start on load */
 window.addEventListener('load', initializeTest);
 </script>
 
