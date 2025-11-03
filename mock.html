@@ -347,50 +347,36 @@ function showResult({attempted, correct, wrong, marks, percent}) {
   document.getElementById('testArea').style.display = 'none';
   const ra = document.getElementById('resultArea');
   ra.style.display = 'block';
-  
-  // Display result summary
+
+  // Summary
   document.getElementById('resCorrect').innerText = 'सही: ' + correct;
   document.getElementById('resWrong').innerText = 'गलत: ' + wrong;
   document.getElementById('resAttempt').innerText = 'प्रयास: ' + attempted;
   document.getElementById('totalMarks').innerText = marks;
   document.getElementById('percentage').innerText = percent + '%';
 
-  // Show question-wise results
+  // Question color logic
   const qRes = document.getElementById('qResultList'); 
   qRes.innerHTML = '';
   for (let i = 0; i < TOTAL; i++) {
     const div = document.createElement('div'); 
     div.className = 'qitem';
-    if (userAnswers[i] === null) { 
-      div.style.background = 'var(--grey)'; 
-      div.innerText = 'Q' + (i + 1); 
-    } else if (userAnswers[i] === QUESTIONS[i].correct) { 
-      div.style.background = 'var(--green)'; 
-      div.innerText = 'Q' + (i + 1); 
-    } else { 
-      div.style.background = 'var(--red)'; 
-      div.innerText = 'Q' + (i + 1); 
+    if (userAnswers[i] === null) {
+      div.style.background = 'var(--grey)';
+    } else if (userAnswers[i] === QUESTIONS[i].correct) {
+      div.style.background = 'var(--green)';
+    } else {
+      div.style.background = 'var(--red)';
     }
+    div.innerText = 'Q' + (i + 1);
     qRes.appendChild(div);
-
-    const box = document.getElementById('box' + i);
-    if (userAnswers[i] === null) { 
-      box.style.background = 'var(--grey)'; 
-      box.style.color = 'white'; 
-    } else if (userAnswers[i] === QUESTIONS[i].correct) { 
-      box.style.background = 'var(--green)'; 
-      box.style.color = 'white'; 
-    } else { 
-      box.style.background = 'var(--red)'; 
-      box.style.color = 'white'; 
-    }
   }
 
-  // ✅ Generate a unique verification code (score + timestamp)
+  // Generate unique verification code
   const timestamp = Date.now().toString(36).toUpperCase();
   const resultCode = `QZ${(correct * 7 + wrong * 3 + attempted).toString(36).toUpperCase()}-${timestamp.slice(-5)}`;
 
-  // 📜 WhatsApp Message Format
+  // WhatsApp message text
   const message = `
 🎯 QZ Mock Test Result
 ✅ सही उत्तर: ${correct}
@@ -398,34 +384,62 @@ function showResult({attempted, correct, wrong, marks, percent}) {
 📊 प्रतिशत: ${percent}%
 🔑 Verification Code: ${resultCode}
 
-📎 नीचे दिए गए लिंक पर क्लिक करें और परिणाम समूह में साझा करें👇
-https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN
-  `;
+📎 परिणाम QZ समूह में साझा करें:
+👉 https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN
+`;
 
-  // 📤 Share Button (copies + opens group)
+  // ---- 🧡 Toast Setup ----
+  let toast = document.getElementById('qzToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'qzToast';
+    toast.style.position = 'fixed';
+    toast.style.bottom = '30px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.background = '#333';
+    toast.style.color = 'white';
+    toast.style.padding = '10px 20px';
+    toast.style.borderRadius = '30px';
+    toast.style.fontSize = '15px';
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.4s ease, bottom 0.4s ease';
+    document.body.appendChild(toast);
+  }
+
+  function showToast(text) {
+    toast.textContent = text;
+    toast.style.opacity = '1';
+    toast.style.bottom = '50px';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.bottom = '30px';
+    }, 2000);
+  }
+
+  // Share button
   const shareBtn = document.createElement('button');
   shareBtn.className = 'btn primary';
   shareBtn.style.marginTop = '16px';
   shareBtn.innerText = '📤 परिणाम WhatsApp समूह में साझा करें';
-  
+
   shareBtn.addEventListener('click', async () => {
-    const groupLink = "https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t";
-    
-    // Copy message to clipboard first
     try {
       await navigator.clipboard.writeText(message.trim());
-      alert("📋 परिणाम कॉपी हो गया है! अब समूह खुलने पर बस Paste करके Send करें।");
-    } catch (err) {
-      console.warn("Clipboard copy failed:", err);
+      showToast("📋 परिणाम कॉपी हो गया!");
+    } catch {
+      showToast("⚠ कॉपी नहीं हो पाया, मैन्युअली कॉपी करें!");
     }
 
-    // Open the QZ WhatsApp group directly
-    window.open(groupLink, '_blank');
+    // Android → open WhatsApp app directly
+    if (/Android/i.test(navigator.userAgent)) {
+      window.location.href = "intent://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN#Intent;scheme=https;package=com.whatsapp;end";
+    } else {
+      window.open("https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN", "_blank");
+    }
   });
 
-  // Append button to result area
   ra.appendChild(shareBtn);
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 /* Navigation helper */
