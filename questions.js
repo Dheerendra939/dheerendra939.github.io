@@ -1,5 +1,3 @@
-alert("questions.js loaded");
-
 const questions = [
   {
     question: "1. पानी का रासायनिक सूत्र क्या है?",
