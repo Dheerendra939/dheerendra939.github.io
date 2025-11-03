@@ -389,12 +389,12 @@ function showResult({attempted, correct, wrong, marks, percent}) {
   const shareBtn = document.createElement('button');  
   shareBtn.className = 'btn primary';  
   shareBtn.style.marginTop = '16px';  
-  shareBtn.innerText = '📤 परिणाम WhatsApp समूह में साझा करें';  
+  shareBtn.innerText = '🏆 Share Result In QZ Whatsapp Group 🏆 ';  
 
   shareBtn.addEventListener('click', async () => {  
     try {  
       await navigator.clipboard.writeText(message.trim());  
-      alert("✅ परिणाम कॉपी हो गया है!\nअब WhatsApp समूह खुलने पर बस Paste करके Send करें।");  
+      alert("✅ Result कॉपी हो गया है!\nअब WhatsApp Group में Paste करके Send करें।");  
     } catch {  
       alert("⚠ परिणाम कॉपी नहीं हो पाया, कृपया मैन्युअली कॉपी करें।");  
     }  
