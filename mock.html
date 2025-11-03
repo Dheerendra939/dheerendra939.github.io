@@ -347,12 +347,15 @@ function showResult({attempted, correct, wrong, marks, percent}) {
   document.getElementById('testArea').style.display = 'none';
   const ra = document.getElementById('resultArea');
   ra.style.display = 'block';
+  
+  // Display result summary
   document.getElementById('resCorrect').innerText = 'सही: ' + correct;
   document.getElementById('resWrong').innerText = 'गलत: ' + wrong;
   document.getElementById('resAttempt').innerText = 'प्रयास: ' + attempted;
   document.getElementById('totalMarks').innerText = marks;
   document.getElementById('percentage').innerText = percent + '%';
 
+  // Show question-wise results
   const qRes = document.getElementById('qResultList'); 
   qRes.innerHTML = '';
   for (let i = 0; i < TOTAL; i++) {
@@ -369,6 +372,7 @@ function showResult({attempted, correct, wrong, marks, percent}) {
       div.innerText = 'Q' + (i + 1); 
     }
     qRes.appendChild(div);
+
     const box = document.getElementById('box' + i);
     if (userAnswers[i] === null) { 
       box.style.background = 'var(--grey)'; 
@@ -382,26 +386,44 @@ function showResult({attempted, correct, wrong, marks, percent}) {
     }
   }
 
-  // Generate a unique verification code (based on score + time)
+  // ✅ Generate a unique verification code (score + timestamp)
   const timestamp = Date.now().toString(36).toUpperCase();
   const resultCode = `QZ${(correct * 7 + wrong * 3 + attempted).toString(36).toUpperCase()}-${timestamp.slice(-5)}`;
 
-  // Message format for WhatsApp
-  const message = `🎯 QZ Mock Test Result\n✅ सही उत्तर: ${correct}\n❌ गलत उत्तर: ${wrong}\n📊 प्रतिशत: ${percent}%\n🔑 Verification Code: ${resultCode}`;
+  // 📜 WhatsApp Message Format
+  const message = `
+🎯 QZ Mock Test Result
+✅ सही उत्तर: ${correct}
+❌ गलत उत्तर: ${wrong}
+📊 प्रतिशत: ${percent}%
+🔑 Verification Code: ${resultCode}
 
-  // WhatsApp Group Link (your provided link)
-  const groupLink = "https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t";
+📎 नीचे दिए गए लिंक पर क्लिक करें और परिणाम समूह में साझा करें👇
+https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN
+  `;
 
-  // Add share button below results
+  // 📤 Share Button (copies + opens group)
   const shareBtn = document.createElement('button');
   shareBtn.className = 'btn primary';
   shareBtn.style.marginTop = '16px';
   shareBtn.innerText = '📤 परिणाम WhatsApp समूह में साझा करें';
-  shareBtn.addEventListener('click', () => {
-    const encodedMsg = encodeURIComponent(message + "\n\n" + groupLink);
-    const waUrl = `https://wa.me/?text=${encodedMsg}`;
-    window.open(waUrl, '_blank');
+  
+  shareBtn.addEventListener('click', async () => {
+    const groupLink = "https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t";
+    
+    // Copy message to clipboard first
+    try {
+      await navigator.clipboard.writeText(message.trim());
+      alert("📋 परिणाम कॉपी हो गया है! अब समूह खुलने पर बस Paste करके Send करें।");
+    } catch (err) {
+      console.warn("Clipboard copy failed:", err);
+    }
+
+    // Open the QZ WhatsApp group directly
+    window.open(groupLink, '_blank');
   });
+
+  // Append button to result area
   ra.appendChild(shareBtn);
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
