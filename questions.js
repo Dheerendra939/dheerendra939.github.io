@@ -1,3 +1,13 @@
+alert("questions.js loaded");
+
+const questions = [
+  {
+    question: "1. पानी का रासायनिक सूत्र क्या है?",
+    options: ["H₂O", "CO₂", "NaCl", "O₂"],
+    correct: 0
+  },
+  ...
+];
 const questions = [
   {
     question: "1. पानी का रासायनिक सूत्र क्या है?",
