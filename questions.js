@@ -1,6 +1,6 @@
 const QUESTIONS = [
   {
-    question: " पानी का रासायनिक सूत्र क्या है?",
+    question: " पानी का रासायनिक सूत्र है?",
     options: ["H₂O", "CO₂", "NaCl", "O₂"],
     correct: 0
   },
