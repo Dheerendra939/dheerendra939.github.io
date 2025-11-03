@@ -4,14 +4,6 @@ const QUESTIONS = [
     options: ["H₂O", "CO₂", "NaCl", "O₂"],
     correct: 0
   },
-  ...
-];
-const questions = [
-  {
-    question: "1. पानी का रासायनिक सूत्र क्या है?",
-    options: ["H₂O", "CO₂", "NaCl", "O₂"],
-    correct: 0
-  },
   {
     question: "2. भारत के संविधान की प्रस्तावना में 'समाजवादी' शब्द कब जोड़ा गया था?",
     options: ["1949", "1952", "1976", "1980"],
