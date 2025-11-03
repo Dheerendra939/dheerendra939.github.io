@@ -343,31 +343,69 @@ function calculateResult(){
   const percent = Math.round((marks / TOTAL) * 10000)/100;
   showResult({attempted, correct, wrong, marks, percent});
 }
-function showResult({attempted, correct, wrong, marks, percent}){
-  document.getElementById('testArea').style.display='none';
-  const ra = document.getElementById('resultArea'); ra.style.display='block';
+function showResult({attempted, correct, wrong, marks, percent}) {
+  document.getElementById('testArea').style.display = 'none';
+  const ra = document.getElementById('resultArea');
+  ra.style.display = 'block';
   document.getElementById('resCorrect').innerText = 'सही: ' + correct;
   document.getElementById('resWrong').innerText = 'गलत: ' + wrong;
   document.getElementById('resAttempt').innerText = 'प्रयास: ' + attempted;
   document.getElementById('totalMarks').innerText = marks;
   document.getElementById('percentage').innerText = percent + '%';
 
-  const qRes = document.getElementById('qResultList'); qRes.innerHTML = '';
-  for(let i=0;i<TOTAL;i++){
-    const div = document.createElement('div'); div.className='qitem';
-    if(userAnswers[i] === null){ div.style.background='var(--grey)'; div.innerText='Q'+(i+1); }
-    else if(userAnswers[i] === QUESTIONS[i].correct){ div.style.background='var(--green)'; div.innerText='Q'+(i+1); }
-    else { div.style.background='var(--red)'; div.innerText='Q'+(i+1); }
+  const qRes = document.getElementById('qResultList'); 
+  qRes.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const div = document.createElement('div'); 
+    div.className = 'qitem';
+    if (userAnswers[i] === null) { 
+      div.style.background = 'var(--grey)'; 
+      div.innerText = 'Q' + (i + 1); 
+    } else if (userAnswers[i] === QUESTIONS[i].correct) { 
+      div.style.background = 'var(--green)'; 
+      div.innerText = 'Q' + (i + 1); 
+    } else { 
+      div.style.background = 'var(--red)'; 
+      div.innerText = 'Q' + (i + 1); 
+    }
     qRes.appendChild(div);
-    // sidebar box final colors
-    const box = document.getElementById('box'+i);
-    if(userAnswers[i] === null){ box.style.background='var(--grey)'; box.style.color='white'; }
-    else if(userAnswers[i] === QUESTIONS[i].correct){ box.style.background='var(--green)'; box.style.color='white'; }
-    else { box.style.background='var(--red)'; box.style.color='white'; }
+    const box = document.getElementById('box' + i);
+    if (userAnswers[i] === null) { 
+      box.style.background = 'var(--grey)'; 
+      box.style.color = 'white'; 
+    } else if (userAnswers[i] === QUESTIONS[i].correct) { 
+      box.style.background = 'var(--green)'; 
+      box.style.color = 'white'; 
+    } else { 
+      box.style.background = 'var(--red)'; 
+      box.style.color = 'white'; 
+    }
   }
-  window.scrollTo({top:0,behavior:'smooth'});
-}
 
+  // Generate a unique verification code (based on score + time)
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const resultCode = `QZ${(correct * 7 + wrong * 3 + attempted).toString(36).toUpperCase()}-${timestamp.slice(-5)}`;
+
+  // Message format for WhatsApp
+  const message = `🎯 QZ Mock Test Result\n✅ सही उत्तर: ${correct}\n❌ गलत उत्तर: ${wrong}\n📊 प्रतिशत: ${percent}%\n🔑 Verification Code: ${resultCode}`;
+
+  // WhatsApp Group Link (your provided link)
+  const groupLink = "https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN?mode=ems_copy_t";
+
+  // Add share button below results
+  const shareBtn = document.createElement('button');
+  shareBtn.className = 'btn primary';
+  shareBtn.style.marginTop = '16px';
+  shareBtn.innerText = '📤 परिणाम WhatsApp समूह में साझा करें';
+  shareBtn.addEventListener('click', () => {
+    const encodedMsg = encodeURIComponent(message + "\n\n" + groupLink);
+    const waUrl = `https://wa.me/?text=${encodedMsg}`;
+    window.open(waUrl, '_blank');
+  });
+  ra.appendChild(shareBtn);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 /* Navigation helper */
 function goToQuestion(idx){ currentIndex = idx; renderCurrent(); }
 
