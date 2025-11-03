@@ -373,9 +373,14 @@ function showResult({attempted, correct, wrong, marks, percent}) {
   }  
   
   // Generate unique verification code  
-  const timestamp = Date.now().toString(36).toUpperCase();  
-  const resultCode = `QZ${(correct * 7 + wrong * 3 + attempted).toString(36).toUpperCase()}-${timestamp.slice(-5)}`;  
-  
+  const timestamp = Date.now().toString(36).toUpperCase();
+const encoded = [
+  correct.toString(36).padStart(2, '0'),
+  wrong.toString(36).padStart(2, '0'),
+  attempted.toString(36).padStart(2, '0')
+].join('');
+
+const resultCode = `QZ${encoded}-${timestamp.slice(-5)}`;
   // WhatsApp message text  
   const message = `  
 🎯 QZ Mock Test Result  
