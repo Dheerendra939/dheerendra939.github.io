@@ -105,8 +105,11 @@
 </div>
 
 <!-- load questions -->
-<script src="questions.js"></script>
-
+<script>
+  const s = document.createElement('script');
+  s.src = "questions.js?v=" + new Date().getTime(); // हर बार नया timestamp
+  document.head.appendChild(s);
+</script>
 <script>
 /* ========= Anti-cheat: disable selection / right-click / inspect ========= */
 (function(){
