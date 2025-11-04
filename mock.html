@@ -38,7 +38,7 @@
   <div class="title">🏆QZ Quiz Mock Test🏆</div>
   <div style="display:flex;gap:12px;align-items:center;">
     <div class="small">QZ <strong>🕛</strong></div>
-    <div class="timer" id="timer">05:00</div>
+    <div class="timer" id="timer">03:00</div>
   </div>
 </div>
 
@@ -47,7 +47,7 @@
     <div id="testArea">
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div class="small">प्रश्न <span id="currentNo">1</span>/05</div>
-        <div class="small">समय शेष: <strong id="timer2">05:00</strong></div>
+        <div class="small">समय शेष: <strong id="timer2">03:00</strong></div>
       </div>
 
       <div id="canvasWrap" style="margin-top:12px;">
@@ -128,7 +128,7 @@ let currentIndex = 0;
 let userAnswers = Array(TOTAL).fill(null); // store actual option index relative to QUESTIONS[i].options
 let reviewFlags = Array(TOTAL).fill(false);
 let optionOrder = [];
-let timerSeconds = 05 * 60;
+let timerSeconds = 03 * 60;
 let timerInterval = null;
 
 /* Canvas setup */
