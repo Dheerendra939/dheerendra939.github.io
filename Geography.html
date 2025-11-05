@@ -1,0 +1,198 @@
+<!doctype html>
+
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QZ Quiz World — Daily Live Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --accent:#06b6d4; /* teal */
+      --accent-2:#8b5cf6; /* violet */
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0; background:linear-gradient(180deg,var(--bg),#071029); color:#e6eef8; -webkit-font-smoothing:antialiased}
+    .container{max-width:1100px;margin:32px auto;padding:24px}/* Header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 6px 20px rgba(11,20,32,0.6)}
+h1{font-size:20px;margin:0}
+p.lead{margin:0;color:var(--muted);font-size:13px}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1fr 380px;gap:22px;margin-top:22px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.04);padding:22px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+.hero-left h2{font-size:28px;margin:0 0 8px}
+.cta-row{display:flex;gap:12px;margin-top:18px}
+.btn{padding:12px 18px;border-radius:10px;font-weight:700;border:0;cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021026}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+.features{display:flex;gap:12px;margin-top:18px}
+.feature{flex:1;padding:12px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);text-align:center}
+.feature h4{margin:6px 0 0}
+
+/* Right column */
+.countdown{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.count-item{flex:1;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:10px;text-align:center}
+.count-item strong{display:block;font-size:18px}
+
+/* Quiz preview */
+.quiz-preview{margin-top:16px}
+.question{font-weight:600}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.option{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;cursor:pointer}
+.option:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(11,20,32,0.5)}
+
+/* Cards row */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.mini{padding:12px;border-radius:12px}
+
+footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+
+/* Responsive */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:1fr}
+  .options{grid-template-columns:1fr}
+  .logo{width:48px;height:48px;font-size:18px}
+}
+
+/* subtle animations */
+.pulse{animation:pulse 3s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">QZ</div>
+        <div>
+          <h1>QZ Quiz World</h1>
+          <p class="lead">दैनिक प्रतियोगी क्विज़ — तेज़, मज़ेदार और पुरस्कारवाला</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn btn-ghost">लॉगिन</button>
+        <button class="btn btn-primary">अब जुड़ें</button>
+      </div>
+    </header><section class="hero">
+  <div class="hero-left card">
+    <h2>आज का क्विज़: 5 सवाल — 10 सेकंड प्रति सवाल</h2>
+    <p style="color:var(--muted);margin-top:6px">रोज़ाना सुबह 8:00 बजे लाइव — पहले 3 विजेताओं को नकद पुरस्कार!</p>
+
+    <div class="features">
+      <div class="feature">
+        <div style="font-size:20px">⚡</div>
+        <h4>तेज़ प्रश्न</h4>
+        <p style="color:var(--muted);font-size:13px;margin-top:6px">शॉर्ट टाइमर — असली टेस्ट तैयारी</p>
+      </div>
+      <div class="feature">
+        <div style="font-size:20px">🏆</div>
+        <h4>रोज़ पुरस्कार</h4>
+        <p style="color:var(--muted);font-size:13px;margin-top:6px">ग्रुप में पहले 3 सही उत्तरों को प्राइज़</p>
+      </div>
+      <div class="feature">
+        <div style="font-size:20px">🧠</div>
+        <h4>असली टाइम रीजनिंग</h4>
+        <p style="color:var(--muted);font-size:13px;margin-top:6px">मॉड्यूलर क्वेश्चन — GK, गणित, रीजनिंग</p>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <button class="btn btn-primary pulse" onclick="joinNow()">फ्री ज्वाइन करें</button>
+      <button class="btn btn-ghost" onclick="preview()">अभी प्रीव्यू देखें</button>
+    </div>
+
+    <div class="quiz-preview card" style="margin-top:14px">
+      <div class="question">Q. भारत की राजधानी कौन सी है?</div>
+      <div class="options">
+        <div class="option">A) मुंबई</div>
+        <div class="option">B) कोलकाता</div>
+        <div class="option">C) नई दिल्ली</div>
+        <div class="option">D) चेन्नई</div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <h3 style="margin:0">आगामी क्विज़</h3>
+        <p class="lead" style="margin-top:6px">2 घंटे 14 मिनट में लाइव</p>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:800;font-size:14px;color:var(--accent)">₹500 रोज़ जीतें</div>
+        <div style="font-size:12px;color:var(--muted)">प्रथम पुरस्कार</div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px" class="countdown">
+      <div class="count-item">
+        <small style="color:var(--muted)">Players</small>
+        <strong>1.2k</strong>
+      </div>
+      <div class="count-item">
+        <small style="color:var(--muted)">Questions</small>
+        <strong>5</strong>
+      </div>
+      <div class="count-item">
+        <small style="color:var(--muted)">Duration</small>
+        <strong>50s</strong>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <h4 style="margin:0 0 8px">केंद्रीय नियम</h4>
+      <ol style="color:var(--muted);font-size:13px;padding-left:18px;margin:0">
+        <li>उत्तर केवल A/B/C/D में दें</li>
+        <li>टाइमर समाप्त होने पर उत्तर मान्य नहीं</li>
+        <li>पहले 3 सही उत्तर विजेताओं को पुरस्कार</li>
+      </ol>
+    </div>
+  </aside>
+</section>
+
+<section class="cards">
+  <div class="card mini">
+    <h4 style="margin:0">Daily Streak</h4>
+    <p style="color:var(--muted);margin-top:6px">7 दिनों का स्ट्रीक — बोनस क्वेश्चन अनलॉक</p>
+  </div>
+  <div class="card mini">
+    <h4 style="margin:0">Leaderboards</h4>
+    <p style="color:var(--muted);margin-top:6px">हर महीना टॉप 10 को इनाम</p>
+  </div>
+  <div class="card mini">
+    <h4 style="margin:0">Study Packs</h4>
+    <p style="color:var(--muted);margin-top:6px">Syllabus-wise practice sets</p>
+  </div>
+</section>
+
+<footer class="card" style="margin-top:22px;padding:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div style="color:var(--muted)">© QZ Quiz World • तैयार करें: Dheerendra Tiwari</div>
+    <div style="display:flex;gap:8px">
+      <a style="color:var(--muted);text-decoration:none;font-size:13px">Privacy</a>
+      <a style="color:var(--muted);text-decoration:none;font-size:13px">Terms</a>
+    </div>
+  </div>
+</footer>
+
+  </div>  <script>
+    function joinNow(){
+      alert('शुक्रिया! ज्वाइन करने के लिए धन्यवाद। आप अपने व्हाट्सएप ग्रुप लिंक या सदस्यता फॉर्म यहाँ जोड़ सकते हैं।');
+    }
+    function preview(){
+      alert('प्रिव्यू: यह लेआउट मोबाइल-फ्रेंडली है। यदि चाहते हैं तो मैं इसे HTML + लाइव क्वेश्चन जावास्क्रिप्ट के साथ और कस्टम कर दूँगा।');
+    }
+  </script></body>
+</html>
