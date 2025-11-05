@@ -1,132 +1,102 @@
 const QUESTIONS = [
   {
-    question: "Choose the correctly spelled word:",
-    options: ["Enviroment", "Environment", "Envirenment", "Enviornment"],
-    correct: 1
-  },
-  {
-    question: "Identify the correct indirect speech: He said, 'I am reading a book.'",
-    options: [
-      "He said that he was reading a book.",
-      "He said that he is reading a book.",
-      "He said that he had read a book.",
-      "He says he reads a book."
-    ],
+    question: "भारतीय संविधान में मूल अधिकारों का खंड कौन-सा है?",
+    options: ["भाग III", "भाग IV", "भाग V", "भाग II"],
     correct: 0
   },
   {
-    question: "Fill in the blank: The train _____ before we reached the station.",
-    options: ["left", "has left", "had left", "leaves"],
-    correct: 2
-  },
-  {
-    question: "Choose the synonym of ‘Obsolete’.",
-    options: ["Modern", "Outdated", "Useful", "Rare"],
-    correct: 1
-  },
-  {
-    question: "Find the antonym of ‘Abundant’.",
-    options: ["Plentiful", "Scarce", "Enough", "Full"],
-    correct: 1
-  },
-  {
-    question: "Choose the correct passive form: They are building a new bridge.",
-    options: [
-      "A new bridge is built.",
-      "A new bridge has been built.",
-      "A new bridge is being built.",
-      "A new bridge was built."
-    ],
-    correct: 2
-  },
-  {
-    question: "Choose the correct preposition: He is good ____ playing chess.",
-    options: ["at", "on", "for", "in"],
+    question: "भारतीय दंड संहिता (IPC) की कितनी धारा “हत्या” को परिभाषित करती है?",
+    options: ["धारा 300", "धारा 302", "धारा 307", "धारा 295"],
     correct: 0
   },
   {
-    question: "Select the correct article: She bought ____ umbrella yesterday.",
-    options: ["a", "an", "the", "no article"],
+    question: "साधारण साक्ष्य अधिनियम (Evidence Act) में “दोष साबित करने का बोझ” (burden of proof) किस धारा में है?",
+    options: ["धारा 101", "धारा 102", "धारा 103", "धारा 104"],
+    correct: 0
+  },
+  {
+    question: "कृक्षक प्रक्रिया संहिता (CPC) की कौन-सी धारा ‘Res judicata’ के सिद्धांत को बताती है?",
+    options: ["धारा 11", "धारा 13", "धारा 14", "धारा 9"],
+    correct: 0
+  },
+  {
+    question: "पारिवारिक कानून के अंतर्गत हिन्दू विवाह अधिनियम कब पारित हुआ था?",
+    options: ["1955", "1951", "1960", "1949"],
     correct: 1
   },
   {
-    question: "Find the correct tense: By next year, I _____ my degree.",
-    options: ["complete", "completed", "will complete", "will have completed"],
+    question: "भारत में ‘कंपनी अधिनियम’ (Companies Act) का नया प्रमुख वर्ष कौन-सा है?",
+    options: ["2013", "1956", "2019", "2020"],
+    correct: 0
+  },
+  {
+    question: "पर्यावरण संरक्षण अधिनियम (Environment Protection Act) भारत में किस वर्ष लागू हुआ था?",
+    options: ["1986", "1974", "1991", "2000"],
+    correct: 0
+  },
+  {
+    question: "वैकल्पिक विवाद समाधान (ADR) में “मध्यस्थता” (mediation) को किस अधिनियम द्वारा संवैधानिक मान्यता मिली?",
+    options: ["मध्यस्थता एवं मध्यस्थता-न्याय अधिनियम 1996", "वैकल्पिक विवाद समाधान अधिनियम 2002", "मध्यस्थता अधिनियम 2015", "मध्यस्थता एवं मध्यस्थING अधिनियम 2018"],
+    correct: 0
+  },
+  {
+    question: "लोकहित याचिका (PIL) की अवधारणा भारतीय न्यायपालिका में प्रमुखता से कब आई?",
+    options: ["1980-90 के दशक", "1970 का दशक", "2000 के बाद", "1960-70 का दशक"],
+    correct: 0
+  },
+  {
+    question: "प्रोफेशनल एथिक्स व अधिवक्ता आचरण नियम (Advocates Act) में अनैतिक आचरण की शिकायत किस निकाय में की जाती है?",
+    options: ["बार काउंसिल ऑफ इंडिया", "सुप्रीम कोर्ट", "हाई कोर्ट", "राज्य बार काउंसिल"],
     correct: 3
   },
   {
-    question: "Identify the correctly punctuated sentence.",
-    options: [
-      "He said, 'Lets go home'.",
-      "He said 'Let’s go home.'",
-      "He said, 'Let’s go home.'",
-      "He said Let’s go home."
-    ],
+    question: "अंतरराष्ट्रीय बौद्धिक संपदा कानून (Intellectual Property Law) में भारत में “पेटेंट” आधारित अधिनियम किस वर्ष लागू हुआ था?",
+    options: ["1970", "2005", "1999", "1911"],
+    correct: 0
+  },
+  {
+    question: "श्रम क़ानूनों में ‘औद्योगिक विवाद अधिनियम’ (Industrial Disputes Act) किस वर्ष पारित हुआ था?",
+    options: ["1947", "1965", "1972", "1956"],
+    correct: 0
+  },
+  {
+    question: "मोटर वाहन अधिनियम (Motor Vehicles Act) भारत में किस वर्ष लागू हुआ था?",
+    options: ["1988", "1956", "1990", "2000"],
+    correct: 0
+  },
+  {
+    question: "कर संबंधी कानून (Taxation Law) में जीएसटी (GST) लागू हुआ था भारत में किस वर्ष?",
+    options: ["2017", "2016", "2015", "2018"],
+    correct: 0
+  },
+  {
+    question: "क़ानून अनुबंध अधिनियम (Law of Contract) किस वर्ष बना था?",
+    options: ["1872", "1908", "1930", "1894"],
+    correct: 0
+  },
+  {
+    question: "देश में भूमि अधिग्रहण (Land Acquisition Act) का पुराना अधिनियम किस वर्ष पास हुआ था?",
+    options: ["1894", "1952", "1976", "1961"],
+    correct: 0
+  },
+  {
+   question: "ई-विरोधी विधि (Cyber Law) भारत में सूचना प्रौद्योगिकी अधिनियम (IT Act) किस वर्ष आया था?",
+    options: ["2000", "2005", "2010", "2012"],
+    correct: 0
+  },
+  {
+    question: "मानवाधिकार संरक्षण अधिनियम (Human Rights) भारत में क्या एक स्वायत्त अधिनियम है या संवैधानिक संस्था?",
+    options: ["संवैधानिक संस्था", "स्वायत्त अधिनियम", "दलित अधिनियम", "श्रम कानून"],
+    correct: 1
+  },
+  {
+    question: "न्यायपालिका स्वतंत्रता से संबंधित ‘न्यायिक समीक्षा’ (Judicial Review) की अवधारणा भारतीय संविधान में कैसे सुनिश्चित है?",
+    options: ["अनुच्छेद 226 एवं हाई कोर्ट के लिए राइट", "अनुच्छेद 19 और 21", "अनुच्छेद 32 और 226", "अनुच्छेद 14 एवं 32"],
     correct: 2
   },
   {
-    question: "Choose the correct idiom meaning: 'To hit the nail on the head'.",
-    options: [
-      "To guess something",
-      "To be exactly right",
-      "To work hard",
-      "To make a mistake"
-    ],
+    question: "संघ-राज्य संबंधों में ‘विशेष उपाय’ का अधिकार किस अनुच्छेद द्वारा दिया गया है?",
+    options: ["अनुच्छेद 355", "अनुच्छेद 356", "अनुच्छेद 360", "अनुच्छेद 365"],
     correct: 1
-  },
-  {
-    question: "Find the error: She is senior than me in office.",
-    options: [
-      "She is",
-      "senior than me",
-      "in office",
-      "No error"
-    ],
-    correct: 1
-  },
-  {
-    question: "Fill in the blank: Neither of the boys ____ done his homework.",
-    options: ["have", "has", "is", "are"],
-    correct: 1
-  },
-  {
-    question: "Choose the synonym of ‘Transparent’.",
-    options: ["Opaque", "Clear", "Translucent", "Hidden"],
-    correct: 1
-  },
-  {
-    question: "Identify the correct sentence.",
-    options: [
-      "Each of the girls have a pen.",
-      "Each of the girls has a pen.",
-      "Each of the girls have pens.",
-      "Each girl have a pen."
-    ],
-    correct: 1
-  },
-  {
-    question: "Find the one-word substitution: A person who speaks many languages.",
-    options: ["Linguist", "Polyglot", "Interpreter", "Translator"],
-    correct: 1
-  },
-  {
-    question: "Choose the correct comparative form: This road is _____ than that one.",
-    options: ["bad", "worse", "worst", "more bad"],
-    correct: 1
-  },
-  {
-    question: "Select the correct spelling:",
-    options: ["Occassion", "Occasion", "Ocassion", "Ocasian"],
-    correct: 1
-  },
-  {
-    question: "Fill in the blank: He succeeded ____ his hard work.",
-    options: ["by", "from", "with", "through"],
-    correct: 3
-  },
-  {
-    question: "Choose the correct option: If I _____ a bird, I would fly in the sky.",
-    options: ["am", "was", "were", "had been"],
-    correct: 2
   }
 ];
