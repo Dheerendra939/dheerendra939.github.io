@@ -1,0 +1,445 @@
+<html lang="hi">
+<head>
+  <script>(function(s){s.dataset.zone='10014567',s.src='https://groleegni.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title> 🏆 QZ Mock Test 🏆 </title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#0b5ed7;--card:#ffffff;--text:#12263a;--green:#198754;--red:#dc3545;--grey:#6c757d;}
+  body{font-family:"Noto Sans Devanagari",Arial,sans-serif;background:linear-gradient(180deg,#eef6ff,#ffffff);margin:0;color:var(--text);}
+  .header{background:var(--blue);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;}
+  .title{font-weight:700;font-size:18px;}
+  .timer{background:rgba(255,255,255,0.12);padding:8px 10px;border-radius:6px;font-weight:700;}
+  .container{max-width:1180px;margin:18px auto;display:flex;gap:18px;padding:0 12px;}
+  .main{flex:1;background:var(--card);border-radius:10px;padding:16px;box-shadow:0 8px 20px rgba(11,78,215,0.06);}
+  .sidebar{width:260px;background:var(--card);border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
+  #canvasWrap{border-radius:8px;overflow:hidden;background:#f8fbff;border:1px solid #e6f0ff;padding:12px;}
+  canvas{width:100%;height:420px;display:block;background:#ffffff;border-radius:6px;}
+  .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:1000;}
+  .btn.primary{background:var(--blue);color:white;}
+  .btn.warn{background:#ff6b6b;color:white;}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
+  .qbox{background:#f1f5f9;padding:10px;text-align:center;border-radius:6px;font-weight:700;cursor:pointer;user-select:none;}
+  .qbox.review{background:#e8daff;}
+  .qbox.attempted{background:#cfe5ff;}
+  .result{display:none;padding:12px;}
+  .qlist{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
+  .qitem{padding:8px;border-radius:6px;text-align:center;font-weight:700;color:white;}
+  .legend{display:flex;gap:8px;align-items:center;margin-top:8px;}
+  .small{font-size:13px;color:#6c757d;}
+  @media(max-width:900px){.container{flex-direction:column}.sidebar{width:100%}.qlist,.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">🏆QZ Quiz Mock Test🏆</div>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <div class="small">QZ <strong>🕛</strong></div>
+    <div class="timer" id="timer">03:00</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="main">
+    <div id="testArea">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="small">प्रश्न <span id="currentNo">1</span>/20</div>
+        <div class="small">समय शेष: <strong id="timer2">03:00</strong></div>
+      </div>
+
+      <div id="canvasWrap" style="margin-top:12px;">
+        <canvas id="qCanvas" width="500" height="500"></canvas>
+      </div>
+
+      <div class="controls">
+        <button class="btn primary" id="saveNext">save and next</button>
+        <button class="btn" id="clearResp">clear</button>
+        <button class="btn" id="markReview">mark for review</button>
+        <button class="btn" id="prevBtn">previous</button>
+        <button class="btn warn" id="submitBtn" style="margin-left:auto">submit</button>
+      </div>
+    </div>
+
+    <div class="result" id="resultArea">
+      <h3>रिज़ल्ट</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+        <div style="padding:8px 12px;border-radius:8px;background:rgba(25,135,84,0.12);color:var(--green);font-weight:700" id="resCorrect">सही: 0</div>
+        <div style="padding:8px 12px;border-radius:8px;background:rgba(220,53,69,0.08);color:var(--red);font-weight:700" id="resWrong">गलत: 0</div>
+        <div style="padding:8px 12px;border-radius:8px;background:rgba(108,117,125,0.08);color:var(--grey);font-weight:700" id="resAttempt">प्रयास: 0</div>
+      </div>
+
+      <div class="small">कुल प्रश्न: 20</div>
+      <div style="margin-top:8px;">
+        <div>कुल अंक: <strong id="totalMarks">0</strong> / 20</div>
+        <div>प्रतिशत: <strong id="percentage">0%</strong></div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="small">प्रश्नों की स्थिति</div>
+        <div class="qlist" id="qResultList"></div>
+        <div class="legend">
+          <span><i style="display:inline-block;width:14px;height:14px;background:var(--green);margin-right:6px"></i> सही</span>
+          <span><i style="display:inline-block;width:14px;height:14px;background:var(--red);margin-right:6px"></i> गलत</span>
+          <span><i style="display:inline-block;width:14px;height:14px;background:var(--grey);margin-right:6px"></i> नहीं किया</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sidebar">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div><strong>प्रश्न सूची</strong></div>
+      <div class="small">20 प्रश्न</div>
+    </div>
+    <div class="grid" id="qGrid"></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+      <div class="small">नोट: 1 अंक / गलत -0.25</div>
+      <div><button class="btn" id="fullscreenBtn">फुल-स्क्रीन</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- load questions -->
+<script>
+  const s = document.createElement('script');
+  s.src = "questions1.js?v=" + new Date().getTime(); // हर बार नया timestamp
+  document.head.appendChild(s);
+</script>
+<script>
+/* ========= Anti-cheat: disable selection / right-click / inspect ========= */
+(function(){
+  document.addEventListener('contextmenu', e=>e.preventDefault());
+  document.addEventListener('selectstart', e=>e.preventDefault());
+  document.addEventListener('copy', e=>e.preventDefault());
+  document.addEventListener('cut', e=>e.preventDefault());
+  window.addEventListener('keydown', function(e){
+    if(e.keyCode===123 || (e.ctrlKey && e.shiftKey && (e.key==='I' || e.key==='J')) || (e.ctrlKey && e.key==='u')) { e.preventDefault(); e.stopPropagation(); }
+  });
+})();
+
+/* ========= Quiz core (Canvas rendering + logic) ========= */
+const TOTAL = 20;
+let currentIndex = 0;
+let userAnswers = Array(TOTAL).fill(null); // store actual option index relative to QUESTIONS[i].options
+let reviewFlags = Array(TOTAL).fill(false);
+let optionOrder = [];
+let timerSeconds = 03 * 60;
+let timerInterval = null;
+
+/* Canvas setup */
+const canvas = document.getElementById('qCanvas');
+const ctx = canvas.getContext('2d');
+const padding = 24;
+let optionBoxes = []; // boxes for click detection
+
+function wrapText(context, text, x, y, maxWidth, lineHeight){
+  const words = text.split(' ');
+  let line = '';
+  for(let n=0;n<words.length;n++){
+    const testLine = line + words[n] + ' ';
+    const metrics = context.measureText(testLine);
+    const testWidth = metrics.width;
+    if(testWidth > maxWidth && n > 0){
+      context.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  if(line) context.fillText(line, x, y);
+}
+
+function drawQuestionOnCanvas(idx){
+  // clear
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // background
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // header bar
+  ctx.fillStyle = "#0b5ed7";
+  ctx.fillRect(0,0,canvas.width,64);
+  ctx.fillStyle = "#fff";
+  ctx.font = "700 18px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillText("QZ Mock Test — प्रश्न " + (idx+1) + " / " + TOTAL, padding, 40);
+
+  // question text
+  ctx.fillStyle = "#12263a";
+  ctx.font = "700 18px 'Noto Sans Devanagari', sans-serif";
+  const qText = (idx+1) + ". " + QUESTIONS[idx].question;
+  wrapText(ctx, qText, padding, 96, canvas.width - padding*2, 26);
+
+  // options boxes
+  const startY = 160;
+  const boxH = 52;
+  optionBoxes = [];
+  const ord = optionOrder[idx];
+  for(let i=0;i<4;i++){
+    const optIdx = ord[i];
+    const x = padding;
+    const y = startY + i*(boxH + 12);
+    const w = canvas.width - padding*2;
+    const h = boxH;
+    // background
+    ctx.fillStyle = "#f8fbff";
+    ctx.fillRect(x,y,w,h);
+    ctx.strokeStyle = "#e6f0ff";
+    ctx.strokeRect(x,y,w,h);
+    // text
+    ctx.fillStyle = "#12263a";
+    ctx.font = "700 16px 'Noto Sans Devanagari', sans-serif";
+    const label = String.fromCharCode(65 + i) + ". ";
+    const text = label + QUESTIONS[idx].options[optIdx];
+    wrapText(ctx, text, x + 12, y + 32, w - 24, 20);
+    optionBoxes.push({x,y,w,h,optIdx,localIndex:i});
+  }
+
+  // footer note
+  ctx.fillStyle = "#6c757d";
+  ctx.font = "13px 'Noto Sans Devanagari', sans-serif";
+  ctx.fillText("विकल्प चुनने के बाद 'save and next' का उपयोग करें।", padding, canvas.height - 12);
+}
+
+/* Click handling on canvas */
+canvas.addEventListener('click', function(e){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  for(let i=0;i<optionBoxes.length;i++){
+    const b = optionBoxes[i];
+    if(cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h){
+      userAnswers[currentIndex] = b.optIdx; // store actual option index
+      highlightSelectedOption(b.localIndex);
+      markAttempted(currentIndex);
+      return;
+    }
+  }
+});
+
+function highlightSelectedOption(localIndex){
+  // redraw options with highlight
+  for(let i=0;i<optionBoxes.length;i++){
+    const b = optionBoxes[i];
+    if(i === localIndex){
+      ctx.fillStyle = "#d9ecff";
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.strokeStyle = "#8fc3ff";
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
+    } else {
+      ctx.fillStyle = "#f8fbff";
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.strokeStyle = "#e6f0ff";
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
+    }
+    // redraw text
+    ctx.fillStyle = "#12263a";
+    ctx.font = "700 16px 'Noto Sans Devanagari', sans-serif";
+    const label = String.fromCharCode(65 + i) + ". ";
+    ctx.fillText(label + QUESTIONS[currentIndex].options[b.optIdx], b.x + 12, b.y + 32);
+  }
+}
+
+/* Grid (sidebar) */
+function initGrid(){
+  const grid = document.getElementById('qGrid'); grid.innerHTML = '';
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('div');
+    d.className = 'qbox';
+    d.id = 'box'+i;
+    d.innerText = 'Q' + (i+1);
+    d.addEventListener('click', ()=> { goToQuestion(i); });
+    grid.appendChild(d);
+  }
+}
+
+function updateGridStyles(){
+  for(let i=0;i<TOTAL;i++){
+    const b = document.getElementById('box'+i);
+    b.classList.remove('attempted','review');
+    b.style.background=''; b.style.color='';
+    if(userAnswers[i] !== null) b.classList.add('attempted');
+    if(reviewFlags[i]) b.classList.add('review');
+  }
+}
+function markAttempted(idx){
+  const box = document.getElementById('box'+idx);
+  if(userAnswers[idx] !== null) box.classList.add('attempted');
+}
+
+/* Option shuffle for each question */
+function shuffleOptionsForAll(){
+  optionOrder = QUESTIONS.map(q=>{
+    const arr = [0,1,2,3];
+    for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+    return arr;
+  });
+}
+
+/* Buttons */
+document.getElementById('saveNext').addEventListener('click', ()=>{
+  if(currentIndex < TOTAL-1){ currentIndex++; renderCurrent(); }
+  else { if(confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit(); }
+});
+document.getElementById('clearResp').addEventListener('click', ()=>{
+  userAnswers[currentIndex] = null; renderCurrent(); updateGridStyles();
+});
+document.getElementById('markReview').addEventListener('click', ()=>{
+  reviewFlags[currentIndex] = !reviewFlags[currentIndex];
+  const box = document.getElementById('box'+currentIndex);
+  if(reviewFlags[currentIndex]) box.classList.add('review'); else box.classList.remove('review');
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(currentIndex > 0){ currentIndex--; renderCurrent(); }
+});
+document.getElementById('submitBtn').addEventListener('click', ()=>{
+  if(confirm('क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit();
+});
+document.getElementById('fullscreenBtn').addEventListener('click', ()=>{
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+});
+
+/* Timer */
+function startTimer(){
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    timerSeconds--;
+    updateTimerDisplay();
+    if(timerSeconds <= 0){ clearInterval(timerInterval); alert('समय समाप्त! टेस्ट स्वतः सबमिट हो रहा है।'); doSubmit(); }
+  },1000);
+}
+function updateTimerDisplay(){
+  const mm = String(Math.floor(timerSeconds/60)).padStart(2,'0');
+  const ss = String(timerSeconds%60).padStart(2,'0');
+  document.getElementById('timer').innerText = mm+':'+ss;
+  document.getElementById('timer2').innerText = mm+':'+ss;
+}
+
+/* Submit & Result */
+function doSubmit(){
+  if(timerInterval) clearInterval(timerInterval);
+  calculateResult();
+}
+function calculateResult(){
+  let correct=0, wrong=0, attempted=0, marks=0;
+  for(let i=0;i<TOTAL;i++){
+    const sel = userAnswers[i];
+    if(sel === null) continue;
+    attempted++;
+    const actualCorrect = QUESTIONS[i].correct;
+    if(sel === actualCorrect){ correct++; marks += 1; }
+    else { wrong++; marks -= 0.25; }
+  }
+  marks = Math.round(marks*100)/100;
+  const percent = Math.round((marks / TOTAL) * 10000)/100;
+  showResult({attempted, correct, wrong, marks, percent});
+}
+function showResult({attempted, correct, wrong, marks, percent}) {  
+  document.getElementById('testArea').style.display = 'none';  
+  const ra = document.getElementById('resultArea');  
+  ra.style.display = 'block';  
+  
+  // Summary  
+  document.getElementById('resCorrect').innerText = 'सही: ' + correct;  
+  document.getElementById('resWrong').innerText = 'गलत: ' + wrong;  
+  document.getElementById('resAttempt').innerText = 'प्रयास: ' + attempted;  
+  document.getElementById('totalMarks').innerText = marks;  
+  document.getElementById('percentage').innerText = percent + '%';  
+  
+  // Question color logic  
+  const qRes = document.getElementById('qResultList');   
+  qRes.innerHTML = '';  
+  for (let i = 0; i < TOTAL; i++) {  
+    const div = document.createElement('div');   
+    div.className = 'qitem';  
+    if (userAnswers[i] === null) {  
+      div.style.background = 'var(--grey)';  
+    } else if (userAnswers[i] === QUESTIONS[i].correct) {  
+      div.style.background = 'var(--green)';  
+    } else {  
+      div.style.background = 'var(--red)';  
+    }  
+    div.innerText = 'Q' + (i + 1);  
+    qRes.appendChild(div);  
+  }  
+  
+  // Generate unique verification code  
+  const timestamp = Date.now().toString(36).toUpperCase();
+const encoded = [
+  correct.toString(36).padStart(2, '0'),
+  wrong.toString(36).padStart(2, '0'),
+  attempted.toString(36).padStart(2, '0')
+].join('');
+
+const resultCode = `QZ${encoded}-${timestamp}`;
+  // WhatsApp message text  
+  const message = `  
+🎯 QZ Mock Test Result  
+✅ सही उत्तर: ${correct}  
+❌ गलत उत्तर: ${wrong}  
+📊 प्रतिशत: ${percent}%  
+🔑 Verification Code: ${resultCode}
+`;  
+  
+  // Share button  
+  const shareBtn = document.createElement('button');  
+  shareBtn.className = 'btn primary';  
+  shareBtn.style.marginTop = '16px';  
+  shareBtn.innerText = '🏆 Share Result In QZ Whatsapp Group 🏆 ';  
+
+  shareBtn.addEventListener('click', async () => {  
+    try {  
+      await navigator.clipboard.writeText(message.trim());  
+      alert("✅ Result कॉपी हो गया है!\nअब WhatsApp Group में Paste करके Send करें।");  
+    } catch {  
+      alert("⚠ परिणाम कॉपी नहीं हो पाया, कृपया मैन्युअली कॉपी करें।");  
+    }  
+
+    // ✅ Android devices → open directly in WhatsApp app  
+    if (/Android/i.test(navigator.userAgent)) {  
+      window.location.href = "intent://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN#Intent;scheme=https;package=com.whatsapp;end";  
+    } else {  
+      // iPhone/Desktop fallback  
+      window.open("https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN", "_blank");  
+    }  
+  });  
+  
+  ra.appendChild(shareBtn);  
+  window.scrollTo({ top: 0, behavior: 'smooth' });  
+      }
+/* Navigation helper */
+function goToQuestion(idx){ currentIndex = idx; renderCurrent(); }
+
+function renderCurrent(){
+  document.getElementById('currentNo').innerText = (currentIndex + 1);
+  drawQuestionOnCanvas(currentIndex);
+  updateGridStyles();
+  // highlight existing selection if any
+  const sel = userAnswers[currentIndex];
+  if(sel !== null){
+    const localIndex = optionOrder[currentIndex].indexOf(sel);
+    if(localIndex >= 0) highlightSelectedOption(localIndex);
+  }
+}
+
+/* Initialize */
+function initializeTest(){
+  if(typeof QUESTIONS === 'undefined' || QUESTIONS.length < TOTAL){ alert('प्रश्न उपलब्ध नहीं हैं (questions.js)।'); return; }
+  initGrid();
+  shuffleOptionsForAll();
+  renderCurrent();
+  startTimer();
+}
+window.addEventListener('load', initializeTest);
+</script>
+
+</body>
+  </html>
