@@ -4,195 +4,264 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QZ Quiz World — Daily Live Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <title>Indian Geography — Quick Revision Notes (Hindi)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0f1724; /* deep navy */
+      --bg:#0f1724; /* dark */
       --card:#0b1220;
-      --accent:#06b6d4; /* teal */
-      --accent-2:#8b5cf6; /* violet */
       --muted:#94a3b8;
-      --glass: rgba(255,255,255,0.04);
+      --accent:#06b6d4;
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:16px;
+      color-scheme: dark;
     }
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0; background:linear-gradient(180deg,var(--bg),#071029); color:#e6eef8; -webkit-font-smoothing:antialiased}
-    .container{max-width:1100px;margin:32px auto;padding:24px}/* Header */
-header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;box-shadow:0 6px 20px rgba(11,20,32,0.6)}
-h1{font-size:20px;margin:0}
-p.lead{margin:0;color:var(--muted);font-size:13px}
-
-/* Hero */
-.hero{display:grid;grid-template-columns:1fr 380px;gap:22px;margin-top:22px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.04);padding:22px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-.hero-left h2{font-size:28px;margin:0 0 8px}
-.cta-row{display:flex;gap:12px;margin-top:18px}
-.btn{padding:12px 18px;border-radius:10px;font-weight:700;border:0;cursor:pointer}
-.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021026}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-.features{display:flex;gap:12px;margin-top:18px}
-.feature{flex:1;padding:12px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);text-align:center}
-.feature h4{margin:6px 0 0}
-
-/* Right column */
-.countdown{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.count-item{flex:1;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:10px;text-align:center}
-.count-item strong{display:block;font-size:18px}
-
-/* Quiz preview */
-.quiz-preview{margin-top:16px}
-.question{font-weight:600}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.option{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;cursor:pointer}
-.option:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(11,20,32,0.5)}
-
-/* Cards row */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
-.mini{padding:12px;border-radius:12px}
-
-footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
-
-/* Responsive */
-@media (max-width:900px){
-  .hero{grid-template-columns:1fr;}
-  .cards{grid-template-columns:repeat(2,1fr)}
-}
-@media (max-width:560px){
-  .cards{grid-template-columns:1fr}
-  .options{grid-template-columns:1fr}
-  .logo{width:48px;height:48px;font-size:18px}
-}
-
-/* subtle animations */
-.pulse{animation:pulse 3s infinite}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
-
+    html,body{margin:0;padding:0;background: linear-gradient(180deg,#071027 0%,#081226 100%);font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef6;line-height:1.5}
+    .container{max-width:920px;margin:20px auto;padding:18px}
+    header{display:flex;gap:12px;align-items:center;}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021124;font-size:20px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 18px;color:var(--muted)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:inherit;font-weight:600;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:var(--card-radius);box-shadow:0 6px 18px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .pill{background:rgba(6,182,212,0.12);color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+    ul{margin:8px 0 0 18px;padding:0}
+    li{margin:6px 0}
+    table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+    th,td{padding:8px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    .search{width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .accordion{margin-top:8px}
+    .acc-head{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;cursor:pointer}
+    .acc-body{padding:8px 10px;border-radius:10px;margin-top:6px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    footer{margin:20px 0 60px;color:var(--muted);font-size:13px;text-align:center}
+    @media (min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+    /* Print-friendly */
+    @media print{body{background:white;color:black} .card{border:none;box-shadow:none;background:transparent} header .logo, .controls, footer{display:none}}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="brand">
-        <div class="logo">QZ</div>
-        <div>
-          <h1>QZ Quiz World</h1>
-          <p class="lead">दैनिक प्रतियोगी क्विज़ — तेज़, मज़ेदार और पुरस्कारवाला</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <button class="btn btn-ghost">लॉगिन</button>
-        <button class="btn btn-primary">अब जुड़ें</button>
-      </div>
-    </header><section class="hero">
-  <div class="hero-left card">
-    <h2>आज का क्विज़: 5 सवाल — 10 सेकंड प्रति सवाल</h2>
-    <p style="color:var(--muted);margin-top:6px">रोज़ाना सुबह 8:00 बजे लाइव — पहले 3 विजेताओं को नकद पुरस्कार!</p>
-
-    <div class="features">
-      <div class="feature">
-        <div style="font-size:20px">⚡</div>
-        <h4>तेज़ प्रश्न</h4>
-        <p style="color:var(--muted);font-size:13px;margin-top:6px">शॉर्ट टाइमर — असली टेस्ट तैयारी</p>
-      </div>
-      <div class="feature">
-        <div style="font-size:20px">🏆</div>
-        <h4>रोज़ पुरस्कार</h4>
-        <p style="color:var(--muted);font-size:13px;margin-top:6px">ग्रुप में पहले 3 सही उत्तरों को प्राइज़</p>
-      </div>
-      <div class="feature">
-        <div style="font-size:20px">🧠</div>
-        <h4>असली टाइम रीजनिंग</h4>
-        <p style="color:var(--muted);font-size:13px;margin-top:6px">मॉड्यूलर क्वेश्चन — GK, गणित, रीजनिंग</p>
-      </div>
-    </div>
-
-    <div class="cta-row">
-      <button class="btn btn-primary pulse" onclick="joinNow()">फ्री ज्वाइन करें</button>
-      <button class="btn btn-ghost" onclick="preview()">अभी प्रीव्यू देखें</button>
-    </div>
-
-    <div class="quiz-preview card" style="margin-top:14px">
-      <div class="question">Q. भारत की राजधानी कौन सी है?</div>
-      <div class="options">
-        <div class="option">A) मुंबई</div>
-        <div class="option">B) कोलकाता</div>
-        <div class="option">C) नई दिल्ली</div>
-        <div class="option">D) चेन्नई</div>
-      </div>
-    </div>
-  </div>
-
-  <aside class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="logo">IG</div>
       <div>
-        <h3 style="margin:0">आगामी क्विज़</h3>
-        <p class="lead" style="margin-top:6px">2 घंटे 14 मिनट में लाइव</p>
+        <h1>Indian Geography — Quick Revision Notes (महीन टिप्स)</h1>
+        <p class="lead">Competitive exams के लिए मस्ट-नॉलेज पॉइंट्स — संक्षेप में, मोबाइल-फ्रेंडली।</p>
       </div>
-      <div style="text-align:right">
-        <div style="font-weight:800;font-size:14px;color:var(--accent)">₹500 रोज़ जीतें</div>
-        <div style="font-size:12px;color:var(--muted)">प्रथम पुरस्कार</div>
+    </header><div class="controls">
+  <input id="q" class="search" placeholder="खोजें: (उदा. नदियाँ, हिमालय, मिट्टी)" />
+  <button class="btn" onclick="printPage()">प्रिंट/पीडीएफ</button>
+  <button class="btn" onclick="toggleExpand()">सभी विस्तृत/संक्षेप</button>
+</div>
+
+<div class="grid">
+  <div class="card" data-keyword="basic location extent देशांतर अक्षांश मानक समय क्षेत्रफल">
+    <div class="section-title"><strong>1. भारत का भौगोलिक विस्तार</strong><span class="pill">Quick</span></div>
+    <div class="accordion">
+      <div class="acc-head" onclick="toggle(this)">
+        <div>मुख्य तथ्य</div>
+        <div>+</div>
+      </div>
+      <div class="acc-body" style="display:block">
+        <ul>
+          <li>अक्षांश: <strong>8°4′ N — 37°6′ N</strong></li>
+          <li>देशांतर: <strong>68°7′ E — 97°25′ E</strong></li>
+          <li>मानक समय: <strong>82°30′ E (Indian Standard Time)</strong></li>
+          <li>क्षेत्रफल: <strong>32,87,263 sq km (7वाँ)</strong></li>
+          <li>पड़ोसी: पाकिस्तान, चीन, नेपाल, भूटान, बांग्लादेश, म्यांमार; समुद्री सीमा: श्रीलंका</li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div style="margin-top:14px" class="countdown">
-      <div class="count-item">
-        <small style="color:var(--muted)">Players</small>
-        <strong>1.2k</strong>
-      </div>
-      <div class="count-item">
-        <small style="color:var(--muted)">Questions</small>
-        <strong>5</strong>
-      </div>
-      <div class="count-item">
-        <small style="color:var(--muted)">Duration</small>
-        <strong>50s</strong>
+  <div class="card" data-keyword="himalaya पर्वत हिमाचल शिवालिक हिमाद्रि peaks">
+    <div class="section-title"><strong>2. हिमालय और प्रमुख पर्वत</strong><span class="pill">High-score</span></div>
+    <div class="accordion">
+      <div class="acc-head" onclick="toggle(this)"><div>सारांश</div><div>+</div></div>
+      <div class="acc-body">
+        <ul>
+          <li>तीन श्रृंखलाएँ: <strong>हिमाद्रि (महान हिमालय), हिमाचल (मध्य), शिवालिक (बाहरी)</strong></li>
+          <li>महत्वपूर्ण चोटियाँ: कंचनजंघा (8586m), (नोट: एवरेस्ट भारत सीमा पर नहीं — नेपाल/तिब्बत)</li>
+          <li>मुख्य घाटियाँ: कश्मीर, देहरादून, कांगड़ा</li>
+        </ul>
       </div>
     </div>
-
-    <div style="margin-top:12px">
-      <h4 style="margin:0 0 8px">केंद्रीय नियम</h4>
-      <ol style="color:var(--muted);font-size:13px;padding-left:18px;margin:0">
-        <li>उत्तर केवल A/B/C/D में दें</li>
-        <li>टाइमर समाप्त होने पर उत्तर मान्य नहीं</li>
-        <li>पहले 3 सही उत्तर विजेताओं को पुरस्कार</li>
-      </ol>
-    </div>
-  </aside>
-</section>
-
-<section class="cards">
-  <div class="card mini">
-    <h4 style="margin:0">Daily Streak</h4>
-    <p style="color:var(--muted);margin-top:6px">7 दिनों का स्ट्रीक — बोनस क्वेश्चन अनलॉक</p>
   </div>
-  <div class="card mini">
-    <h4 style="margin:0">Leaderboards</h4>
-    <p style="color:var(--muted);margin-top:6px">हर महीना टॉप 10 को इनाम</p>
-  </div>
-  <div class="card mini">
-    <h4 style="margin:0">Study Packs</h4>
-    <p style="color:var(--muted);margin-top:6px">Syllabus-wise practice sets</p>
-  </div>
-</section>
 
-<footer class="card" style="margin-top:22px;padding:14px">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <div style="color:var(--muted)">© QZ Quiz World • तैयार करें: Dheerendra Tiwari</div>
-    <div style="display:flex;gap:8px">
-      <a style="color:var(--muted);text-decoration:none;font-size:13px">Privacy</a>
-      <a style="color:var(--muted);text-decoration:none;font-size:13px">Terms</a>
+  <div class="card" data-keyword="plains मैदान गंगा ब्रह्मपुत्र सिंधु जलोढ़">
+    <div class="section-title"><strong>3. मैदान</strong><span class="pill">Important</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>गंगा का मैदान — जलोढ़, कृषि हेतु अति उपजाऊ</li>
+        <li>तीन भाग: पंजाब मैदान, गंगा मैदान, ब्रह्मपुत्र मैदान</li>
+      </ul>
     </div>
   </div>
+
+  <div class="card" data-keyword="peninsular प्रायद्वीपीय पठार दक्कन मालवा नर्मदा तापी अरावली">
+    <div class="section-title"><strong>4. प्रायद्वीपीय पठार</strong><span class="pill">Static</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>प्राचीन पठार — दो मुख्य भाग: <strong>मालवा, दक्कन</strong></li>
+        <li>मुख्य नदियाँ (पश्चिमी बहाव): नर्मदा, तापी; (पूर्वी बहाव): गोदावरी, कृष्णा, कावेरी</li>
+        <li>अरावली — प्राचीन पर्वत श्रृंखला</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="coast तट अंडमान निकोबार लक्षद्वीप पश्चिमी तट पूर्वी तट">
+    <div class="section-title"><strong>5. तटीय क्षेत्र और द्वीप</strong><span class="pill">Remember</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>पश्चिमी तट — संकरा और ऊँचा (कोंकण, मालाबार)</li>
+        <li>पूर्वी तट — चौड़ा और नीचा (कोरोमंडल)</li>
+        <li>अंडमान-निकोबार: ज्वालामुखीय द्वीप; लक्षद्वीप: प्रवाल द्वीप</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="rivers नदियाँ सिंधु गंगा ब्रह्मपुत्र गोदावरी कृष्णा कावेरी नर्मदा तापी">
+    <div class="section-title"><strong>6. प्रमुख नदियाँ (Must-know)</strong><span class="pill">MAP Qs</span></div>
+    <div class="acc-body">
+      <strong>हिमालयी प्रणाली:</strong>
+      <ul>
+        <li>सिंधु प्रणाली: सिंधु, झेलम, चिनाब, रावी, ब्यास, सतलज</li>
+        <li>गंगा प्रणाली: भागीरथी + अलकनंदा = गंगा; घाघरा, गंडक, सोन</li>
+        <li>ब्रह्मपुत्र: त्सांगपो → ब्रह्मपुत्र</li>
+      </ul>
+      <strong>प्रायद्वीपीय नदियाँ:</strong>
+      <ul>
+        <li>पूर्व की ओर: गोदावरी, कृष्णा, कावेरी, महानदी</li>
+        <li>पश्चिम की ओर: नर्मदा, तापी, माही</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="climate मानसून वर्षा मैस्सिनराम जैसलमेर">
+    <div class="section-title"><strong>7. जलवायु (Monsoon)</strong><span class="pill">High-yield</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>मुख्य प्रकार: मॉनसून (दक्षिण-पश्चिम: जून–सितंबर)</li>
+        <li>न्यू नॉलेज: उत्तर-पूर्व मानसून: अक्टूबर–दिसंबर (तमिलनाडु के लिए महत्वपूर्ण)</li>
+        <li>सर्वाधिक वर्षा: मोसिनराम (Meghalaya), सबसे कम: जैसलमेर (Thar)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="soils मिट्टी जलोढ़ काली लाल लेटेराइट रेतीली">
+    <div class="section-title"><strong>8. मिट्टियाँ (Soils)</strong><span class="pill">Quick-facts</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>Alluvial (जलोढ़) — गंगा मैदान — अत्यंत उपजाऊ</li>
+        <li>Regur (काली) — कपास क्षेत्र (महाराष्ट्र, गुजरात)</li>
+        <li>लाल, लेटेराइट, रेतीली, पर्वतीय मिट्टियाँ — मुख्यता में विभाजन</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="crops फसल गेहूँ धान कपास गन्ना चाय कॉफी">
+    <div class="section-title"><strong>9. प्रमुख फसलें</strong><span class="pill">Exam-favourite</span></div>
+    <div class="acc-body">
+      <table>
+        <thead><tr><th>फसल</th><th>ऋतु</th><th>प्रमुख राज्य</th></tr></thead>
+        <tbody>
+          <tr><td>धान</td><td>खरीफ</td><td>यूपी, पश्चिम बंगाल, बिहार</td></tr>
+          <tr><td>गेहूँ</td><td>रबी</td><td>पंजाब, हरियाणा, यूपी</td></tr>
+          <tr><td>कपास</td><td>खरीफ</td><td>महाराष्ट्र, गुजरात</td></tr>
+          <tr><td>गन्ना</td><td>वार्षिक</td><td>यूपी, महाराष्ट्र</td></tr>
+          <tr><td>चाय</td><td>वार्षिक</td><td>असम, दार्जिलिंग</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="minerals खनिज कोयला लौह बॉक्साइट गैस ऊर्जा">
+    <div class="section-title"><strong>10. खनिज और ऊर्जा</strong><span class="pill">Static</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>कोयला: झारखंड, छत्तीसगढ़</li>
+        <li>लौह अयस्क: ओडिशा, झारखंड</li>
+        <li>बॉक्साइट: ओडिशा, गुजरात</li>
+        <li>परमाणु प्लांट: तारापुर, रावतभाटा, काकरापार, कल्पक्कम</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="states राज्यों facts सबसे बड़ा सबसे छोटा जनसंख्या नागपुर इंदिरा पॉइंट">
+    <div class="section-title"><strong>11. स्टेट-लीवल फास्ट फेक्ट्स</strong><span class="pill">Must-remember</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>सबसे बड़ा राज्य (क्षेत्र): राजस्थान</li>
+        <li>सबसे छोटा राज्य: गोवा</li>
+        <li>सबसे अधिक जनसंख्या: उत्तर प्रदेश</li>
+        <li>भौगोलिक केंद्र (approx): नागपुर के पास</li>
+        <li>दक्षिणतम बिंदु: इंदिरा पॉइंट (पूर्व में पोइंट की नामीकरण पर ध्यान दें)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="national parks जिम कॉर्बेट काजीरंगा सुंदरबन गिर रणथंभौर">
+    <div class="section-title"><strong>12. प्रमुख राष्ट्रीय उद्यान</strong><span class="pill">Bio</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>जिम कॉर्बेट (उत्तराखंड), काजीरंगा (असम), सुंदरबन (पश्चिम बंगाल)</li>
+        <li>गिर (गुजरात) — एशियाई शेर का केंद्र</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="tropic cancer कर्क रेखा states passes through">
+    <div class="section-title"><strong>13. कर्क रेखा (Tropic of Cancer)</strong><span class="pill">Map Q</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>भारत को दो हिस्सों में बाँटती है; गुजरती है: गुजरात, राजस्थान, मध्य प्रदेश, छत्तीसगढ़, झारखंड, पश्चिम बंगाल, त्रिपुरा, मिजोरम</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-keyword="ports transport मुंबई कोलकाता चेन्नई विशाखापट्टनम">
+    <div class="section-title"><strong>14. परिवहन और प्रमुख बंदरगाह</strong><span class="pill">Quick</span></div>
+    <div class="acc-body">
+      <ul>
+        <li>प्रमुख बंदरगाह: मुंबई, कोलकाता, चेन्नई, विशाखापट्टनम, कांडला</li>
+        <li>औद्योगिक बेल्ट: मुंबई-पुणे, कोलकाता-हुगली, चेन्नई-बेंगलुरु</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © Quick Revision — Indian Geography • Designed for students • Tip: Use search ऊपर से किसी भी शब्द को टाइप करके जल्दी ढूंढें
 </footer>
 
   </div>  <script>
-    function joinNow(){
-      alert('शुक्रिया! ज्वाइन करने के लिए धन्यवाद। आप अपने व्हाट्सएप ग्रुप लिंक या सदस्यता फॉर्म यहाँ जोड़ सकते हैं।');
+    const accHeads = document.querySelectorAll('.acc-head');
+    function toggle(el){
+      const body = el.nextElementSibling;
+      const sign = el.querySelector('div:last-child');
+      if(body.style.display==='block' || body.style.display===''){ body.style.display='none'; sign.textContent='+' } else { body.style.display='block'; sign.textContent='-'}
     }
-    function preview(){
-      alert('प्रिव्यू: यह लेआउट मोबाइल-फ्रेंडली है। यदि चाहते हैं तो मैं इसे HTML + लाइव क्वेश्चन जावास्क्रिप्ट के साथ और कस्टम कर दूँगा।');
-    }
+
+    function printPage(){ window.print(); }
+
+    let expanded=false;
+    function toggleExpand(){ expanded = !expanded; document.querySelectorAll('.acc-body').forEach(b=> b.style.display = expanded ? 'block' : 'none'); }
+
+    // Search filter
+    document.getElementById('q').addEventListener('input', function(e){
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card=>{
+        const kws = card.getAttribute('data-keyword')||'';
+        if(!q) { card.style.display='block'; return }
+        if(kws.includes(q) || card.innerText.toLowerCase().includes(q)) card.style.display='block'; else card.style.display='none';
+      });
+    });
+
+    // open all accordions by default on mobile for faster reading
+    if(window.innerWidth < 720) document.querySelectorAll('.acc-body').forEach(b=> b.style.display='block');
   </script></body>
 </html>
