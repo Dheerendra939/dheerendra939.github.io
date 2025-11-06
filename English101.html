@@ -38,7 +38,7 @@
   <div class="title">🏆QZ Quiz Mock Test🏆</div>
   <div style="display:flex;gap:12px;align-items:center;">
     <div class="small">QZ <strong>🕛</strong></div>
-    <div class="timer" id="timer">03:00</div>
+    <div class="timer" id="timer">08:00</div>
   </div>
 </div>
 
@@ -46,8 +46,8 @@
   <div class="main">
     <div id="testArea">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="small">प्रश्न <span id="currentNo">1</span>/20</div>
-        <div class="small">समय शेष: <strong id="timer2">03:00</strong></div>
+        <div class="small">प्रश्न <span id="currentNo">1</span>/50</div>
+        <div class="small">समय शेष: <strong id="timer2">08:00</strong></div>
       </div>
 
       <div id="canvasWrap" style="margin-top:12px;">
@@ -107,7 +107,7 @@
 <!-- load questions -->
 <script>
   const s = document.createElement('script');
-  s.src = "English.js?v=" + new Date().getTime(); // हर बार नया timestamp
+  s.src = "50.js?v=" + new Date().getTime(); // हर बार नया timestamp
   document.head.appendChild(s);
 </script>
 <script>
@@ -123,12 +123,12 @@
 })();
 
 /* ========= Quiz core (Canvas rendering + logic) ========= */
-const TOTAL = 20;
+const TOTAL = 50;
 let currentIndex = 0;
 let userAnswers = Array(TOTAL).fill(null); // store actual option index relative to QUESTIONS[i].options
 let reviewFlags = Array(TOTAL).fill(false);
 let optionOrder = [];
-let timerSeconds = 03 * 60;
+let timerSeconds = 08 * 60;
 let timerInterval = null;
 
 /* Canvas setup */
