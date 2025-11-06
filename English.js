@@ -1,102 +1,22 @@
 const QUESTIONS = [
-  {
-    question: "भारतीय संविधान की कौन-सी अनुसूची 73वें संविधान संशोधन से जोड़ी गई थी?",
-    options: ["10वीं अनुसूची", "11वीं अनुसूची", "12वीं अनुसूची", "8वीं अनुसूची"],
-    correct: 1
-  },
-  {
-    question: "‘Doctrine of Basic Structure’ की स्थापना किस मामले में हुई थी?",
-    options: ["केशवानंद भारती बनाम केरल राज्य", "मेनका गांधी बनाम भारत सरकार", "गोलकनाथ बनाम पंजाब राज्य", "इंद्रा साहनी बनाम भारत संघ"],
-    correct: 0
-  },
-  {
-    question: "भारतीय संविधान के अनुच्छेद 21 के तहत क्या अधिकार प्राप्त है?",
-    options: ["जीवन और व्यक्तिगत स्वतंत्रता का अधिकार", "समानता का अधिकार", "अभिव्यक्ति की स्वतंत्रता", "शिक्षा का अधिकार"],
-    correct: 0
-  },
-  {
-    question: "‘Contempt of Court’ का अर्थ है—",
-    options: ["अदालत की अवमानना", "अदालत की प्रशंसा", "अदालत की सिफारिश", "उच्च न्यायालय की आलोचना"],
-    correct: 0
-  },
-  {
-    question: "भारतीय साक्ष्य अधिनियम में ‘प्रमुख दस्तावेज’ (Primary Evidence) किस धारा में वर्णित है?",
-    options: ["धारा 62", "धारा 65", "धारा 70", "धारा 80"],
-    correct: 0
-  },
-  {
-    question: "अधिवक्ता अधिनियम 1961 के अंतर्गत ‘बार काउंसिल ऑफ इंडिया’ की स्थापना किस धारा में की गई है?",
-    options: ["धारा 4", "धारा 7", "धारा 9", "धारा 12"],
-    correct: 0
-  },
-  {
-    question: "भारतीय दंड संहिता (IPC) की कौन-सी धारा ‘बलात्कार’ (Rape) से संबंधित है?",
-    options: ["धारा 375", "धारा 376", "धारा 377", "धारा 304-B"],
-    correct: 0
-  },
-  {
-    question: "भारतीय संवैधानिक व्यवस्था में संविधान संशोधन की प्रक्रिया किस अनुच्छेद में दी गई है?",
-    options: ["अनुच्छेद 368", "अनुच्छेद 356", "अनुच्छेद 370", "अनुच्छेद 372"],
-    correct: 0
-  },
-  {
-    question: "किस अनुच्छेद के अंतर्गत राष्ट्रपति को क्षमादान का अधिकार प्राप्त है?",
-    options: ["अनुच्छेद 72", "अनुच्छेद 74", "अनुच्छेद 76", "अनुच्छेद 78"],
-    correct: 0
-  },
-  {
-    question: "नागरिक प्रक्रिया संहिता (CPC) की कौन-सी धारा ‘स्थायी निषेधाज्ञा’ (Permanent Injunction) से संबंधित है?",
-    options: ["धारा 38", "धारा 35", "धारा 40", "धारा 44"],
-    correct: 0
-  },
-  {
-    question: "कानूनी पेशे में ‘क्लाइंट की गोपनीयता’ (Client Confidentiality) किसके अंतर्गत आती है?",
-    options: ["एडवोकेट्स एक्ट", "एविडेंस एक्ट", "CPC", "IPC"],
-    correct: 0
-  },
-  {
-    question: "भारतीय संविधान के अनुसार ‘राज्य नीति के निदेशक तत्व’ (DPSP) किस भाग में हैं?",
-    options: ["भाग IV", "भाग III", "भाग V", "भाग II"],
-    correct: 0
-  },
-  {
-    question: "‘Public Document’ की परिभाषा भारतीय साक्ष्य अधिनियम की किस धारा में है?",
-    options: ["धारा 74", "धारा 75", "धारा 76", "धारा 77"],
-    correct: 0
-  },
-  {
-    question: "‘Double Jeopardy’ का सिद्धांत भारतीय संविधान में किस अनुच्छेद में निहित है?",
-    options: ["अनुच्छेद 20(2)", "अनुच्छेद 21", "अनुच्छेद 22", "अनुच्छेद 14"],
-    correct: 0
-  },
-  {
-    question: "भारतीय संविधान में ‘संसद’ शब्द किस अनुच्छेद में परिभाषित है?",
-    options: ["अनुच्छेद 79", "अनुच्छेद 80", "अनुच्छेद 81", "अनुच्छेद 85"],
-    correct: 0
-  },
-  {
-    question: "‘Preamble’ को संविधान का अभिन्न भाग घोषित किस केस में किया गया?",
-    options: ["केशवानंद भारती केस", "गोलकनाथ केस", "बेरुबारी केस", "मेनका गांधी केस"],
-    correct: 0
-  },
-  {
-    question: "‘Doctrine of Separation of Powers’ का मूल आधार किस संविधान से लिया गया है?",
-    options: ["अमेरिकी संविधान", "ब्रिटिश संविधान", "कनाडाई संविधान", "फ्रांसीसी संविधान"],
-    correct: 0
-  },
-  {
-    question: "‘Public Interest Litigation (PIL)’ का प्रारंभ किस न्यायाधीश ने किया?",
-    options: ["न्यायमूर्ति पी. एन. भगवती", "न्यायमूर्ति के. एस. हेगड़े", "न्यायमूर्ति एम. सी. चंद्रचूड़", "न्यायमूर्ति सत्येंद्र नाथ"],
-    correct: 0
-  },
-  {
-    question: "भारतीय संविधान की 42वीं संशोधन अधिनियम को क्या कहा जाता है?",
-    options: ["मिनी संविधान", "संघ संविधान", "संविधान सुधार अधिनियम", "संविधान पुनरीक्षण अधिनियम"],
-    correct: 0
-  },
-  {
-    question: "किस अनुच्छेद के तहत सुप्रीम कोर्ट ‘Special Leave Petition (SLP)’ स्वीकार करता है?",
-    options: ["अनुच्छेद 136", "अनुच्छेद 132", "अनुच्छेद 226", "अनुच्छेद 32"],
-    correct: 0
-  }
+  { question: "Choose the correct spelling:", options: ["Enviroment", "Environment", "Envirnment", "Enviornment"], correct: 1 },
+  { question: "Select the synonym of 'Brave':", options: ["Coward", "Fearless", "Weak", "Lazy"], correct: 1 },
+  { question: "Fill in the blank: She ___ to school every day.", options: ["go", "goes", "gone", "going"], correct: 1 },
+  { question: "Antonym of 'Ancient' is:", options: ["Old", "Historic", "Modern", "Traditional"], correct: 2 },
+  { question: "Choose the correct article: ___ apple a day keeps the doctor away.", options: ["A", "An", "The", "No article"], correct: 1 },
+  { question: "Change into passive voice: He wrote a letter.", options: ["A letter was written by him", "He has written a letter", "A letter is written", "Writing was done"], correct: 0 },
+  { question: "Choose the correct tense: They ___ their homework now.", options: ["do", "did", "are doing", "done"], correct: 2 },
+  { question: "Identify the noun: 'Honesty is the best policy.'", options: ["Honesty", "is", "best", "policy"], correct: 0 },
+  { question: "Synonym of 'Happy':", options: ["Sad", "Joyful", "Angry", "Tired"], correct: 1 },
+  { question: "Antonym of 'Increase':", options: ["Grow", "Expand", "Reduce", "Rise"], correct: 2 },
+  { question: "Choose the correct preposition: He is afraid ___ dogs.", options: ["to", "for", "of", "by"], correct: 2 },
+  { question: "Which is correct?", options: ["He don't like tea", "He doesn't like tea", "He didn't likes tea", "He no like tea"], correct: 1 },
+  { question: "Change into plural: 'Child'", options: ["Childs", "Children", "Childes", "Childrens"], correct: 1 },
+  { question: "The opposite of 'Permanent' is:", options: ["Temporary", "Stable", "Constant", "Solid"], correct: 0 },
+  { question: "Identify the adjective: 'The sky is blue.'", options: ["sky", "is", "blue", "the"], correct: 2 },
+  { question: "Choose the correct form: 'She has ___ her work.'", options: ["finish", "finishes", "finished", "finishing"], correct: 2 },
+  { question: "Choose the correct sentence:", options: ["I am agree", "I agrees", "I am agreed", "I agree"], correct: 3 },
+  { question: "Meaning of 'Once in a blue moon':", options: ["Frequently", "Rarely", "Always", "Never"], correct: 1 },
+  { question: "Correct the sentence: 'He is senior than me.'", options: ["He is senior to me", "He is senior from me", "He is senior with me", "He is senior by me"], correct: 0 },
+  { question: "Choose correct question tag: 'You are coming, ___?'", options: ["aren’t you", "isn’t you", "don’t you", "won’t you"], correct: 0 }
 ];
