@@ -21,7 +21,7 @@
   canvas{width:100%;height:420px;display:block;background:#ffffff;border-radius:6px;}
   .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
   .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:1000;}
-  .btn.primary{background:var(--green);color:white;}
+  .btn.primary{background:var(--blue);color:white;}
   .btn.warn{background:#ff6b6b;color:white;}
   .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
   .qbox{background:#f1f5f9;padding:10px;text-align:center;border-radius:6px;font-weight:700;cursor:pointer;user-select:none;}
@@ -78,13 +78,11 @@
       <div style="margin-top:8px;">
         <div>कुल अंक: <strong id="totalMarks">0</strong> / 50</div>
         <div>प्रतिशत: <strong id="percentage">0%</strong></div>
-        <button class="btn primary" id="share">share</button>
-       
       </div>
 
       <div style="margin-top:12px;">
         <div class="small">प्रश्नों की स्थिति</div>
-         <div class="qlist" id="qResultList"></div>
+        <div class="qlist" id="qResultList"></div>
         <div class="legend">
           <span><i style="display:inline-block;width:14px;height:14px;background:var(--green);margin-right:6px"></i> सही</span>
           <span><i style="display:inline-block;width:14px;height:14px;background:var(--red);margin-right:6px"></i> गलत</span>
@@ -112,7 +110,7 @@
 <!-- load questions -->
 <script>
   const s = document.createElement('script');
-  s.src = "50.js?v=" + new Date().getTime(); // हर बार नया timestamp
+  s.src = "9.js?v=" + new Date().getTime(); // हर बार नया timestamp
   document.head.appendChild(s);
 </script>
 <script>
@@ -395,7 +393,7 @@ const resultCode = `QZ${encoded}-${timestamp}`;
 `;  
   
   // Share button  
-  const shareBtn =  document.getElementById('share'); 
+  const shareBtn = document.createElement('button');  
   shareBtn.className = 'btn primary';  
   shareBtn.style.marginTop = '16px';  
   shareBtn.innerText = '🏆 Share Result In QZ Whatsapp Group 🏆 ';  
