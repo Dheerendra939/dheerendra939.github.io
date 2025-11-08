@@ -81,13 +81,13 @@
       </div>
 
       <div style="margin-top:12px;">
+          <div class="small">प्रश्नों की स्थिति</div>
+        <div class="qlist" id="qResultList"></div>
         <div class="legend">
           <span><i style="display:inline-block;width:14px;height:14px;background:var(--green);margin-right:6px"></i> सही</span>
           <span><i style="display:inline-block;width:14px;height:14px;background:var(--red);margin-right:6px"></i> गलत</span>
           <span><i style="display:inline-block;width:14px;height:14px;background:var(--grey);margin-right:6px"></i> नहीं किया</span>
         </div>
-        <div class="small">प्रश्नों की स्थिति</div>
-        <div class="qlist" id="qResultList"></div>
       </div>
     </div>
 
@@ -96,7 +96,7 @@
   <div class="sidebar">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
       <div><strong>प्रश्न सूची</strong></div>
-      <div class="small">20 प्रश्न</div>
+      <div class="small">50 प्रश्न</div>
     </div>
     <div class="grid" id="qGrid"></div>
 
@@ -356,23 +356,7 @@ function showResult({attempted, correct, wrong, marks, percent}) {
   document.getElementById('resAttempt').innerText = 'प्रयास: ' + attempted;  
   document.getElementById('totalMarks').innerText = marks;  
   document.getElementById('percentage').innerText = percent + '%';  
-  
-  // Question color logic  
-  const qRes = document.getElementById('qResultList');   
-  qRes.innerHTML = '';  
-  for (let i = 0; i < TOTAL; i++) {  
-    const div = document.createElement('div');   
-    div.className = 'qitem';  
-    if (userAnswers[i] === null) {  
-      div.style.background = 'var(--grey)';  
-    } else if (userAnswers[i] === QUESTIONS[i].correct) {  
-      div.style.background = 'var(--green)';  
-    } else {  
-      div.style.background = 'var(--red)';  
-    }  
-    div.innerText = 'Q' + (i + 1);  
-    qRes.appendChild(div);  
-  }  
+
   
   // Generate unique verification code  
   const timestamp = Date.now().toString(36).toUpperCase();
@@ -413,11 +397,30 @@ const resultCode = `QZ${encoded}-${timestamp}`;
       // iPhone/Desktop fallback  
       window.open("https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN", "_blank");  
     }  
-  });  
+    });  
   
   ra.appendChild(shareBtn);  
   window.scrollTo({ top: 0, behavior: 'smooth' });  
-      }
+}
+  
+  // Question color logic  
+  const qRes = document.getElementById('qResultList');   
+  qRes.innerHTML = '';  
+  for (let i = 0; i < TOTAL; i++) {  
+    const div = document.createElement('div');   
+    div.className = 'qitem';  
+    if (userAnswers[i] === null) {  
+      div.style.background = 'var(--grey)';  
+    } else if (userAnswers[i] === QUESTIONS[i].correct) {  
+      div.style.background = 'var(--green)';  
+    } else {  
+      div.style.background = 'var(--red)';  
+    }  
+    div.innerText = 'Q' + (i + 1);  
+    qRes.appendChild(div);  
+  }  
+  
+  
 /* Navigation helper */
 function goToQuestion(idx){ currentIndex = idx; renderCurrent(); }
 
