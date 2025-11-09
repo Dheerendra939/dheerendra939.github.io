@@ -393,30 +393,36 @@ const resultCode = `QZ${encoded}-${timestamp}`;
 `;  
   
   // Share button  
-  const shareBtn = document.createElement('button');  
-  shareBtn.className = 'btn primary';  
-  shareBtn.style.marginTop = '16px';  
-  shareBtn.innerText = '🏆 Share Result In QZ Group 🏆 ';  
+const shareBtn = document.createElement('button');  
+shareBtn.className = 'btn primary';  
+shareBtn.style.marginTop = '16px';  
+shareBtn.innerText = '🏆 Share Result In QZ Whatsapp Group 🏆 ';  
 
-  shareBtn.addEventListener('click', async () => {  
-    try {  
-      await navigator.clipboard.writeText(message.trim());  
-      alert("✅ Result कॉपी हो गया है!\nअब WhatsApp Group में Paste करके Send करें।");  
-    } catch {  
-      alert("⚠ परिणाम कॉपी नहीं हो पाया, कृपया मैन्युअली कॉपी करें।");  
-    }  
+shareBtn.addEventListener('click', async () => {  
+  try {  
+    await navigator.clipboard.writeText(message.trim());  
+    alert("✅ Result कॉपी हो गया है!\nअब WhatsApp Group में Paste करके Send करें।");  
+  } catch {  
+    alert("⚠ परिणाम कॉपी नहीं हो पाया, कृपया मैन्युअली कॉपी करें।");  
+  }  
 
-    // ✅ Android devices → open directly in WhatsApp app  
-    if (/Android/i.test(navigator.userAgent)) {  
-      window.location.href = "intent://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN#Intent;scheme=https;package=com.whatsapp;end";  
-    } else {  
-      // iPhone/Desktop fallback  
-      window.open("https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN", "_blank");  
-    }  
-  });  
-  
-  ra.appendChild(shareBtn);
-  window.scrollTo({ top: 0, behavior: 'smooth' });  
+  if (/Android/i.test(navigator.userAgent)) {  
+    window.location.href = "intent://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN#Intent;scheme=https;package=com.whatsapp;end";  
+  } else {  
+    window.open("https://chat.whatsapp.com/Karn9NOLutxCnFGHE2m7dN", "_blank");  
+  }  
+});  
+
+// 🔽 पुरानी लाइन हटाओ (ra.appendChild(shareBtn);)
+// 🔽 ये नया कोड डालो
+const qRes = document.getElementById('qResultList');  
+if (qRes) {  
+  ra.insertBefore(shareBtn, qRes);  
+} else {  
+  ra.appendChild(shareBtn);  
+}
+
+window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 /* Navigation helper */
 function goToQuestion(idx){ currentIndex = idx; renderCurrent(); }
