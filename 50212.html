@@ -441,6 +441,9 @@ function initializeTest(){
   renderCurrent();
   startTimer();
 }
+  window.onbeforeunload = function() {
+    return "⚠️ Your test progress will be lost if you leave or go back. Are you sure you want to exit?";
+  };
 window.addEventListener('load', initializeTest);
 </script>
 
