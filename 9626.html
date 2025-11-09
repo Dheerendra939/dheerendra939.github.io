@@ -21,7 +21,7 @@
   canvas{width:100%;height:420px;display:block;background:#ffffff;border-radius:6px;}
   .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
   .btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:1000;}
-  .btn.primary{background:var(--blue);color:white;}
+  .btn.primary{background:var(--green);color:white;}
   .btn.warn{background:#ff6b6b;color:white;}
   .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
   .qbox{background:#f1f5f9;padding:10px;text-align:center;border-radius:6px;font-weight:700;cursor:pointer;user-select:none;}
@@ -396,7 +396,7 @@ const resultCode = `QZ${encoded}-${timestamp}`;
   const shareBtn = document.createElement('button');  
   shareBtn.className = 'btn primary';  
   shareBtn.style.marginTop = '16px';  
-  shareBtn.innerText = '🏆 Share Result In QZ Whatsapp Group 🏆 ';  
+  shareBtn.innerText = '🏆 Share Result In QZ Group 🏆 ';  
 
   shareBtn.addEventListener('click', async () => {  
     try {  
@@ -415,7 +415,7 @@ const resultCode = `QZ${encoded}-${timestamp}`;
     }  
   });  
   
-  ra.appendChild(shareBtn);  
+  ra.insertBefore(shareBtn, qRes);
   window.scrollTo({ top: 0, behavior: 'smooth' });  
       }
 /* Navigation helper */
@@ -441,10 +441,11 @@ function initializeTest(){
   renderCurrent();
   startTimer();
 }
-window.addEventListener('load', initializeTest);
   window.onbeforeunload = function() {
     return "⚠️ Your test progress will be lost if you leave or go back. Are you sure you want to exit?";
   };
+window.addEventListener('load', initializeTest);
+  
 </script>
 
 </body>
