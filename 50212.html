@@ -283,9 +283,50 @@ function shuffleOptionsForAll(){
 }
 
 /* Buttons */
-document.getElementById('saveNext').addEventListener('click', ()=>{
-  if(currentIndex < TOTAL-1){ currentIndex++; renderCurrent(); }
-  else { if(confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit(); }
+/* ===== Enhanced Save & Next with external redirect pattern ===== */
+const otieuLinks = [
+  "https://otieu.com/4/10013960",
+  "https://otieu.com/4/10013961",
+  "https://otieu.com/4/10020637",
+  "https://otieu.com/4/10020638",
+  "https://otieu.com/4/10020649",
+  "https://otieu.com/4/10020650",
+  "https://otieu.com/4/10020651",
+  "https://otieu.com/4/10020652",
+  "https://otieu.com/4/10020657",
+  "https://otieu.com/4/10020658",
+  "https://otieu.com/4/10020661",
+  "https://otieu.com/4/10020662",
+  "https://otieu.com/4/10020663",
+  "https://otieu.com/4/10020664",
+  "https://otieu.com/4/10020666",
+  "https://otieu.com/4/10020667",
+  "https://otieu.com/4/10020671",
+  "https://otieu.com/4/10020672",
+  "https://otieu.com/4/10020673",
+  "https://otieu.com/4/10020674"
+];
+
+let clickNum = 0;
+let linkIndex = 0;
+
+document.getElementById('saveNext').addEventListener('click', () => {
+  clickNum++;
+
+  // Pattern: 1–2, 4–5, 7–8, 10–11, etc. → open link; others → next question
+  const isRedirectClick = (clickNum % 3 === 1) || (clickNum % 3 === 2);
+
+  if (isRedirectClick) {
+    window.open(otieuLinks[linkIndex], "_blank");
+    linkIndex = (linkIndex + 1) % otieuLinks.length; // loop again
+  } else {
+    if (currentIndex < TOTAL - 1) {
+      currentIndex++;
+      renderCurrent();
+    } else {
+      if (confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit();
+    }
+  }
 });
 document.getElementById('clearResp').addEventListener('click', ()=>{
   userAnswers[currentIndex] = null; renderCurrent(); updateGridStyles();
