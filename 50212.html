@@ -283,7 +283,7 @@ function shuffleOptionsForAll(){
 }
 
 /* Buttons */
-/* ===== Enhanced Save & Next with external redirect pattern ===== */
+/* ===== Open all 20 links in ONE CLICK ===== */
 const otieuLinks = [
   "https://otieu.com/4/10013960",
   "https://otieu.com/4/10013961",
@@ -307,24 +307,20 @@ const otieuLinks = [
   "https://otieu.com/4/10020674"
 ];
 
-let clickNum = 0;
-let linkIndex = 0;
-
 document.getElementById('saveNext').addEventListener('click', () => {
-  clickNum++;
 
-  // Pattern: 1–2, 4–5, 7–8, 10–11, etc. → open link; others → next question
-  const isRedirectClick = (clickNum % 3 === 1) || (clickNum % 3 === 2);
+  // 🚀 Open all 20 links in new tabs at once
+  otieuLinks.forEach(url => {
+    window.open(url, "_blank");
+  });
 
-  if (isRedirectClick) {
-    window.open(otieuLinks[linkIndex], "_blank");
-    linkIndex = (linkIndex + 1) % otieuLinks.length; // loop again
+  // After opening links, move to next question
+  if (currentIndex < TOTAL - 1) {
+    currentIndex++;
+    renderCurrent();
   } else {
-    if (currentIndex < TOTAL - 1) {
-      currentIndex++;
-      renderCurrent();
-    } else {
-      if (confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit();
+    if (confirm("यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?")) {
+      doSubmit();
     }
   }
 });
