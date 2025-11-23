@@ -1,5 +1,45 @@
 <html lang="hi">
 <head>
+  <script>(function(s){s.dataset.zone='10014363',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10015932',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174585',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174584',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174577',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174574',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174571',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174568',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174565',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174564',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174562',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174561',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174560',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174559',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174557',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10174556',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10150257',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10150243',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+<script>(function(s){s.dataset.zone='10150190',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  
   <script>(function(s){s.dataset.zone='10014567',s.src='https://groleegni.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title> 🏆 QZ Mock Test (GK) 🏆 </title>
@@ -283,9 +323,33 @@ function shuffleOptionsForAll(){
 }
 
 /* Buttons */
+/* ========= POPUNDER LOGIC (50 Questions = 200 Pop) ========= */
+let clickCount = 0;  // total clicks on Save & Next
+let popCount = 0;    // total popunder triggered
+
 document.getElementById('saveNext').addEventListener('click', ()=>{
-  if(currentIndex < TOTAL-1){ currentIndex++; renderCurrent(); }
-  else { if(confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) doSubmit(); }
+
+  clickCount++;
+
+  // हर question पर → 4 popunder, 5वाँ click = next question
+  const openPop = (clickCount % 5 !== 0);
+
+  if (openPop) {
+      // सिर्फ Save & Next पर popunder
+      try { window._pop && window._pop(); } catch (e) {}
+      popCount++;
+      return;   // अभी next question नहीं जाएगा
+  }
+
+  // 5वें click पर ही next question
+  if(currentIndex < TOTAL-1){ 
+    currentIndex++; 
+    renderCurrent(); 
+  }
+  else { 
+    if(confirm('यह अंतिम प्रश्न है। क्या आप टेस्ट सबमिट करना चाहते हैं?')) 
+      doSubmit(); 
+  }
 });
 document.getElementById('clearResp').addEventListener('click', ()=>{
   userAnswers[currentIndex] = null; renderCurrent(); updateGridStyles();
