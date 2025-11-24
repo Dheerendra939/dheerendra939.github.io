@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { margin:0; padding:0; background:#f4f4f4; }
+
+#popFrame {
+    width:100%;
+    height:100vh;
+    border:0;
+}
+
+#clickLayer {
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width:180px;
+    height:50px;
+    background:#007bff;
+    color:#fff;
+    font-size:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:12px;
+    cursor:pointer;
+    z-index:99999;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Hidden iframe where all popunder scripts preload -->
+<iframe id="popFrame"></iframe>
+
+<!-- Button that acts like “full-page popunder activator” -->
+<div id="clickLayer">Start Test</div>
+
+<script>
+// Load all tags INSIDE iframe so they preload
+const iframe = document.getElementById("popFrame");
+const doc = iframe.contentDocument;
+
+doc.open();
+doc.write(`
+<html><body>
+${loadAllScripts()}
+</body></html>
+`);
+doc.close();
+
+// On click → trigger popunder from inside iframe
+document.getElementById("clickLayer").addEventListener("click", function() {
+    iframe.contentWindow.focus();
+});
+    
+function loadAllScripts() {
+    return `
+<script>(function(s){s.dataset.zone='10014363',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10015932',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174585',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174584',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174577',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174574',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174571',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174568',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174565',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174564',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174562',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174561',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174560',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174559',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174557',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10174556',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10150257',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10150243',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+
+<script>(function(s){s.dataset.zone='10150190',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))<\/script>
+`;
+}
+</script>
+
+</body>
+</html>
