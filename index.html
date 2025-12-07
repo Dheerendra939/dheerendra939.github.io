@@ -1,78 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Rewarded Ad Mini App</title>
-
-  <style>
-    body { font-family: system-ui, Arial; padding: 20px; }
-    .btn { padding: 14px 20px; font-size: 18px; cursor: pointer; }
-    #status { margin-top: 15px; font-size: 16px; color: #333; white-space: pre-line; }
-  </style>
+<meta charset="utf-8">
+<title>Reward Ad</title>
+<style>
+body { font-family: Arial; text-align: center; padding: 30px; }
+button { padding: 12px 25px; font-size: 18px; margin-top: 20px; }
+#timer { font-size: 22px; margin-top: 20px; }
+</style>
 </head>
 
 <body>
-  <h2>Watch Rewarded Ad → Receive Random Number</h2>
-  <p>Tap the button below to watch the rewarded ad. After it finishes + 15 seconds wait, your bot will send a random number.</p>
 
-  <button id="watchBtn" class="btn">Watch Rewarded Ad</button>
-  <div id="status">Status: Ready</div>
+<h2>Watch Ad to Get Reward</h2>
 
-  <!-- Telegram Mini App SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- STATUS -->
+<div id="status">Click the button below to show Ad.</div>
 
-  <!-- Monetag / LibTL SDK -->
-  <script src="https://libtl.com/sdk.js" data-zone="10281283" data-sdk="show_10281283"></script>
+<!-- Show Ad Button -->
+<button id="adBtn">Show Rewarded Ad</button>
 
-  <script>
-    const tg = window.Telegram?.WebApp;
-    const statusBox = document.getElementById("status");
-    const btn = document.getElementById("watchBtn");
+<!-- Timer -->
+<div id="timer"></div>
 
-    function log(msg) {
-      statusBox.textContent = "Status: " + msg;
-      console.log(msg);
-    }
+<!-- Collect Button -->
+<button id="collectBtn" style="display:none;">Collect Reward</button>
 
-    tg?.expand(); // Make full-screen inside Telegram
 
-    function randomNumber() {
-      return Math.floor(Math.random() * 900000) + 100000; // 6-digit random
-    }
+<!-- Telegram Web App -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    const wait = (ms) => new Promise(r => setTimeout(r, ms));
+<!-- Monetag -->
+<script src="https://libtl.com/sdk.js" data-zone="10281283" data-sdk="show_10281283"></script>
 
-    btn.onclick = async function () {
-      btn.disabled = true;
-      log("Checking ad availability...");
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-      if (!window.show_10281283) {
-        log("Ad SDK not loaded. Please retry.");
-        btn.disabled = false;
-        return;
-      }
+const status = document.getElementById("status");
+const adBtn = document.getElementById("adBtn");
+const timerBox = document.getElementById("timer");
+const collectBtn = document.getElementById("collectBtn");
 
-      log("Showing rewarded ad...");
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-      try {
-        await window.show_10281283();   // Monetag’s rewarded ad
-        log("Ad completed. Waiting 15 seconds...");
-        await wait(15000);
+adBtn.onclick = async function() {
+    status.textContent = "Loading Ad...";
+    adBtn.disabled = true;
 
-        const rand = randomNumber();
-        log("Sending random number to bot: " + rand);
+    await window.show_10281283().then(async () => {
+        status.textContent = "Ad Completed! 15 sec timer started.";
 
-        tg.sendData(JSON.stringify({ random_number: rand }));
-        log("Sent to bot!");
+        for (let i = 15; i >= 0; i--) {
+            timerBox.textContent = "⏳ " + i + " seconds remaining...";
+            await wait(1000);
+        }
 
-      } catch (err) {
-        console.error(err);
-        log("Ad failed or closed early.");
-      }
+        timerBox.textContent = "";
+        collectBtn.style.display = "block";
+        status.textContent = "Tap Collect Reward";
+    });
+};
 
-      btn.disabled = false;
-    }
-  </script>
+collectBtn.onclick = function() {
+    tg.sendData(JSON.stringify({ ad_completed: true }));
+};
+</script>
+
 </body>
 </html>
