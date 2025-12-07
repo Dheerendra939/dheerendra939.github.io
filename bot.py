@@ -1,44 +1,49 @@
 import json
-import random
-import logging
 from aiogram import Bot, Dispatcher, executor, types
 
-logging.basicConfig(level=logging.INFO)
-
-BOT_TOKEN = "8040418147:AAFSuJCnUASdUUvlRI8Q9Uf91vawe3I6N7o"  # Replace after regenerating
+BOT_TOKEN = "PUT_YOUR_NEW_REGENERATED_TOKEN_HERE"
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 
+# Reply keyboard with 4 buttons
+def main_keyboard():
+    kb = [
+        [types.KeyboardButton("Show Ad"), types.KeyboardButton("Option 2")],
+        [types.KeyboardButton("Option 3"), types.KeyboardButton("Option 4")]
+    ]
+    return types.ReplyKeyboardMarkup(resize_keyboard=True).add(*kb[0]).add(*kb[1])
 
-# Start command
+
 @dp.message_handler(commands=['start'])
 async def start_cmd(message: types.Message):
     await message.answer(
-        "Tap the button below to watch the rewarded ad.",
-        reply_markup=types.InlineKeyboardMarkup().add(
-            types.InlineKeyboardButton(
-                text="Open Mini App",
-                web_app=types.WebAppInfo(url="https://dheerendra939.github.io")
-            )
-        )
+        "Welcome! Click **Show Ad** to continue.",
+        reply_markup=main_keyboard()
     )
 
 
-# Receive data from Mini App
+@dp.message_handler(lambda msg: msg.text == "Show Ad")
+async def show_ad_handler(message: types.Message):
+
+    keyboard = types.InlineKeyboardMarkup().add(
+        types.InlineKeyboardButton(
+            text="Open Ad Window",
+            web_app=types.WebAppInfo(url="https://dheerendra939.github.io/index.html")
+        )
+    )
+
+    await message.answer("Click below to open the Ad window:", reply_markup=keyboard)
+
+
 @dp.message_handler(content_types=types.ContentType.WEB_APP_DATA)
-async def handle_webapp(message: types.Message):
-    try:
-        data = json.loads(message.web_app_data.data)
-        number = data.get("random_number")
+async def webapp_data_handler(message: types.Message):
+    data = json.loads(message.web_app_data.data)
 
-        if number:
-            await message.answer(f"🎉 Your random number: {number}")
-        else:
-            await message.answer("No number received.")
-    except Exception as e:
-        await message.answer(f"Error reading data: {e}")
-
+    if data.get("ad_completed") == True:
+        await message.answer("🎉 You have seen ad successfully!")
+    else:
+        await message.answer("❗ Reward not collected.")
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
