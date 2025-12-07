@@ -1,7 +1,7 @@
 import json
 from aiogram import Bot, Dispatcher, executor, types
 
-BOT_TOKEN = "PUT_YOUR_NEW_REGENERATED_TOKEN_HERE"
+BOT_TOKEN = "8040418147:AAFSuJCnUASdUUvlRI8Q9Uf91vawe3I6N7o"
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
