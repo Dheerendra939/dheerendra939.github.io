@@ -1,71 +1,103 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Reward Ad</title>
-<style>
-body { font-family: Arial; text-align: center; padding: 30px; }
-button { padding: 12px 25px; font-size: 18px; margin-top: 20px; }
-#timer { font-size: 22px; margin-top: 20px; }
-</style>
-</head>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Quiz Earn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <script src="https://alwingulla.com/88/tag.min.js" data-zone="YOUR_MONETAG_ZONE_ID" async data-cache="true"></script>
+
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; text-align: center; padding: 20px; margin: 0; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        h2 { color: #333; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background-color: #0088cc; color: white; }
+        .btn-success { background-color: #27ae60; color: white; display: none; }
+        .progress { color: #666; font-size: 14px; margin-bottom: 15px; }
+    </style>
+</head>
 <body>
 
-<h2>Watch Ad to Get Reward</h2>
+    <div class="card">
+        <div id="quiz-section">
+            <div class="progress" id="progress-text">Question 1/5</div>
+            <h2 id="question-text">Loading...</h2>
+            <button class="btn btn-primary" onclick="nextQuestion(1)">Option A</button>
+            <button class="btn btn-primary" onclick="nextQuestion(2)">Option B</button>
+        </div>
 
-<!-- STATUS -->
-<div id="status">Click the button below to show Ad.</div>
+        <div id="result-section" style="display:none;">
+            <h2>🎉 Awesome!</h2>
+            <p>You scored 5/5!</p>
+            <p>Click below to claim your <b>₹5 Reward</b>.</p>
+            <button class="btn btn-success" id="claim-btn" onclick="claimReward()">💰 Claim ₹5 & Return to Bot</button>
+        </div>
+    </div>
 
-<!-- Show Ad Button -->
-<button id="adBtn">Show Rewarded Ad</button>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-<!-- Timer -->
-<div id="timer"></div>
+        // Part 1 wala Google Script URL yahan dalein
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVVTzJiDhffMcLqzeruBA2sTjt1hmdgRV9pp0UDYjXd9z_j6m_I5ms-GSMzyndFmp5/exec"; 
+        
+        // Referrer ID nikalo
+        const urlParams = new URLSearchParams(window.location.search);
+        const startParam = urlParams.get('start_param');
+        const referrerId = startParam ? startParam.replace('ref_', '') : null;
+        const myUserId = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
-<!-- Collect Button -->
-<button id="collectBtn" style="display:none;">Collect Reward</button>
+        let currentQ = 1;
 
+        // Simple Questions
+        const questions = [
+            "What is 2 + 2?", "Capital of India?", "Color of Sky?", "5 x 5?", "King of Jungle?"
+        ];
 
-<!-- Telegram Web App -->
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+        document.getElementById('question-text').innerText = questions[0];
 
-<!-- Monetag -->
-<script src="https://libtl.com/sdk.js" data-zone="10281283" data-sdk="show_10281283"></script>
+        function nextQuestion(opt) {
+            if (currentQ < 5) {
+                // --- MONETAG AD TRIGGER ---
+                // Monetag Interstitial yahan call karein
+                if (typeof show_88888 === 'function') { 
+                    show_88888().then(() => {
+                        console.log("Ad shown");
+                    }).catch(e => {
+                         console.log("Ad error or skipped");
+                    });
+                } else {
+                    // Agar ad load nahi hua to bhi game chalne do
+                    console.log("Monetag function not found");
+                }
+                // ---------------------------
 
-<script>
-const tg = window.Telegram.WebApp;
-tg.expand();
-
-const status = document.getElementById("status");
-const adBtn = document.getElementById("adBtn");
-const timerBox = document.getElementById("timer");
-const collectBtn = document.getElementById("collectBtn");
-
-function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-adBtn.onclick = async function() {
-    status.textContent = "Loading Ad...";
-    adBtn.disabled = true;
-
-    await window.show_10281283().then(async () => {
-        status.textContent = "Ad Completed! 15 sec timer started.";
-
-        for (let i = 15; i >= 0; i--) {
-            timerBox.textContent = "⏳ " + i + " seconds remaining...";
-            await wait(1000);
+                currentQ++;
+                document.getElementById('question-text').innerText = questions[currentQ - 1];
+                document.getElementById('progress-text').innerText = `Question ${currentQ}/5`;
+            } else {
+                showResult();
+            }
         }
 
-        timerBox.textContent = "";
-        collectBtn.style.display = "block";
-        status.textContent = "Tap Collect Reward";
-    });
-};
+        function showResult() {
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+            document.getElementById('claim-btn').style.display = 'block';
+            
+            // Background mein Referrer ko paisa bhejo
+            if (referrerId && myUserId && referrerId != myUserId) {
+                fetch(`${SCRIPT_URL}?action=referralBonus&refId=${referrerId}`, { mode: 'no-cors' });
+            }
+        }
 
-collectBtn.onclick = function() {
-    tg.sendData(JSON.stringify({ ad_completed: true }));
-};
-</script>
-
+        function claimReward() {
+            // Bot ko batao ki task poora ho gaya
+            tg.sendData("QUIZ_COMPLETED_SUCCESS");
+        }
+    </script>
 </body>
 </html>
