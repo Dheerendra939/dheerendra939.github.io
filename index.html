@@ -1,103 +1,86 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Quiz Earn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz & Earn</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <script src="https://alwingulla.com/88/tag.min.js" data-zone="YOUR_MONETAG_ZONE_ID" async data-cache="true"></script>
-
+    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
     <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; text-align: center; padding: 20px; margin: 0; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        h2 { color: #333; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.2s; }
-        .btn-primary { background-color: #0088cc; color: white; }
-        .btn-success { background-color: #27ae60; color: white; display: none; }
-        .progress { color: #666; font-size: 14px; margin-bottom: 15px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #eef2f5; padding: 20px; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        h2 { color: #0088cc; }
+        .btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 18px; margin-top: 20px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #006699; }
+        #result-section { display: none; }
+        .reward-text { font-size: 24px; font-weight: bold; color: #2ecc71; margin: 15px 0; }
     </style>
 </head>
 <body>
-
     <div class="card">
         <div id="quiz-section">
-            <div class="progress" id="progress-text">Question 1/5</div>
-            <h2 id="question-text">Loading...</h2>
-            <button class="btn btn-primary" onclick="nextQuestion(1)">Option A</button>
-            <button class="btn btn-primary" onclick="nextQuestion(2)">Option B</button>
+            <h2 id="q-text">Sawal 1: Kya aap taiyar hain?</h2>
+            <p>Ad dekhne ke baad agla sawal aayega.</p>
+            <button class="btn" onclick="handleAd()">Answer & Next Sawal</button>
         </div>
 
-        <div id="result-section" style="display:none;">
-            <h2>🎉 Awesome!</h2>
-            <p>You scored 5/5!</p>
-            <p>Click below to claim your <b>₹5 Reward</b>.</p>
-            <button class="btn btn-success" id="claim-btn" onclick="claimReward()">💰 Claim ₹5 & Return to Bot</button>
+        <div id="result-section">
+            <h2>🏆 Quiz Poora Hua!</h2>
+            <div class="reward-text">Aapne ₹5 Jeete!</div>
+            <p>In paise ko apne wallet mein add karne ke liye niche button dabayein.</p>
+            <button class="btn" onclick="claim()">Claim Reward & Return to Bot</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // Part 1 wala Google Script URL yahan dalein
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybUT2ClTw2nWR3NFmC0dheZmcj59ktvq8SPA-_8Z8-WEDFrcd2Bj4Uxl8XylJBV_bQ/exec"; 
+        tg.expand(); // Full screen open karne ke liye
         
-        // Referrer ID nikalo
+        // Aapka Naya Script URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXSvKXjQ11RKyy6rCDUJgehyEKCCC7Mt6Pv30LOsJZFqYCFDjd7v_97ayDWvnIw0ys9Q/exec";
+        
+        // Referral ID nikalne ke liye
         const urlParams = new URLSearchParams(window.location.search);
-        const startParam = urlParams.get('start_param');
-        const referrerId = startParam ? startParam.replace('ref_', '') : null;
-        const myUserId = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+        const refId = tg.initDataUnsafe.start_param ? tg.initDataUnsafe.start_param.replace('ref_', '') : null;
 
-        let currentQ = 1;
+        let step = 1;
 
-        // Simple Questions
-        const questions = [
-            "What is 2 + 2?", "Capital of India?", "Color of Sky?", "5 x 5?", "King of Jungle?"
-        ];
-
-        document.getElementById('question-text').innerText = questions[0];
-
-        function nextQuestion(opt) {
-            if (currentQ < 5) {
-                // --- MONETAG AD TRIGGER ---
-                // Monetag Interstitial yahan call karein
-                if (typeof show_88888 === 'function') { 
-                    show_88888().then(() => {
-                        console.log("Ad shown");
-                    }).catch(e => {
-                         console.log("Ad error or skipped");
-                    });
-                } else {
-                    // Agar ad load nahi hua to bhi game chalne do
-                    console.log("Monetag function not found");
-                }
-                // ---------------------------
-
-                currentQ++;
-                document.getElementById('question-text').innerText = questions[currentQ - 1];
-                document.getElementById('progress-text').innerText = `Question ${currentQ}/5`;
+        function handleAd() {
+            // Monetag Ad dikhayega
+            if (typeof show_10281283 === 'function') {
+                show_10281283().then(() => {
+                    nextStep();
+                }).catch((e) => {
+                    console.log("Ad error or skipped", e);
+                    nextStep();
+                });
             } else {
-                showResult();
+                nextStep();
             }
         }
 
-        function showResult() {
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('result-section').style.display = 'block';
-            document.getElementById('claim-btn').style.display = 'block';
-            
-            // Background mein Referrer ko paisa bhejo
-            if (referrerId && myUserId && referrerId != myUserId) {
-                fetch(`${SCRIPT_URL}?action=referralBonus&refId=${referrerId}`, { mode: 'no-cors' });
+        function nextStep() {
+            if (step < 5) {
+                step++;
+                document.getElementById('q-text').innerText = "Sawal " + step + ": Agla sawal hal karein...";
+            } else {
+                document.getElementById('quiz-section').style.display = 'none';
+                document.getElementById('result-section').style.display = 'block';
             }
         }
 
-        function claimReward() {
-            // Bot ko batao ki task poora ho gaya
-            tg.sendData("QUIZ_COMPLETED_SUCCESS");
+        function claim() {
+            // 1. Agar koi referrer hai to use ₹1 bonus bhejo
+            if (refId) {
+                fetch(`${SCRIPT_URL}?action=referralBonus&refId=${refId}`, {mode: 'no-cors'})
+                .then(() => console.log("Referral bonus sent"))
+                .catch(e => console.error(e));
+            }
+
+            // 2. Bot ko "QUIZ_DONE" signal bhejo taaki user ko ₹5 mil jayein
+            tg.sendData("QUIZ_DONE");
         }
     </script>
 </body>
 </html>
+
