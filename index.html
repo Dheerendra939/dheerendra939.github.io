@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Quiz Earn</title>
+    <title>Earn ₹5 - Quiz</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
-        .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        body { font-family: sans-serif; background: #f0f2f5; text-align: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        .btn { background: #0088cc; color: white; border: none; padding: 15px 20px; width: 100%; border-radius: 10px; font-size: 18px; margin-top: 20px; cursor: pointer; }
+        #result-section { display: none; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2 id="status">Sawal 1: Tayyar hain?</h2>
-        <button class="btn" id="adBtn" onclick="playAd()">Agla Sawal (Ad Dekhein)</button>
-        <button class="btn" id="claimBtn" style="display:none; background:#27ae60;" onclick="finalClaim()">Claim ₹5 & Back</button>
+    <div class="card">
+        <div id="quiz-section">
+            <h2 id="q-text">Sawal 1: Game Shuru Karein?</h2>
+            <button class="btn" onclick="handleAd()">Agla Sawal</button>
+        </div>
+
+        <div id="result-section">
+            <h2 style="color: #27ae60;">🏆 Jeet Gaye!</h2>
+            <p>Aapne ₹5 reward earn kiya hai.</p>
+            <button class="btn" style="background: #27ae60;" onclick="claim()">Claim Reward & Back to Bot</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHAa7lupQXlDudgO3Zvcj2PvjxTlsW2IRtkyP_UQjZ0MUvQcKqDaH6PQq5wv12UjJ0fA/exec";
+        
+        // Referral ID extraction
+        const urlParams = new URLSearchParams(window.location.search);
+        const refId = tg.initDataUnsafe.start_param ? tg.initDataUnsafe.start_param.replace('ref_', '') : null;
+
         let step = 1;
 
-        function playAd() {
+        function handleAd() {
             if (typeof show_10281283 === 'function') {
                 show_10281283().then(() => nextStep()).catch(() => nextStep());
             } else {
@@ -35,19 +50,27 @@
         function nextStep() {
             if (step < 5) {
                 step++;
-                document.getElementById('status').innerText = "Sawal " + step + ": Jaari rakhein...";
+                document.getElementById('q-text').innerText = "Sawal " + step + ": Jaari rakhein...";
             } else {
-                document.getElementById('status').innerText = "🏆 Quiz Poora Hua!";
-                document.getElementById('adBtn').style.display = 'none';
-                document.getElementById('claimBtn').style.display = 'block';
+                document.getElementById('quiz-section').style.display = 'none';
+                document.getElementById('result-section').style.display = 'block';
             }
         }
 
-        function finalClaim() {
-            tg.sendData("QUIZ_DONE");
-            setTimeout(() => { tg.close(); }, 500);
+        function claim() {
+            // 1. Referral bonus background fetch
+            if (refId) {
+                fetch(`${SCRIPT_URL}?action=referralBonus&refId=${refId}`, {mode: 'no-cors'});
+            }
+
+            // 2. Send data to Bot and close
+            try {
+                tg.sendData("QUIZ_DONE");
+                setTimeout(() => { tg.close(); }, 800);
+            } catch (e) {
+                tg.close();
+            }
         }
     </script>
 </body>
 </html>
-
