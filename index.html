@@ -1,76 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Earn ₹5 - Quiz</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
-    <style>
-        body { font-family: sans-serif; background: #f0f2f5; text-align: center; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        .btn { background: #0088cc; color: white; border: none; padding: 15px 20px; width: 100%; border-radius: 10px; font-size: 18px; margin-top: 20px; cursor: pointer; }
-        #result-section { display: none; }
-    </style>
+  <title>Earn ₹5 Quiz</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="//libtl.com/sdk.js" data-zone="10281283" data-sdk="show_10281283"></script>
 </head>
-<body>
-    <div class="card">
-        <div id="quiz-section">
-            <h2 id="q-text">Sawal 1: Game Shuru Karein?</h2>
-            <button class="btn" onclick="handleAd()">Agla Sawal</button>
-        </div>
+<body style="font-family:sans-serif;text-align:center;padding:20px">
 
-        <div id="result-section">
-            <h2 style="color: #27ae60;">🏆 Jeet Gaye!</h2>
-            <p>Aapne ₹5 reward earn kiya hai.</p>
-            <button class="btn" style="background: #27ae60;" onclick="claim()">Claim Reward & Back to Bot</button>
-        </div>
-    </div>
+<h2 id="q">Sawal 1: Shuru karein?</h2>
+<button onclick="next()">Next</button>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHAa7lupQXlDudgO3Zvcj2PvjxTlsW2IRtkyP_UQjZ0MUvQcKqDaH6PQq5wv12UjJ0fA/exec";
-        
-        // Referral ID extraction
-        const urlParams = new URLSearchParams(window.location.search);
-        const refId = tg.initDataUnsafe.start_param ? tg.initDataUnsafe.start_param.replace('ref_', '') : null;
+<div id="done" style="display:none">
+  <h2>🏆 Quiz Complete!</h2>
+  <button onclick="claim()">Claim Reward</button>
+</div>
 
-        let step = 1;
+<script>
+const tg = Telegram.WebApp;
+tg.expand();
 
-        function handleAd() {
-            if (typeof show_10281283 === 'function') {
-                show_10281283().then(() => nextStep()).catch(() => nextStep());
-            } else {
-                nextStep();
-            }
-        }
+let step = 1;
 
-        function nextStep() {
-            if (step < 5) {
-                step++;
-                document.getElementById('q-text').innerText = "Sawal " + step + ": Jaari rakhein...";
-            } else {
-                document.getElementById('quiz-section').style.display = 'none';
-                document.getElementById('result-section').style.display = 'block';
-            }
-        }
+function next() {
+  if (typeof show_10281283 === "function") {
+    show_10281283().then(go).catch(go);
+  } else {
+    go();
+  }
+}
 
-        function claim() {
-            // 1. Referral bonus background fetch
-            if (refId) {
-                fetch(`${SCRIPT_URL}?action=referralBonus&refId=${refId}`, {mode: 'no-cors'});
-            }
+function go() {
+  step++;
+  if (step <= 5) {
+    document.getElementById("q").innerText = "Sawal " + step;
+  } else {
+    document.getElementById("done").style.display = "block";
+  }
+}
 
-            // 2. Send data to Bot and close
-            try {
-                tg.sendData("QUIZ_DONE");
-                setTimeout(() => { tg.close(); }, 800);
-            } catch (e) {
-                tg.close();
-            }
-        }
-    </script>
+function claim() {
+  const ref = tg.initDataUnsafe.start_param || "";
+  tg.sendData(ref);
+  setTimeout(() => tg.close(), 500);
+}
+</script>
+
 </body>
 </html>
