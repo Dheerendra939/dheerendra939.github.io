@@ -6,19 +6,35 @@
 <title>Earn ₹5 Quiz</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
+<script src='//libtl.com/sdk.js'
+        data-zone='10281283'
+        data-sdk='show_10281283'></script>
 
 <style>
-body{font-family:sans-serif;text-align:center;background:#f2f2f2;padding:20px}
-.card{background:#fff;padding:25px;border-radius:15px}
-button{padding:15px;width:100%;font-size:18px;margin-top:15px}
+body{
+  font-family:sans-serif;
+  background:#f2f2f2;
+  text-align:center;
+  padding:20px
+}
+.card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px
+}
+button{
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  margin-top:15px
+}
 </style>
 </head>
 
 <body>
 <div class="card">
   <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
-  <button onclick="next()">Agla Sawal</button>
+  <button id="nextBtn" onclick="next()">Agla Sawal</button>
 
   <div id="done" style="display:none">
     <h2>🏆 Quiz Complete!</h2>
@@ -31,7 +47,12 @@ const tg = Telegram.WebApp;
 tg.expand();
 
 let step = 1;
-const ref = tg.initDataUnsafe.start_param || "";
+
+// referral id (may be empty)
+let ref = "";
+if (tg.initDataUnsafe && tg.initDataUnsafe.start_param) {
+  ref = tg.initDataUnsafe.start_param.replace("ref_", "");
+}
 
 function next() {
   if (typeof show_10281283 === "function") {
@@ -46,14 +67,15 @@ function nextStep() {
   if (step <= 5) {
     document.getElementById("q").innerText = "Sawal " + step;
   } else {
-    document.querySelector("button").style.display="none";
-    document.getElementById("done").style.display="block";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("done").style.display = "block";
   }
 }
 
 function claim() {
-  tg.sendData("QUIZ_DONE|" + ref.replace("ref_",""));
-  setTimeout(()=>tg.close(),500);
+  // Send quiz done + referral
+  tg.sendData("QUIZ_DONE|" + ref);
+  setTimeout(() => tg.close(), 500);
 }
 </script>
 </body>
