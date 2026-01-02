@@ -11,23 +11,9 @@
         data-sdk='show_10281283'></script>
 
 <style>
-body{
-  font-family:sans-serif;
-  background:#f2f2f2;
-  text-align:center;
-  padding:20px
-}
-.card{
-  background:#fff;
-  padding:25px;
-  border-radius:15px
-}
-button{
-  width:100%;
-  padding:15px;
-  font-size:18px;
-  margin-top:15px
-}
+body{ font-family:sans-serif; background:#f2f2f2; text-align:center; padding:20px }
+.card{ background:#fff; padding:25px; border-radius:15px }
+button{ width:100%; padding:15px; font-size:18px; margin-top:15px }
 </style>
 </head>
 
@@ -48,11 +34,11 @@ tg.expand();
 
 let step = 1;
 
-// referrer from URL
+// get referrer from URL
 let ref = "";
 const params = new URLSearchParams(window.location.search);
 if (params.get("ref")) {
-  ref = params.get("ref");
+  ref = params.get("ref"); // THIS IS THE REFERRER ID
 }
 
 function next() {
