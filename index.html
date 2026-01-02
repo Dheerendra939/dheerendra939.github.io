@@ -1,113 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Earn ₹5 Quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-  <!-- Telegram WebApp -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f4f7;
-      text-align: center;
-      padding: 20px;
-    }
-    .card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 16px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    button {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background: #0088cc;
-      color: #fff;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    #done {
-      display: none;
-    }
-  </style>
 </head>
 
-<body>
+<body style="font-family:sans-serif;text-align:center;padding:20px">
 
-<div class="card">
-  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
+<h2 id="q">Sawal 1: Quiz shuru karein?</h2>
+<button id="nextBtn">Agla Sawal</button>
 
-  <button id="nextBtn">Agla Sawal</button>
-
-  <div id="done">
-    <h2 style="color:#27ae60;">🏆 Quiz Complete!</h2>
-    <p>₹5 reward aapke bot wallet me add hoga.</p>
-    <button onclick="claim()">Claim Reward & Back to Bot</button>
-  </div>
+<div id="done" style="display:none">
+  <h2>🏆 Quiz Complete!</h2>
+  <button onclick="claim()">Claim Reward</button>
 </div>
 
-<!-- ================== SCRIPT ================== -->
 <script>
-  const tg = Telegram.WebApp;
-  tg.expand();
+const tg = Telegram.WebApp;
+tg.expand();
 
-  let step = 1;
-  const TOTAL_STEPS = 5;
+let step = 1;
 
-  document.getElementById("nextBtn").addEventListener("click", showAdAndNext);
+document.getElementById("nextBtn").addEventListener("click", nextStep);
 
-  function showAdAndNext() {
-    // Monetag rewarded interstitial
-    if (typeof show_10281283 === "function") {
-      try {
-        show_10281283()
-          .then(() => {
-            goNext();
-          })
-          .catch(() => {
-            goNext();
-          });
-      } catch (e) {
-        goNext();
-      }
-    } else {
-      goNext();
-    }
+function nextStep() {
+  step++;
+  if (step <= 5) {
+    document.getElementById("q").innerText = "Sawal " + step;
+  } else {
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("done").style.display = "block";
   }
+}
 
-  function goNext() {
-    step++;
-
-    if (step <= TOTAL_STEPS) {
-      document.getElementById("q").innerText =
-        "Sawal " + step + ": Jaari rakhein...";
-    } else {
-      document.getElementById("nextBtn").style.display = "none";
-      document.getElementById("done").style.display = "block";
-    }
-  }
-
-  function claim() {
-    // start_param me ref_XXXX aata hai
-    const ref = tg.initDataUnsafe.start_param || "";
-    tg.sendData(ref);
-    setTimeout(() => tg.close(), 500);
-  }
-</script>
-
-<!-- ================== MONETAG SDK ================== -->
-<script
-  src="//libtl.com/sdk.js"
-  data-zone="10281283"
-  data-sdk="show_10281283">
+function claim() {
+  tg.sendData("QUIZ_DONE");
+  setTimeout(() => tg.close(), 300);
+}
 </script>
 
 </body>
