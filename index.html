@@ -34,7 +34,7 @@ button{
 <body>
 <div class="card">
   <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
-  <button id="nextBtn" onclick="next()">Agla Sawal</button>
+  <button onclick="next()">Agla Sawal</button>
 
   <div id="done" style="display:none">
     <h2>🏆 Quiz Complete!</h2>
@@ -48,10 +48,11 @@ tg.expand();
 
 let step = 1;
 
-// referral id (may be empty)
+// referrer from URL
 let ref = "";
-if (tg.initDataUnsafe && tg.initDataUnsafe.start_param) {
-  ref = tg.initDataUnsafe.start_param.replace("ref_", "");
+const params = new URLSearchParams(window.location.search);
+if (params.get("ref")) {
+  ref = params.get("ref");
 }
 
 function next() {
@@ -67,14 +68,14 @@ function nextStep() {
   if (step <= 5) {
     document.getElementById("q").innerText = "Sawal " + step;
   } else {
-    document.getElementById("nextBtn").style.display = "none";
+    document.querySelector("button").style.display = "none";
     document.getElementById("done").style.display = "block";
   }
 }
 
 function claim() {
-  Telegram.WebApp.sendData("DONE");
-  setTimeout(() => Telegram.WebApp.close(), 500);
+  tg.sendData("DONE|" + ref);
+  setTimeout(() => tg.close(), 500);
 }
 </script>
 </body>
