@@ -73,9 +73,8 @@ function nextStep() {
 }
 
 function claim() {
-  // Send quiz done + referral
-  tg.sendData("QUIZ_DONE|" + ref);
-  setTimeout(() => tg.close(), 500);
+  Telegram.WebApp.sendData("DONE");
+  setTimeout(() => Telegram.WebApp.close(), 500);
 }
 </script>
 </body>
