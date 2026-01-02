@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Earn ₹5 Quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earn ₹5 Quiz</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
+
+<style>
+body{font-family:sans-serif;text-align:center;background:#f2f2f2;padding:20px}
+.card{background:#fff;padding:25px;border-radius:15px}
+button{padding:15px;width:100%;font-size:18px;margin-top:15px}
+</style>
 </head>
 
-<body style="font-family:sans-serif;text-align:center;padding:20px">
+<body>
+<div class="card">
+  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
+  <button onclick="next()">Agla Sawal</button>
 
-<h2 id="q">Sawal 1: Quiz shuru karein?</h2>
-<button id="nextBtn">Agla Sawal</button>
-
-<div id="done" style="display:none">
-  <h2>🏆 Quiz Complete!</h2>
-  <button onclick="claim()">Claim Reward</button>
+  <div id="done" style="display:none">
+    <h2>🏆 Quiz Complete!</h2>
+    <button onclick="claim()">Claim Reward</button>
+  </div>
 </div>
 
 <script>
@@ -22,24 +31,30 @@ const tg = Telegram.WebApp;
 tg.expand();
 
 let step = 1;
+const ref = tg.initDataUnsafe.start_param || "";
 
-document.getElementById("nextBtn").addEventListener("click", nextStep);
+function next() {
+  if (typeof show_10281283 === "function") {
+    show_10281283().finally(nextStep);
+  } else {
+    nextStep();
+  }
+}
 
 function nextStep() {
   step++;
   if (step <= 5) {
     document.getElementById("q").innerText = "Sawal " + step;
   } else {
-    document.getElementById("nextBtn").style.display = "none";
-    document.getElementById("done").style.display = "block";
+    document.querySelector("button").style.display="none";
+    document.getElementById("done").style.display="block";
   }
 }
 
 function claim() {
-  tg.sendData("QUIZ_DONE");
-  setTimeout(() => tg.close(), 300);
+  tg.sendData("QUIZ_DONE|" + ref.replace("ref_",""));
+  setTimeout(()=>tg.close(),500);
 }
 </script>
-
 </body>
 </html>
