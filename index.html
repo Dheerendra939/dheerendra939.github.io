@@ -1,68 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Earn ₹5 Quiz</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src='//libtl.com/sdk.js'
-        data-zone='10281283'
-        data-sdk='show_10281283'></script>
-
-<style>
-body{ font-family:sans-serif; background:#f2f2f2; text-align:center; padding:20px }
-.card{ background:#fff; padding:25px; border-radius:15px }
-button{ width:100%; padding:15px; font-size:18px; margin-top:15px }
-</style>
+  <title>Referral System</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-
 <body>
-<div class="card">
-  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
-  <button onclick="next()">Agla Sawal</button>
 
-  <div id="done" style="display:none">
-    <h2>🏆 Quiz Complete!</h2>
-    <button onclick="claim()">Claim Reward</button>
-  </div>
-</div>
+<h2>Generate Referral Link</h2>
+<button onclick="generate()">Generate Link</button>
 
 <script>
-const tg = Telegram.WebApp;
-tg.expand();
+const BOT_USERNAME = "YOUR_BOT_USERNAME";
+const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL";
 
-let step = 1;
+function generate() {
+  const tg = window.Telegram.WebApp;
+  const userId = tg.initDataUnsafe.user.id;
 
-// get referrer from URL
-let ref = "";
-const params = new URLSearchParams(window.location.search);
-if (params.get("ref")) {
-  ref = params.get("ref"); // THIS IS THE REFERRER ID
+  const link =
+    `https://t.me/${BOT_USERNAME}?start=ref_${userId}`;
+
+  tg.openTelegramLink(link);
 }
 
-function next() {
-  if (typeof show_10281283 === "function") {
-    show_10281283().finally(nextStep);
-  } else {
-    nextStep();
+// 🔁 THIS PART COUNTS OPENS
+(function countOpen() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+
+  if (ref) {
+    fetch(`${SCRIPT_URL}?ref=${ref}`);
   }
-}
-
-function nextStep() {
-  step++;
-  if (step <= 5) {
-    document.getElementById("q").innerText = "Sawal " + step;
-  } else {
-    document.querySelector("button").style.display = "none";
-    document.getElementById("done").style.display = "block";
-  }
-}
-
-function claim() {
-  tg.sendData("DONE|" + ref);
-  setTimeout(() => tg.close(), 500);
-}
+})();
 </script>
+
 </body>
 </html>
