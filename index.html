@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Referral System</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
+        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
+    </style>
 </head>
 <body>
+    <div class="card">
+        <h2>Referral System</h2>
+        <p>Click below to generate your unique link.</p>
+        <button onclick="generate()">🔗 GENERATE MY LINK</button>
+    </div>
 
-<h2>Generate Referral Link</h2>
-<button onclick="generate()">Generate Link</button>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
 
-<script>
-const BOT_USERNAME = "QZquizbot";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwsrD0fedobzWYeDzqNbO9oIxv4BfNdMt-xhRvjiAWtOzWgvt2MPRWkBZeqn5JV4hF9ig/exec";
-
-function generate() {
-  const tg = window.Telegram.WebApp;
-  const userId = tg.initDataUnsafe.user.id;
-
-  const link =
-    `https://t.me/${BOT_USERNAME}?start=ref_${userId}`;
-
-  tg.openTelegramLink(link);
-}
-
-// 🔁 THIS PART COUNTS OPENS
-(function countOpen() {
-  const params = new URLSearchParams(window.location.search);
-  const ref = params.get("ref");
-
-  if (ref) {
-    fetch(`${SCRIPT_URL}?ref=${ref}`);
-  }
-})();
-</script>
-
+        function generate() {
+            // Read user data from the WebApp environment
+            const user = tg.initDataUnsafe.user;
+            if (user && user.id) {
+                // Redirect user back to bot with their ID
+                const botLink = "https://t.me/QZquizbot?start=" + user.id;
+                tg.openTelegramLink(botLink);
+                tg.close();
+            } else {
+                alert("Error: Open this from the 'Open App' button in Telegram!");
+            }
+        }
+    </script>
 </body>
 </html>
+
