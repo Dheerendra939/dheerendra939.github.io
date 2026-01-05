@@ -2,28 +2,43 @@
 <html>
 <head>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
-        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; }
         button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Referral Link</h2>
-        <p>Tap below to get your personal link</p>
-        <button onclick="generate()">🔗 GENERATE MY LINK</button>
+        <h2>Referral System</h2>
+        <p>Click below to generate your unique link and confirm your invite.</p>
+        <button onclick="generate()">🔗 GENERATE & CONFIRM</button>
     </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
+        tg.expand();
+
         function generate() {
             const user = tg.initDataUnsafe.user;
+            
+            // Get the referrer from the URL if it exists
+            const urlParams = new URLSearchParams(window.location.search);
+            const refBy = urlParams.get('ref');
+
             if (user && user.id) {
-                // This sends the user back to the bot with their own ID
-                window.location.href = "https://t.me/QZquizbot?start=" + user.id;
+                // Redirect back to bot. 
+                // If they were invited, we pass "confirm_REFID"
+                let startParam = user.id;
+                if (refBy) {
+                    startParam = "confirm_" + refBy + "_by_" + user.id;
+                }
+                
+                window.location.href = "https://t.me/QZquizbot?start=" + startParam;
             } else {
-                alert("Please open this from the Bot Menu!");
+                alert("Error: Please wait 2 seconds and try again, or reopen the bot.");
             }
         }
     </script>
