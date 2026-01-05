@@ -4,31 +4,26 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
-        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; }
+        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2>Link Generator</h2>
-        <p>Click below to generate your unique link.</p>
+        <h2>Referral Link</h2>
+        <p>Tap below to get your personal link</p>
         <button onclick="generate()">🔗 GENERATE MY LINK</button>
     </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
-
         function generate() {
             const user = tg.initDataUnsafe.user;
             if (user && user.id) {
-                // This sends the user back to the bot with their ID
-                const botLink = "https://t.me/QZquizbot?start=" + user.id;
-                tg.openTelegramLink(botLink);
-                tg.close();
+                // This sends the user back to the bot with their own ID
+                window.location.href = "https://t.me/QZquizbot?start=" + user.id;
             } else {
-                alert("Please open this inside the Telegram Bot!");
+                alert("Please open this from the Bot Menu!");
             }
         }
     </script>
