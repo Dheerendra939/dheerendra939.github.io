@@ -11,35 +11,33 @@
 </head>
 <body>
     <div class="card">
-        <h2>Referral System</h2>
-        <p>Click below to generate your unique link and confirm your invite.</p>
-        <button onclick="generate()">🔗 GENERATE & CONFIRM</button>
+        <h2>Verify & Generate</h2>
+        <p>Click below to confirm your visit and get your link.</p>
+        <button id="btn" onclick="generate()">🔗 CONFIRM NOW</button>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
 
         function generate() {
-            const user = tg.initDataUnsafe.user;
-            
-            // Get the referrer from the URL if it exists
-            const urlParams = new URLSearchParams(window.location.search);
-            const refBy = urlParams.get('ref');
-
-            if (user && user.id) {
-                // Redirect back to bot. 
-                // If they were invited, we pass "confirm_REFID"
-                let startParam = user.id;
-                if (refBy) {
-                    startParam = "confirm_" + refBy + "_by_" + user.id;
-                }
-                
-                window.location.href = "https://t.me/QZquizbot?start=" + startParam;
-            } else {
-                alert("Error: Please wait 2 seconds and try again, or reopen the bot.");
+            // Check if Telegram data is available
+            if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
+                alert("Telegram data not detected. Please close this and click the '🚀 Open App' button again.");
+                return;
             }
+
+            const userId = tg.initDataUnsafe.user.id;
+            const urlParams = new URLSearchParams(window.location.search);
+            const ref = urlParams.get('ref');
+
+            // If there is a referrer, we send a special confirmation code
+            let finalId = userId;
+            if (ref && ref !== String(userId)) {
+                finalId = "CONFIRM_" + ref;
+            }
+
+            window.location.href = "https://t.me/QZquizbot?start=" + finalId;
         }
     </script>
 </body>
