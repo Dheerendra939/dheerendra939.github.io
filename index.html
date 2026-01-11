@@ -1,45 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Monetag Reward Quiz</title>
+    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
+
     <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
-        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; }
-        button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        :root {
+            --tg-theme-bg: #ffffff;
+            --tg-theme-text: #222222;
+            --tg-theme-btn: #2481cc;
+            --tg-theme-btn-text: #ffffff;
+        }
+        body { 
+            font-family: sans-serif; 
+            background-color: var(--tg-theme-bg); 
+            color: var(--tg-theme-text); 
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center; align-items: center; height: 90vh;
+        }
+        .quiz-container {
+            width: 100%; max-width: 400px; text-align: center;
+            background: #f1f1f1; padding: 20px; border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .question { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+        .btn {
+            display: block; width: 100%; padding: 15px; margin: 10px 0;
+            border: none; border-radius: 10px; font-size: 16px;
+            background-color: var(--tg-theme-btn); color: var(--tg-theme-btn-text);
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn:active { transform: scale(0.98); opacity: 0.8; }
+        .hidden { display: none; }
+        .loader { font-style: italic; color: #666; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Verify & Generate</h2>
-        <p>Click below to confirm your visit and get your link.</p>
-        <button id="btn" onclick="generate()">🔗 CONFIRM NOW</button>
+
+    <div class="quiz-container">
+        <div id="quiz-box">
+            <div class="question" id="q-text">Loading Question...</div>
+            <div id="options"></div>
+            <div id="ad-status" class="loader hidden">Loading Ad... Please wait.</div>
+        </div>
+
+        <div id="result-box" class="hidden">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="final-score" style="font-size: 20px;"></p>
+            <button class="btn" onclick="location.reload()">Play Again</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.ready();
+        tg.expand();
 
-        function generate() {
-            // Check if Telegram data is available
-            if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
-                alert("Telegram data not detected. Please close this and click the '🚀 Open App' button again.");
-                return;
-            }
+        const quizData = [
+            { q: "What is the capital of India?", a: ["Mumbai", "New Delhi", "Goa", "Lucknow"], correct: 1 },
+            { q: "Which company created ChatGPT?", a: ["Google", "Microsoft", "OpenAI", "Apple"], correct: 2 },
+            { q: "What is 10 x 10?", a: ["100", "1000", "20", "50"], correct: 0 }
+        ];
 
-            const userId = tg.initDataUnsafe.user.id;
-            const urlParams = new URLSearchParams(window.location.search);
-            const ref = urlParams.get('ref');
+        let currentQ = 0;
+        let score = 0;
 
-            // If there is a referrer, we send a special confirmation code
-            let finalId = userId;
-            if (ref && ref !== String(userId)) {
-                finalId = "CONFIRM_" + ref;
-            }
+        function loadQuestion() {
+            const data = quizData[currentQ];
+            document.getElementById('q-text').innerText = data.q;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
 
-            window.location.href = "https://t.me/QZquizbot?start=" + finalId;
+            data.a.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(btn);
+            });
         }
+
+        function checkAnswer(choice) {
+            if (choice === quizData[currentQ].correct) {
+                score++;
+            }
+            
+            // Trigger Monetag Ad
+            document.getElementById('ad-status').classList.remove('hidden');
+            
+            if (typeof show_10281283 === 'function') {
+                show_10281283().then(() => {
+                    // Ad finished successfully
+                    document.getElementById('ad-status').classList.add('hidden');
+                    moveToNext();
+                }).catch((e) => {
+                    // Ad failed or skipped
+                    console.log("Ad Error", e);
+                    document.getElementById('ad-status').classList.add('hidden');
+                    moveToNext(); 
+                });
+            } else {
+                // If Monetag script hasn't loaded
+                moveToNext();
+            }
+        }
+
+        function moveToNext() {
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('final-score').innerText = `You scored ${score} / ${quizData.length}`;
+        }
+
+        loadQuestion();
     </script>
 </body>
 </html>
-
