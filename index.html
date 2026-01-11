@@ -1,106 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reward Quiz</title>
-    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
-
     <style>
-        body { font-family: sans-serif; background: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #222); margin: 0; padding: 20px; text-align: center; }
-        .card { background: var(--tg-theme-secondary-bg-color, #f0f0f0); padding: 20px; border-radius: 15px; margin-top: 50px; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 16px; background: var(--tg-theme-button-color, #2481cc); color: var(--tg-theme-button-text-color, #fff); cursor: pointer; }
-        .hidden { display: none; }
-        .loading { font-style: italic; color: #888; margin-top: 10px; }
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
+        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <div class="card">
-        <div id="quiz">
-            <h2 id="question">Loading...</h2>
-            <div id="options"></div>
-            <p id="status" class="loading hidden">Preparing next question...</p>
-        </div>
-        
-        <div id="result" class="hidden">
-            <h2>Finish! 🏆</h2>
-            <p id="score-display"></p>
-            <button class="btn" onclick="location.reload()">Restart Quiz</button>
-        </div>
+        <h2>Referral Link</h2>
+        <p>Tap below to get your personal link</p>
+        <button onclick="generate()">🔗 GENERATE MY LINK</button>
     </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
-
-        const quizData = [
-            { q: "What is 10 + 5?", a: ["12", "15", "18"], c: 1 },
-            { q: "Which is a crypto?", a: ["BTC", "USD", "EUR"], c: 0 },
-            { q: "Best TG Bot?", a: ["This one", "None", "Maybe"], c: 0 }
-        ];
-
-        let index = 0;
-        let score = 0;
-
-        // PRELOAD AD immediately on start
-        function preloadAd() {
-            if (typeof show_10281283 === 'function') {
-                show_10281283({ type: 'preload' }).catch(e => console.log("Preload failed", e));
-            }
-        }
-
-        function render() {
-            const current = quizData[index];
-            document.getElementById('question').innerText = current.q;
-            const optDiv = document.getElementById('options');
-            optDiv.innerHTML = '';
-            
-            current.a.forEach((txt, i) => {
-                const b = document.createElement('button');
-                b.className = 'btn';
-                b.innerText = txt;
-                b.onclick = () => select(i);
-                optDiv.appendChild(b);
-            });
-            // Preload the ad for the NEXT click while user reads this question
-            preloadAd();
-        }
-
-        function select(choice) {
-            if (choice === quizData[index].c) score++;
-            
-            document.getElementById('status').classList.remove('hidden');
-            
-            // Trigger Ad
-            if (typeof show_10281283 === 'function') {
-                show_10281283().then(() => {
-                    next(); // Ad watched
-                }).catch(() => {
-                    next(); // Fallback if ad fails
-                });
+        function generate() {
+            const user = tg.initDataUnsafe.user;
+            if (user && user.id) {
+                // This sends the user back to the bot with their own ID
+                window.location.href = "https://t.me/QZquizbot?start=" + user.id;
             } else {
-                next();
+                alert("Please open this from the Bot Menu!");
             }
         }
-
-        function next() {
-            document.getElementById('status').classList.add('hidden');
-            index++;
-            if (index < quizData.length) {
-                render();
-            } else {
-                document.getElementById('quiz').classList.add('hidden');
-                document.getElementById('result').classList.remove('hidden');
-                document.getElementById('score-display').innerText = `Score: ${score}/${quizData.length}`;
-            }
-        }
-
-        render();
     </script>
 </body>
 </html>
