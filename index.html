@@ -3,128 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Monetag Reward Quiz</title>
+    <title>Reward Quiz</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
 
     <style>
-        :root {
-            --tg-theme-bg: #ffffff;
-            --tg-theme-text: #222222;
-            --tg-theme-btn: #2481cc;
-            --tg-theme-btn-text: #ffffff;
-        }
-        body { 
-            font-family: sans-serif; 
-            background-color: var(--tg-theme-bg); 
-            color: var(--tg-theme-text); 
-            margin: 0; padding: 20px;
-            display: flex; justify-content: center; align-items: center; height: 90vh;
-        }
-        .quiz-container {
-            width: 100%; max-width: 400px; text-align: center;
-            background: #f1f1f1; padding: 20px; border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .question { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
-        .btn {
-            display: block; width: 100%; padding: 15px; margin: 10px 0;
-            border: none; border-radius: 10px; font-size: 16px;
-            background-color: var(--tg-theme-btn); color: var(--tg-theme-btn-text);
-            cursor: pointer; transition: 0.3s;
-        }
-        .btn:active { transform: scale(0.98); opacity: 0.8; }
+        body { font-family: sans-serif; background: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #222); margin: 0; padding: 20px; text-align: center; }
+        .card { background: var(--tg-theme-secondary-bg-color, #f0f0f0); padding: 20px; border-radius: 15px; margin-top: 50px; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-size: 16px; background: var(--tg-theme-button-color, #2481cc); color: var(--tg-theme-button-text-color, #fff); cursor: pointer; }
         .hidden { display: none; }
-        .loader { font-style: italic; color: #666; margin-top: 10px; }
+        .loading { font-style: italic; color: #888; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="quiz-container">
-        <div id="quiz-box">
-            <div class="question" id="q-text">Loading Question...</div>
+    <div class="card">
+        <div id="quiz">
+            <h2 id="question">Loading...</h2>
             <div id="options"></div>
-            <div id="ad-status" class="loader hidden">Loading Ad... Please wait.</div>
+            <p id="status" class="loading hidden">Preparing next question...</p>
         </div>
-
-        <div id="result-box" class="hidden">
-            <h2>Quiz Completed! 🎉</h2>
-            <p id="final-score" style="font-size: 20px;"></p>
-            <button class="btn" onclick="location.reload()">Play Again</button>
+        
+        <div id="result" class="hidden">
+            <h2>Finish! 🏆</h2>
+            <p id="score-display"></p>
+            <button class="btn" onclick="location.reload()">Restart Quiz</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+        tg.ready();
         tg.expand();
 
         const quizData = [
-            { q: "What is the capital of India?", a: ["Mumbai", "New Delhi", "Goa", "Lucknow"], correct: 1 },
-            { q: "Which company created ChatGPT?", a: ["Google", "Microsoft", "OpenAI", "Apple"], correct: 2 },
-            { q: "What is 10 x 10?", a: ["100", "1000", "20", "50"], correct: 0 }
+            { q: "What is 10 + 5?", a: ["12", "15", "18"], c: 1 },
+            { q: "Which is a crypto?", a: ["BTC", "USD", "EUR"], c: 0 },
+            { q: "Best TG Bot?", a: ["This one", "None", "Maybe"], c: 0 }
         ];
 
-        let currentQ = 0;
+        let index = 0;
         let score = 0;
 
-        function loadQuestion() {
-            const data = quizData[currentQ];
-            document.getElementById('q-text').innerText = data.q;
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
-
-            data.a.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(index);
-                optionsDiv.appendChild(btn);
-            });
+        // PRELOAD AD immediately on start
+        function preloadAd() {
+            if (typeof show_10281283 === 'function') {
+                show_10281283({ type: 'preload' }).catch(e => console.log("Preload failed", e));
+            }
         }
 
-        function checkAnswer(choice) {
-            if (choice === quizData[currentQ].correct) {
-                score++;
-            }
+        function render() {
+            const current = quizData[index];
+            document.getElementById('question').innerText = current.q;
+            const optDiv = document.getElementById('options');
+            optDiv.innerHTML = '';
             
-            // Trigger Monetag Ad
-            document.getElementById('ad-status').classList.remove('hidden');
+            current.a.forEach((txt, i) => {
+                const b = document.createElement('button');
+                b.className = 'btn';
+                b.innerText = txt;
+                b.onclick = () => select(i);
+                optDiv.appendChild(b);
+            });
+            // Preload the ad for the NEXT click while user reads this question
+            preloadAd();
+        }
+
+        function select(choice) {
+            if (choice === quizData[index].c) score++;
             
+            document.getElementById('status').classList.remove('hidden');
+            
+            // Trigger Ad
             if (typeof show_10281283 === 'function') {
                 show_10281283().then(() => {
-                    // Ad finished successfully
-                    document.getElementById('ad-status').classList.add('hidden');
-                    moveToNext();
-                }).catch((e) => {
-                    // Ad failed or skipped
-                    console.log("Ad Error", e);
-                    document.getElementById('ad-status').classList.add('hidden');
-                    moveToNext(); 
+                    next(); // Ad watched
+                }).catch(() => {
+                    next(); // Fallback if ad fails
                 });
             } else {
-                // If Monetag script hasn't loaded
-                moveToNext();
+                next();
             }
         }
 
-        function moveToNext() {
-            currentQ++;
-            if (currentQ < quizData.length) {
-                loadQuestion();
+        function next() {
+            document.getElementById('status').classList.add('hidden');
+            index++;
+            if (index < quizData.length) {
+                render();
             } else {
-                showResult();
+                document.getElementById('quiz').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('score-display').innerText = `Score: ${score}/${quizData.length}`;
             }
         }
 
-        function showResult() {
-            document.getElementById('quiz-box').classList.add('hidden');
-            document.getElementById('result-box').classList.remove('hidden');
-            document.getElementById('final-score').innerText = `You scored ${score} / ${quizData.length}`;
-        }
-
-        loadQuestion();
+        render();
     </script>
 </body>
 </html>
