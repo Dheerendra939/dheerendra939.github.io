@@ -1,52 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Quiz Earn</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
-        .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earn ₹5 Quiz</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
+
+<style>
+body{font-family:sans-serif;text-align:center;background:#f2f2f2;padding:20px}
+.card{background:#fff;padding:25px;border-radius:15px}
+button{padding:15px;width:100%;font-size:18px;margin-top:15px}
+</style>
 </head>
+
 <body>
-    <div class="box">
-        <h2 id="status">Sawal 1: Tayyar hain?</h2>
-        <button class="btn" id="adBtn" onclick="playAd()">Agla Sawal (Ad Dekhein)</button>
-        <button class="btn" id="claimBtn" style="display:none; background:#27ae60;" onclick="finalClaim()">Claim ₹5 & Back</button>
-    </div>
+<div class="card">
+  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
+  <button onclick="next()">Agla Sawal</button>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        let step = 1;
+  <div id="done" style="display:none">
+    <h2>🏆 Quiz Complete!</h2>
+    <button onclick="claim()">Claim Reward</button>
+  </div>
+</div>
 
-        function playAd() {
-            if (typeof show_10281283 === 'function') {
-                show_10281283().then(() => nextStep()).catch(() => nextStep());
-            } else {
-                nextStep();
-            }
-        }
+<script>
+const tg = Telegram.WebApp;
+tg.expand();
 
-        function nextStep() {
-            if (step < 5) {
-                step++;
-                document.getElementById('status').innerText = "Sawal " + step + ": Jaari rakhein...";
-            } else {
-                document.getElementById('status').innerText = "🏆 Quiz Poora Hua!";
-                document.getElementById('adBtn').style.display = 'none';
-                document.getElementById('claimBtn').style.display = 'block';
-            }
-        }
+let step = 1;
+const ref = tg.initDataUnsafe.start_param || "";
 
-        function finalClaim() {
-            tg.sendData("QUIZ_DONE");
-            setTimeout(() => { tg.close(); }, 500);
-        }
-    </script>
+function next() {
+  if (typeof show_10281283 === "function") {
+    show_10281283().finally(nextStep);
+  } else {
+    nextStep();
+  }
+}
+
+function nextStep() {
+  step++;
+  if (step <= 5) {
+    document.getElementById("q").innerText = "Sawal " + step;
+  } else {
+    document.querySelector("button").style.display="none";
+    document.getElementById("done").style.display="block";
+  }
+}
+
+function claim() {
+  tg.sendData("QUIZ_DONE|" + ref.replace("ref_",""));
+  setTimeout(()=>tg.close(),500);
+}
+</script>
 </body>
 </html>
