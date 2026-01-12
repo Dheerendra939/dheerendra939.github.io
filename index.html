@@ -1,31 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1c1c1c; color: white; }
-        .card { background: #2c2c2c; padding: 30px; border-radius: 20px; text-align: center; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        button { background: #0088cc; color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earn ₹5 Quiz</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src='//libtl.com/sdk.js'
+        data-zone='10281283'
+        data-sdk='show_10281283'></script>
+
+<style>
+body{
+  font-family:sans-serif;
+  background:#f2f2f2;
+  text-align:center;
+  padding:20px
+}
+.card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px
+}
+button{
+  width:100%;
+  padding:15px;
+  font-size:18px;
+  margin-top:15px
+}
+</style>
 </head>
+
 <body>
-    <div class="card">
-        <h2>Referral Link</h2>
-        <p>Tap below to get your personal link</p>
-        <button onclick="generate()">🔗 GENERATE MY LINK</button>
-    </div>
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        function generate() {
-            const user = tg.initDataUnsafe.user;
-            if (user && user.id) {
-                // This sends the user back to the bot with their own ID
-                window.location.href = "https://t.me/QZquizbot?start=" + user.id;
-            } else {
-                alert("Please open this from the Bot Menu!");
-            }
-        }
-    </script>
+<div class="card">
+  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
+  <button onclick="next()">Agla Sawal</button>
+
+  <div id="done" style="display:none">
+    <h2>🏆 Quiz Complete!</h2>
+    <button onclick="claim()">Claim Reward</button>
+  </div>
+</div>
+
+<script>
+const tg = Telegram.WebApp;
+tg.expand();
+
+let step = 1;
+
+// referrer from URL
+let ref = "";
+const params = new URLSearchParams(window.location.search);
+if (params.get("ref")) {
+  ref = params.get("ref");
+}
+
+function next() {
+  if (typeof show_10281283 === "function") {
+    show_10281283().finally(nextStep);
+  } else {
+    nextStep();
+  }
+}
+
+function nextStep() {
+  step++;
+  if (step <= 5) {
+    document.getElementById("q").innerText = "Sawal " + step;
+  } else {
+    document.querySelector("button").style.display = "none";
+    document.getElementById("done").style.display = "block";
+  }
+}
+
+function claim() {
+  tg.sendData("DONE|" + ref);
+  setTimeout(() => tg.close(), 500);
+}
+</script>
 </body>
 </html>
