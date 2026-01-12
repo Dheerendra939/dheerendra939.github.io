@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz & Earn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Earn ₹5 - Quiz</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 18px; margin-top: 15px; cursor: pointer; }
+        body { font-family: sans-serif; background: #f0f2f5; text-align: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        .btn { background: #0088cc; color: white; border: none; padding: 15px 20px; width: 100%; border-radius: 10px; font-size: 18px; margin-top: 20px; cursor: pointer; }
         #result-section { display: none; }
     </style>
 </head>
 <body>
     <div class="card">
         <div id="quiz-section">
-            <h2 id="q-text">Question 1: Ready?</h2>
-            <button class="btn" onclick="handleAd()">Answer & Next</button>
+            <h2 id="q-text">Sawal 1: Game Shuru Karein?</h2>
+            <button class="btn" onclick="handleAd()">Agla Sawal</button>
         </div>
+
         <div id="result-section">
-            <h2>🏆 Quiz Finished!</h2>
-            <p>Aapne ₹5 kama liye hain.</p>
-            <button class="btn" onclick="claim()">Claim Reward</button>
+            <h2 style="color: #27ae60;">🏆 Jeet Gaye!</h2>
+            <p>Aapne ₹5 reward earn kiya hai.</p>
+            <button class="btn" style="background: #27ae60;" onclick="claim()">Claim Reward & Back to Bot</button>
         </div>
     </div>
 
@@ -30,17 +31,17 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         
-        const SCRIPT_URL = "APNA_NEW_DEPLOYMENT_URL_YAHAN_DALEIN";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXSvKXjQ11RKyy6rCDUJgehyEKCCC7Mt6Pv30LOsJZFqYCFDjd7v_97ayDWvnIw0ys9Q/exec";
+        
+        // Referral ID extraction
         const urlParams = new URLSearchParams(window.location.search);
-        const refId = urlParams.get('start_param') ? urlParams.get('start_param').replace('ref_', '') : null;
+        const refId = tg.initDataUnsafe.start_param ? tg.initDataUnsafe.start_param.replace('ref_', '') : null;
 
         let step = 1;
 
         function handleAd() {
             if (typeof show_10281283 === 'function') {
-                show_10281283().then(() => {
-                    nextStep();
-                }).catch(() => { nextStep(); }); // Ad fail ho tab bhi next step
+                show_10281283().then(() => nextStep()).catch(() => nextStep());
             } else {
                 nextStep();
             }
@@ -49,7 +50,7 @@
         function nextStep() {
             if (step < 5) {
                 step++;
-                document.getElementById('q-text').innerText = "Question " + step + ": Continue...";
+                document.getElementById('q-text').innerText = "Sawal " + step + ": Jaari rakhein...";
             } else {
                 document.getElementById('quiz-section').style.display = 'none';
                 document.getElementById('result-section').style.display = 'block';
@@ -57,12 +58,18 @@
         }
 
         function claim() {
-            // Referrer ko ₹1 bonus signal
+            // 1. Referral bonus background fetch
             if (refId) {
                 fetch(`${SCRIPT_URL}?action=referralBonus&refId=${refId}`, {mode: 'no-cors'});
             }
-            // Bot ko reward ka signal
-            tg.sendData("QUIZ_DONE");
+
+            // 2. Send data to Bot and close
+            try {
+                tg.sendData("QUIZ_DONE");
+                setTimeout(() => { tg.close(); }, 800);
+            } catch (e) {
+                tg.close();
+            }
         }
     </script>
 </body>
