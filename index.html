@@ -1,97 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Rewarded Ad</title>
-
-    <!-- Telegram WebApp SDK -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Quiz Earn</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- Monetag SDK -->
-    <script src="//libtl.com/sdk.js"
-            data-zone="10281283"
-            data-sdk="show_10281283">
-    </script>
-
+    <script src='//libtl.com/sdk.js' data-zone='10281283' data-sdk='show_10281283'></script>
     <style>
-        body {
-            background: #111;
-            color: white;
-            font-family: Arial;
-            text-align: center;
-            padding-top: 40px;
-        }
-        #timer {
-            font-size: 40px;
-            margin-top: 20px;
-        }
-        #rewardBtn {
-            display: none;
-            margin-top: 30px;
-            padding: 18px 30px;
-            font-size: 20px;
-            background: #00b06b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-        }
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+        .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
-
 <body>
+    <div class="box">
+        <h2 id="status">Sawal 1: Tayyar hain?</h2>
+        <button class="btn" id="adBtn" onclick="playAd()">Agla Sawal (Ad Dekhein)</button>
+        <button class="btn" id="claimBtn" style="display:none; background:#27ae60;" onclick="finalClaim()">Claim ₹5 & Back</button>
+    </div>
 
-<h2>Rewarded Ad</h2>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        let step = 1;
 
-<button id="showAdBtn" style="padding:18px 30px;font-size:22px;background:#0088ff;color:white;border:none;border-radius:12px;">
-    Show Rewarded Ad
-</button>
-
-<div id="timer"></div>
-
-<button id="rewardBtn">Collect Reward</button>
-
-<script>
-    Telegram.WebApp.ready();
-
-    const showAdBtn = document.getElementById("showAdBtn");
-    const rewardBtn = document.getElementById("rewardBtn");
-    const timerBox = document.getElementById("timer");
-
-    showAdBtn.onclick = () => {
-        showAdBtn.style.display = "none";
-
-        // Trigger monetag rewarded ad
-        show_10281283().then(() => {
-            startTimer();
-        }).catch(() => {
-            alert("Ad failed. Try again.");
-            showAdBtn.style.display = "block";
-        });
-    };
-
-
-    function startTimer() {
-        let sec = 15;
-        timerBox.innerHTML = "⏳ " + sec;
-
-        const interval = setInterval(() => {
-            sec--;
-            timerBox.innerHTML = "⏳ " + sec;
-
-            if (sec <= 0) {
-                clearInterval(interval);
-                timerBox.innerHTML = "✔ Ad Completed!";
-                rewardBtn.style.display = "inline-block";
+        function playAd() {
+            if (typeof show_10281283 === 'function') {
+                show_10281283().then(() => nextStep()).catch(() => nextStep());
+            } else {
+                nextStep();
             }
+        }
 
-        }, 1000);
-    }
+        function nextStep() {
+            if (step < 5) {
+                step++;
+                document.getElementById('status').innerText = "Sawal " + step + ": Jaari rakhein...";
+            } else {
+                document.getElementById('status').innerText = "🏆 Quiz Poora Hua!";
+                document.getElementById('adBtn').style.display = 'none';
+                document.getElementById('claimBtn').style.display = 'block';
+            }
+        }
 
-
-    rewardBtn.onclick = () => {
-        Telegram.WebApp.sendData("reward_success");
-    }
-</script>
-
+        function finalClaim() {
+            tg.sendData("QUIZ_DONE");
+            setTimeout(() => { tg.close(); }, 500);
+        }
+    </script>
 </body>
 </html>
