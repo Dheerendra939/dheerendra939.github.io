@@ -1,82 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Earn ₹5 Quiz</title>
+    <meta charset="UTF-8" />
+    <title>Rewarded Ad</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src='//libtl.com/sdk.js'
-        data-zone='10281283'
-        data-sdk='show_10281283'></script>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-body{
-  font-family:sans-serif;
-  background:#f2f2f2;
-  text-align:center;
-  padding:20px
-}
-.card{
-  background:#fff;
-  padding:25px;
-  border-radius:15px
-}
-button{
-  width:100%;
-  padding:15px;
-  font-size:18px;
-  margin-top:15px
-}
-</style>
+    <!-- Monetag SDK -->
+    <script src="//libtl.com/sdk.js"
+            data-zone="10281283"
+            data-sdk="show_10281283">
+    </script>
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+            padding-top: 40px;
+        }
+        #timer {
+            font-size: 40px;
+            margin-top: 20px;
+        }
+        #rewardBtn {
+            display: none;
+            margin-top: 30px;
+            padding: 18px 30px;
+            font-size: 20px;
+            background: #00b06b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
-<div class="card">
-  <h2 id="q">Sawal 1: Quiz shuru karein?</h2>
-  <button onclick="next()">Agla Sawal</button>
 
-  <div id="done" style="display:none">
-    <h2>🏆 Quiz Complete!</h2>
-    <button onclick="claim()">Claim Reward</button>
-  </div>
-</div>
+<h2>Rewarded Ad</h2>
+
+<button id="showAdBtn" style="padding:18px 30px;font-size:22px;background:#0088ff;color:white;border:none;border-radius:12px;">
+    Show Rewarded Ad
+</button>
+
+<div id="timer"></div>
+
+<button id="rewardBtn">Collect Reward</button>
 
 <script>
-const tg = Telegram.WebApp;
-tg.expand();
+    Telegram.WebApp.ready();
 
-let step = 1;
+    const showAdBtn = document.getElementById("showAdBtn");
+    const rewardBtn = document.getElementById("rewardBtn");
+    const timerBox = document.getElementById("timer");
 
-// referrer from URL
-let ref = "";
-const params = new URLSearchParams(window.location.search);
-if (params.get("ref")) {
-  ref = params.get("ref");
-}
+    showAdBtn.onclick = () => {
+        showAdBtn.style.display = "none";
 
-function next() {
-  if (typeof show_10281283 === "function") {
-    show_10281283().finally(nextStep);
-  } else {
-    nextStep();
-  }
-}
+        // Trigger monetag rewarded ad
+        show_10281283().then(() => {
+            startTimer();
+        }).catch(() => {
+            alert("Ad failed. Try again.");
+            showAdBtn.style.display = "block";
+        });
+    };
 
-function nextStep() {
-  step++;
-  if (step <= 5) {
-    document.getElementById("q").innerText = "Sawal " + step;
-  } else {
-    document.querySelector("button").style.display = "none";
-    document.getElementById("done").style.display = "block";
-  }
-}
 
-function claim() {
-  tg.sendData("DONE|" + ref);
-  setTimeout(() => tg.close(), 500);
-}
+    function startTimer() {
+        let sec = 15;
+        timerBox.innerHTML = "⏳ " + sec;
+
+        const interval = setInterval(() => {
+            sec--;
+            timerBox.innerHTML = "⏳ " + sec;
+
+            if (sec <= 0) {
+                clearInterval(interval);
+                timerBox.innerHTML = "✔ Ad Completed!";
+                rewardBtn.style.display = "inline-block";
+            }
+
+        }, 1000);
+    }
+
+
+    rewardBtn.onclick = () => {
+        Telegram.WebApp.sendData("reward_success");
+    }
 </script>
+
 </body>
 </html>
